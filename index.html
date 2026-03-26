@@ -513,7 +513,11 @@ async function startCamera(){
   }
 }
 
+function haptic(pattern){
+  if(navigator.vibrate) navigator.vibrate(pattern);
+}
 function capturePhoto(){
+  haptic(40);
   const video=document.getElementById('camera-feed');
   const canvas=document.createElement('canvas');
   canvas.width=video.videoWidth; canvas.height=video.videoHeight;
@@ -675,6 +679,10 @@ Keep it simple. Honest. Return only valid JSON.`;
 }
 
 function renderResults(d){
+  // Haptic feedback based on result
+  if(d.overallScore>=7) haptic([50,30,50]); // double pulse = good
+  else if(d.overallScore>=4) haptic([80,40,80]); // medium warning
+  else haptic([100,50,100,50,200]); // long pattern = avoid
   const cls=scoreClass(d.overallScore);
   const dc=(d.ingredients||[]).filter(i=>i.risk==='danger').length;
   const wc=(d.ingredients||[]).filter(i=>i.risk==='warn').length;
@@ -769,6 +777,9 @@ Respond ONLY with valid JSON, no markdown.
 }
 
 function renderReceiptResults(d){
+  if(d.pureScore>=80) haptic([50,30,50]);
+  else if(d.pureScore>=50) haptic([80,40,80]);
+  else haptic([100,50,100,50,200]);
   const cls=d.pureScore>=80?'pure':d.pureScore>=50?'getting':'needs';
   const emoji=d.pureScore>=80?'🌿':d.pureScore>=50?'👍':'🛒';
   const pass=(d.products||[]).filter(p=>p.status==='pass').length;
