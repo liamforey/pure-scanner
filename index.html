@@ -665,12 +665,23 @@ function startBarcode(){
     el.querySelectorAll('canvas').forEach(c=>c.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%');
     setTimeout(()=>{const s=document.getElementById('barcode-status');if(s&&barcodeRunning) s.textContent='Scanning — point at barcode';},1000);
   });
+  let consecutiveCode=null, consecutiveCount=0;
   Quagga.offDetected();
   Quagga.onDetected(function(result){
     const code=result.codeResult.code;
     if(!code||code===lastBarcode) return;
-    if(barcodeDebounce) clearTimeout(barcodeDebounce);
-    barcodeDebounce=setTimeout(()=>{lastBarcode=code;onBarcodeDetected(code);},300);
+    if(code===consecutiveCode){
+      consecutiveCount++;
+    } else {
+      consecutiveCode=code;
+      consecutiveCount=1;
+    }
+    // Require same code 3 times in a row to confirm
+    if(consecutiveCount>=3){
+      consecutiveCount=0;
+      lastBarcode=code;
+      onBarcodeDetected(code);
+    }
   });
 }
 function stopBarcode(){
