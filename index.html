@@ -157,12 +157,12 @@ input[type=text]::placeholder{color:var(--cream-mute);opacity:0.5}
 #results.show{display:block}
 
 .res-head{margin-bottom:1.75rem;padding-bottom:1.5rem;border-bottom:0.5px solid var(--cream-dark)}
-.res-product{font-size:8px;font-weight:300;letter-spacing:0.3em;text-transform:uppercase;color:var(--cream-mute);margin-bottom:8px}
+.res-product{font-size:10px;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink);margin-bottom:8px}
 .res-score-row{display:flex;align-items:baseline;gap:10px;margin-bottom:1rem}
-.res-big{font-family:'Cormorant Garamond',serif;font-size:58px;font-weight:300;line-height:1}
+.res-big{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:400;line-height:1}
 .res-denom{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--cream-mute)}
-.res-verdict{font-size:8px;font-weight:300;letter-spacing:0.32em;text-transform:uppercase}
-.res-summary{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;font-style:italic;color:var(--ink);line-height:1.8;border-left:0.5px solid var(--cream-dark);padding-left:1.25rem}
+.res-verdict{font-size:11px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase}
+.res-summary{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;font-style:italic;color:var(--ink);line-height:1.8;border-left:2px solid var(--cream-dark);padding-left:1.25rem}
 
 .pillar-verdicts{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:1.25rem}
 .pv-item{padding:9px 12px;border:0.5px solid;display:flex;align-items:center;gap:8px}
@@ -173,21 +173,21 @@ input[type=text]::placeholder{color:var(--cream-mute);opacity:0.5}
 .pv-item.pass .pv-mark{color:var(--safe)}
 .pv-item.fail .pv-mark{color:var(--danger)}
 .pv-item.warn .pv-mark{color:var(--warn)}
-.pv-text{font-size:7.5px;font-weight:300;letter-spacing:0.1em;line-height:1.4;color:var(--ink)}
+.pv-text{font-size:10px;font-weight:500;letter-spacing:0.1em;line-height:1.4;color:var(--ink)}
 .pv-item.pass .pv-text{color:#5AAB72}
 .pv-item.fail .pv-text{color:#CC7070}
 .pv-item.warn .pv-text{color:#C8922A}
 
 
-.ing-section-lbl{font-size:7.5px;letter-spacing:0.32em;text-transform:uppercase;color:var(--ink);margin-bottom:10px}
+.ing-section-lbl{font-size:10px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:var(--ink);margin-bottom:12px}
 .ing-list{display:flex;flex-direction:column;gap:3px;margin-bottom:1.75rem}
 .ing-row{display:flex;align-items:stretch;border:0.5px solid;transition:transform 0.12s}
 .ing-row:hover{transform:translateX(3px)}
 .ing-bar{width:2px;flex-shrink:0}
 .ing-body{flex:1;padding:11px 13px}
-.ing-name{font-size:11.5px;font-weight:400;letter-spacing:0.04em;margin-bottom:3px}
-.ing-detail{font-size:10px;font-weight:300;line-height:1.65;margin-bottom:5px}
-.ing-tag{font-size:7px;letter-spacing:0.22em;text-transform:uppercase;padding:2px 8px;display:inline-block;border:0.5px solid}
+.ing-name{font-size:14px;font-weight:500;letter-spacing:0.04em;margin-bottom:4px;font-family:'Outfit',sans-serif}
+.ing-detail{font-size:12px;font-weight:300;line-height:1.7;margin-bottom:6px;color:var(--ink)}
+.ing-tag{font-size:8px;letter-spacing:0.18em;text-transform:uppercase;padding:3px 10px;display:inline-block;border:0.5px solid;font-weight:500}
 
 .ing-row.danger{background:var(--danger-bg);border-color:var(--danger-bdr)}
 .ing-row.danger .ing-bar{background:var(--danger)}
@@ -356,6 +356,7 @@ input[type=text]::placeholder{color:var(--cream-mute);opacity:0.5}
   </div>
   <nav class="nav">
     <button class="nav-item active" onclick="showPage('scanner',this)"><div class="nav-pip"></div>Scanner</button>
+    <button class="nav-item" onclick="showPage('receipt',this)"><div class="nav-pip"></div>Receipt Scanner</button>
     <button class="nav-item" onclick="showPage('education',this)"><div class="nav-pip"></div>Education</button>
     <button class="nav-item" onclick="showPage('vision',this)"><div class="nav-pip"></div>Our Vision</button>
   </nav>
@@ -458,6 +459,102 @@ input[type=text]::placeholder{color:var(--cream-mute);opacity:0.5}
       </div>
       <div id="results"></div>
     </div>
+  </div>
+</div>
+
+
+<!-- RECEIPT SCANNER -->
+<div id="page-receipt" class="page">
+  <div class="receipt-layout">
+
+    <div class="receipt-left">
+      <div class="pg-eyebrow">Shop Intelligence</div>
+      <div class="pg-title">RECEIPT <em>Scanner</em></div>
+      <div class="pg-sub">Find out if your grocery shop is a Pure shop</div>
+
+      <div class="receipt-hero">
+        <div class="receipt-hero-title">How it works</div>
+        <div class="receipt-hero-sub">
+          📸 &nbsp;Take a photo of your grocery receipt — or type the products you bought<br><br>
+          🔍 &nbsp;Pure AI analyses every product against The Five Pillars<br><br>
+          ✓ &nbsp;Get your Pure Shop Score and see what to swap
+        </div>
+      </div>
+
+      <div class="mode-tabs" style="margin-bottom:1.5rem">
+        <button class="mode-tab active" onclick="setReceiptMode('photo',this)">Photo Receipt</button>
+        <button class="mode-tab" onclick="setReceiptMode('type',this)">Type Products</button>
+      </div>
+
+      <div id="receipt-mode-photo">
+        <span class="field-lbl">Photo of your receipt</span>
+        <div class="upload-zone" onclick="document.getElementById('receipt-file-input').click()" style="margin-bottom:10px">
+          <div class="upload-ico-lbl">+ Tap to upload receipt photo</div>
+          <div class="upload-sub">JPEG or PNG</div>
+          <img id="receipt-preview" alt="" style="max-width:100%;max-height:200px;margin-top:10px;display:none"/>
+        </div>
+        <input type="file" id="receipt-file-input" accept="image/*" onchange="handleReceiptUpload(this)"/>
+        <div class="upload-tip">Tip: Make sure all product names are visible and in focus.</div>
+      </div>
+
+      <div id="receipt-mode-type" style="display:none">
+        <span class="field-lbl">Products you bought</span>
+        <textarea id="receipt-text-input" style="min-height:160px" placeholder="Type each product on a new line, e.g.&#10;Sanitarium Weet-Bix&#10;Heinz Tomato Sauce&#10;Anchor Butter&#10;Coca-Cola 1.25L&#10;Coles Sourdough Bread"></textarea>
+      </div>
+
+      <div class="error-box" id="receipt-error-box" style="display:none">
+        <div class="error-txt" id="receipt-error-txt"></div>
+      </div>
+
+      <div class="scan-btn-wrap">
+        <button class="scan-btn" id="receipt-scan-btn" onclick="runReceiptScan()">
+          <span id="receipt-btn-txt">SCAN MY SHOP</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="receipt-right">
+      <div id="receipt-empty" class="result-empty">
+        <div class="empty-eyebrow">Awaiting receipt scan</div>
+        <div class="empty-headline">Is your shop<br/>a Pure shop?</div>
+        <div style="margin-top:1.5rem">
+          <div style="font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:var(--cream-mute);margin-bottom:14px">Pure Shop Ratings</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--safe-bg);border:0.5px solid var(--safe-bdr)">
+              <span style="font-size:16px">✓</span>
+              <div>
+                <div style="font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#5AAB72">Pure Shop</div>
+                <div style="font-size:10px;font-weight:300;color:var(--ink)">80%+ of your basket passes The Five Pillars</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--warn-bg);border:0.5px solid var(--warn-bdr)">
+              <span style="font-size:16px">~</span>
+              <div>
+                <div style="font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#D4A855">Getting There</div>
+                <div style="font-size:10px;font-weight:300;color:var(--ink)">50–80% of your basket passes</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--danger-bg);border:0.5px solid var(--danger-bdr)">
+              <span style="font-size:16px">✗</span>
+              <div>
+                <div style="font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#DD8080">Needs Work</div>
+                <div style="font-size:10px;font-weight:300;color:var(--ink)">Under 50% of your basket passes</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="loading-panel" id="receipt-loading">
+        <div class="spin"></div>
+        <div class="load-lbl">Scanning your shop</div>
+        <div class="load-sub" id="receipt-load-sub">Reading your receipt...</div>
+        <div class="load-step" id="receipt-load-step"></div>
+      </div>
+
+      <div id="receipt-results"></div>
+    </div>
+
   </div>
 </div>
 
@@ -823,6 +920,173 @@ function retakePhoto() {
 
 function stopCamera() {
   if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
+}
+
+
+// ── RECEIPT SCANNER ──
+let receiptMode = 'photo';
+let receiptB64 = null;
+
+function setReceiptMode(mode, el) {
+  receiptMode = mode;
+  document.querySelectorAll('#page-receipt .mode-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('receipt-mode-photo').style.display = mode === 'photo' ? 'block' : 'none';
+  document.getElementById('receipt-mode-type').style.display = mode === 'type' ? 'block' : 'none';
+}
+
+function handleReceiptUpload(input) {
+  const file = input.files[0]; if (!file) return;
+  const r = new FileReader();
+  r.onload = e => {
+    receiptB64 = e.target.result.split(',')[1];
+    const img = document.getElementById('receipt-preview');
+    img.src = e.target.result; img.style.display = 'block';
+  };
+  r.readAsDataURL(file);
+}
+
+const receiptSteps = ['Reading your receipt...', 'Identifying products...', 'Analysing against Five Pillars...', 'Calculating your Pure Shop Score...', 'Finding better swaps...'];
+let receiptStepTimer = null;
+function startReceiptSteps() {
+  let i = 0;
+  document.getElementById('receipt-load-step').textContent = receiptSteps[0];
+  receiptStepTimer = setInterval(() => { i = (i+1) % receiptSteps.length; document.getElementById('receipt-load-step').textContent = receiptSteps[i]; }, 2000);
+}
+function stopReceiptSteps() { clearInterval(receiptStepTimer); document.getElementById('receipt-load-step').textContent = ''; }
+
+async function runReceiptScan() {
+  const errBox = document.getElementById('receipt-error-box');
+  errBox.style.display = 'none';
+
+  let messageContent;
+  if (receiptMode === 'photo') {
+    if (!receiptB64) { errBox.style.display='block'; document.getElementById('receipt-error-txt').textContent='Please upload a receipt photo first.'; return; }
+    messageContent = [
+      { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: receiptB64 } },
+      { type: 'text', text: 'Read all the product names from this grocery receipt photo and analyse each one.' }
+    ];
+  } else {
+    const v = document.getElementById('receipt-text-input').value.trim();
+    if (!v) { errBox.style.display='block'; document.getElementById('receipt-error-txt').textContent='Please enter the products you bought.'; return; }
+    messageContent = `Analyse these grocery products from a receipt:
+
+${v}`;
+  }
+
+  document.getElementById('receipt-empty').style.display = 'none';
+  document.getElementById('receipt-results').style.display = 'none';
+  document.getElementById('receipt-loading').classList.add('show');
+  document.getElementById('receipt-scan-btn').disabled = true;
+  document.getElementById('receipt-btn-txt').textContent = 'SCANNING...';
+  startReceiptSteps();
+
+  const system = `You are the PURE Scanner — food intelligence AI. Simple · Real · Transparent.
+
+The Five Pillars: 01 Pure Provenance · 02 Whole Ingredient Integrity · 03 Zero Industrial Processing (no seed oils, no additives) · 04 Traditional Food Craft · 05 Complete Transparency.
+
+A "Pure Shop" is one where 80%+ of products pass The Five Pillars.
+
+Analyse each product based on what you know about its typical ingredients. Be honest and direct.
+
+Respond ONLY with valid JSON, no markdown, no backticks.
+
+{
+  "pureScore": number (0-100, percentage of products that pass),
+  "verdict": "Pure Shop" | "Getting There" | "Needs Work",
+  "summary": "2-3 sentences about their overall shop, honest and direct",
+  "products": [
+    {
+      "name": "string — product name as found on receipt",
+      "status": "pass" | "warn" | "fail",
+      "badge": "string e.g. Clean · Concerning · Avoid · Seed Oils · Ultra-Processed",
+      "reason": "1 sentence explaining why it passes or fails"
+    }
+  ],
+  "swaps": [
+    {
+      "from": "string — the product to replace",
+      "to": "string — the better alternative"
+    }
+  ]
+}
+
+Be honest. Most supermarket shops score 30-60. Return only valid JSON.`;
+
+  const apiKey = getKey();
+  if (!apiKey) { document.getElementById('receipt-empty').style.display='flex'; errBox.style.display='block'; document.getElementById('receipt-error-txt').textContent='No API key found.'; stopReceiptSteps(); document.getElementById('receipt-loading').classList.remove('show'); document.getElementById('receipt-scan-btn').disabled=false; document.getElementById('receipt-btn-txt').textContent='SCAN MY SHOP'; return; }
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2000,
+        system,
+        messages: [{ role: 'user', content: messageContent }]
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || 'API error');
+    const raw = data.content.map(b => b.text || '').join('');
+    const parsed = JSON.parse(raw.replace(/```json|```/g, '').trim());
+    renderReceiptResults(parsed);
+  } catch(err) {
+    document.getElementById('receipt-empty').style.display = 'flex';
+    errBox.style.display = 'block';
+    document.getElementById('receipt-error-txt').textContent = 'Scan failed: ' + err.message;
+  } finally {
+    stopReceiptSteps();
+    document.getElementById('receipt-loading').classList.remove('show');
+    document.getElementById('receipt-scan-btn').disabled = false;
+    document.getElementById('receipt-btn-txt').textContent = 'SCAN MY SHOP';
+  }
+}
+
+function renderReceiptResults(d) {
+  const scoreColor = d.pureScore >= 80 ? 'var(--safe)' : d.pureScore >= 50 ? 'var(--warn)' : 'var(--danger)';
+  const verdictClass = d.pureScore >= 80 ? 'receipt-verdict-pure' : d.pureScore >= 50 ? 'receipt-verdict-getting' : 'receipt-verdict-needs';
+
+  const productsHtml = (d.products || []).map(p => `
+    <div class="product-row ${p.status}">
+      <div class="product-mark">${p.status === 'pass' ? '✓' : p.status === 'warn' ? '~' : '✗'}</div>
+      <div class="product-info">
+        <div class="product-name">${esc(p.name)}</div>
+        <div class="product-reason">${esc(p.reason)}</div>
+      </div>
+      <div class="product-badge">${esc(p.badge)}</div>
+    </div>`).join('');
+
+  const swapsHtml = d.swaps && d.swaps.length ? `
+    <div class="swap-section">
+      <div class="swap-title">Better Swaps</div>
+      ${d.swaps.map(s => `
+        <div class="swap-row">
+          <div class="swap-from">${esc(s.from)}</div>
+          <div class="swap-arrow">→</div>
+          <div class="swap-to">${esc(s.to)}</div>
+        </div>`).join('')}
+    </div>` : '';
+
+  const passCount = (d.products || []).filter(p => p.status === 'pass').length;
+  const totalCount = (d.products || []).length;
+
+  document.getElementById('receipt-results').innerHTML = `
+    <div class="receipt-score-band">
+      <div class="receipt-score-big" style="color:${scoreColor}">${d.pureScore}<span style="font-size:24px;color:rgba(255,255,255,0.3)">%</span></div>
+      <div class="receipt-score-label" style="color:rgba(255,255,255,0.6)">Pure Shop Score</div>
+      <div class="receipt-verdict-badge ${verdictClass}">${esc(d.verdict)}</div>
+    </div>
+    <div class="receipt-summary">${esc(d.summary)}</div>
+    <div class="ing-section-lbl">${totalCount} products scanned · ${passCount} pass · ${totalCount - passCount} flagged</div>
+    <div class="product-list">${productsHtml}</div>
+    ${swapsHtml}
+    <div class="bt-note" style="margin-top:1.5rem">
+      <div class="bt-dot"></div>
+      <div class="bt-txt">Share your Pure Shop Score — tag <strong>@pure.wholefoods</strong> on Instagram or <strong>@PURE_Scanner</strong> on X</div>
+    </div>`;
+  document.getElementById('receipt-results').style.display = 'block';
 }
 
 </script>
