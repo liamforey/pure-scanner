@@ -6,6 +6,7 @@
 <title>PURE — Is My Food Safe?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -16,39 +17,31 @@
 }
 html{font-size:16px;-webkit-font-smoothing:antialiased}
 body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh}
-
 .topbar{background:var(--black);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .topbar-logo{font-family:'Outfit',sans-serif;font-size:20px;font-weight:300;letter-spacing:0.45em;color:var(--cream);padding-left:0.45em}
 .topbar-nav{display:flex;gap:4px}
 .topbar-btn{font-family:'Outfit',sans-serif;font-size:9px;font-weight:400;letter-spacing:0.16em;text-transform:uppercase;padding:7px 12px;border:none;cursor:pointer;background:transparent;color:rgba(243,237,227,0.4);transition:all 0.2s;border-bottom:2px solid transparent}
 .topbar-btn.active{color:var(--cream);border-bottom-color:var(--cream)}
 .topbar-btn:hover:not(.active){color:rgba(243,237,227,0.75)}
-
 .page{display:none;min-height:calc(100vh - 56px)}
 .page.active{display:block}
-
-/* SCANNER */
 .scanner-page{max-width:640px;margin:0 auto;padding:2rem 1.25rem 4rem}
 .scanner-hero{text-align:center;margin-bottom:2rem}
 .scanner-title{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:400;font-style:italic;color:var(--ink);line-height:1.2;margin-bottom:8px}
 .scanner-subtitle{font-size:14px;font-weight:300;color:var(--cream-mute);line-height:1.6}
-
 .scan-card{background:white;border:1px solid var(--cream-dark);border-radius:14px;overflow:hidden;margin-bottom:1.25rem;box-shadow:0 2px 24px rgba(0,0,0,0.07)}
-.method-pills{display:flex;gap:8px;padding:1.25rem}
-.method-pill{flex:1;padding:12px 6px;text-align:center;font-family:'Outfit',sans-serif;font-size:10px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;border:2px solid var(--cream-dark);border-radius:10px;cursor:pointer;background:var(--cream);color:var(--cream-mute);transition:all 0.2s}
+.method-pills{display:flex;gap:6px;padding:1rem}
+.method-pill{flex:1;padding:10px 4px;text-align:center;font-family:'Outfit',sans-serif;font-size:9px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;border:2px solid var(--cream-dark);border-radius:10px;cursor:pointer;background:var(--cream);color:var(--cream-mute);transition:all 0.2s}
 .method-pill.active{background:var(--black);color:var(--cream);border-color:var(--black)}
 .method-pill:hover:not(.active){border-color:var(--ink);color:var(--ink)}
-.method-icon{font-size:20px;display:block;margin-bottom:4px}
-
+.method-icon{font-size:18px;display:block;margin-bottom:3px}
 .scan-input-area{padding:0 1.25rem 1.25rem}
-
 .big-textarea{width:100%;background:var(--cream);border:2px solid var(--cream-dark);border-radius:10px;color:var(--ink);font-family:'Outfit',sans-serif;font-size:14px;font-weight:300;padding:16px;resize:none;min-height:140px;outline:none;line-height:1.7;transition:border-color 0.2s}
 .big-textarea:focus{border-color:var(--ink)}
 .big-textarea::placeholder{color:var(--cream-mute);opacity:0.6;font-style:italic}
 .big-input{width:100%;background:var(--cream);border:2px solid var(--cream-dark);border-radius:10px;color:var(--ink);font-family:'Outfit',sans-serif;font-size:15px;font-weight:400;padding:16px 18px;outline:none;transition:border-color 0.2s}
 .big-input:focus{border-color:var(--ink)}
 .big-input::placeholder{color:var(--cream-mute);opacity:0.6;font-style:italic}
-
 .camera-container{position:relative;background:#111;border-radius:10px;overflow:hidden;margin-bottom:12px}
 #camera-feed{width:100%;display:block;max-height:260px;object-fit:cover}
 .scan-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
@@ -66,113 +59,37 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 #camera-preview{display:none;width:100%;max-height:260px;object-fit:cover;border-radius:10px;margin-bottom:12px}
 .retake-btn-cam{position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.6);color:white;border:1px solid rgba(255,255,255,0.3);padding:7px 14px;font-family:'Outfit',sans-serif;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:8px;display:none}
 #file-input{display:none}
-
 .capture-btn{width:100%;padding:15px;background:var(--ink);color:var(--cream);border:none;border-radius:10px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity 0.2s;margin-bottom:10px}
 .capture-btn:hover{opacity:0.82}
 .or-line{text-align:center;font-size:11px;color:var(--cream-mute);margin:8px 0;letter-spacing:0.08em}
 .upload-btn-simple{width:100%;padding:12px;background:var(--cream);color:var(--cream-mute);border:2px dashed var(--cream-dark);border-radius:10px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-align:center;transition:all 0.2s}
 .upload-btn-simple:hover{border-color:var(--ink);color:var(--ink)}
-
 .helper-txt{font-size:12px;font-weight:300;color:var(--cream-mute);margin-top:10px;line-height:1.6;text-align:center;font-style:italic}
-
 .analyse-btn{width:100%;padding:22px;background:var(--black);color:var(--cream);border:none;border-radius:14px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:16px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:10px}
 .analyse-btn:hover:not(:disabled){background:#2A2A28;transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,0,0,0.18)}
 .analyse-btn:disabled{opacity:0.3;cursor:not-allowed;transform:none;box-shadow:none}
-
 .error-msg{background:var(--red-bg);border:1px solid var(--red-bdr);border-radius:10px;padding:12px 16px;margin-top:12px;font-size:13px;font-weight:400;color:var(--red);display:none}
 .error-msg.show{display:block}
-
-/* LOADING */
 .loading-screen{display:none;text-align:center;padding:3rem 1.25rem}
 .loading-screen.show{display:block}
 .loading-spinner{width:48px;height:48px;border:3px solid var(--cream-dark);border-top-color:var(--black);border-radius:50%;animation:spin 0.9s linear infinite;margin:0 auto 1.5rem}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;font-style:italic;color:var(--ink);margin-bottom:8px}
 .loading-step{font-size:13px;font-weight:300;color:var(--cream-mute);min-height:20px}
-
-/* RESULTS */
+.progress-wrap{width:100%;height:4px;background:var(--cream-dark);border-radius:2px;margin:1rem 0;overflow:hidden}
+.progress-bar{height:100%;width:0%;background:var(--black);border-radius:2px;transition:width 0.4s ease}
+.progress-bar.running{animation:progress-fill 7s ease-in-out forwards}
+@keyframes progress-fill{0%{width:0%}20%{width:25%}50%{width:60%}80%{width:82%}95%{width:90%}100%{width:92%}}
+.progress-bar.done{width:100%!important;animation:none;transition:width 0.15s ease}
 .results-section{display:none;margin-top:2rem}
 .results-section.show{display:block}
-
 .verdict-card{border-radius:14px;padding:2rem;margin-bottom:1.25rem;text-align:center;border:2px solid}
 .verdict-card.safe{background:var(--green-bg);border-color:var(--green-bdr)}
 .verdict-card.warn{background:var(--amber-bg);border-color:var(--amber-bdr)}
 .verdict-card.danger{background:var(--red-bg);border-color:var(--red-bdr)}
 .v-emoji{font-size:52px;display:block;margin-bottom:12px}
 .v-product{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream-mute);margin-bottom:6px}
-
-
-.progress-wrap{width:100%;height:4px;background:var(--cream-dark);border-radius:2px;margin:1rem 0;overflow:hidden}
-.progress-bar{height:100%;width:0%;background:var(--black);border-radius:2px;transition:width 0.4s ease;animation:none}
-.progress-bar.running{animation:progress-fill 7s ease-in-out forwards}
-@keyframes progress-fill{
-  0%{width:0%}
-  20%{width:25%}
-  50%{width:60%}
-  80%{width:82%}
-  95%{width:90%}
-  100%{width:92%}
-}
-.progress-bar.done{width:100%!important;animation:none;transition:width 0.15s ease}
-
-
-.share-btn-row{display:flex;gap:10px;margin-top:1rem;flex-wrap:wrap}
-.share-btn{
-  flex:1;padding:14px;border:none;border-radius:10px;cursor:pointer;
-  font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;
-  letter-spacing:0.08em;text-transform:uppercase;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  transition:all 0.2s;
-}
-.share-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.15)}
-.share-native{background:var(--black);color:var(--cream)}
-.share-ig{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:white}
-.share-x{background:#000;color:white;border:1px solid #333}
-
-/* ─── HISTORY CSS ─── */
-.history-panel{margin-top:2rem}
-.history-title{font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:10px}
-.history-title::after{content:'';flex:1;height:1px;background:var(--cream-dark)}
-.history-list{display:flex;flex-direction:column;gap:6px}
-.history-item{
-  background:white;border-radius:10px;padding:12px 16px;
-  border:1px solid var(--cream-dark);
-  display:flex;align-items:center;gap:12px;
-  cursor:pointer;transition:all 0.2s;
-  box-shadow:0 1px 6px rgba(0,0,0,0.04);
-}
-.history-item:hover{transform:translateX(3px);box-shadow:0 2px 12px rgba(0,0,0,0.08)}
-.history-score{
-  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;
-  min-width:36px;text-align:center;
-}
-.history-info{flex:1}
-.history-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:1px}
-.history-verdict{font-size:11px;font-weight:300;color:var(--cream-mute)}
-.history-time{font-size:10px;font-weight:300;color:var(--cream-dark);margin-left:auto;white-space:nowrap}
-.history-clear{font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--cream-mute);background:none;border:none;cursor:pointer;padding:4px 8px;transition:color 0.2s}
-.history-clear:hover{color:var(--red)}
-
-/* ─── AUTO SCAN INDICATOR ─── */
-.auto-scan-bar{
-  position:absolute;bottom:0;left:0;right:0;height:3px;
-  background:rgba(80,210,120,0);transition:background 0.3s;
-}
-.auto-scan-bar.detecting{background:rgba(80,210,120,0.6);animation:detecting-pulse 1s ease-in-out infinite}
-@keyframes detecting-pulse{0%,100%{opacity:0.5}50%{opacity:1}}
-.auto-scan-badge{
-  position:absolute;top:10px;left:10px;
-  background:rgba(0,0,0,0.6);color:rgba(255,255,255,0.8);
-  font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
-  padding:5px 10px;border-radius:6px;display:none;
-}
-.auto-scan-badge.show{display:block}
-
-/* ANIMATED SCORE */
 .v-score{font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:400;line-height:1;margin-bottom:4px;transition:color 0.5s}
-.score-counting{display:inline-block;min-width:80px}
-.psc-score{font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:400;line-height:1;transition:color 0.5s}
-
 .verdict-card.safe .v-score{color:var(--green)}
 .verdict-card.warn .v-score{color:var(--amber)}
 .verdict-card.danger .v-score{color:var(--red)}
@@ -181,16 +98,13 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .verdict-card.warn .v-word{color:var(--amber)}
 .verdict-card.danger .v-word{color:var(--red)}
 .v-summary{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;font-style:italic;line-height:1.75;color:var(--ink)}
-
 .count-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
 .count-pill{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid}
 .count-pill.danger{background:var(--red-bg);color:var(--red);border-color:var(--red-bdr)}
 .count-pill.warn{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-bdr)}
 .count-pill.safe{background:var(--green-bg);color:var(--green);border-color:var(--green-bdr)}
-
 .sec-head{font-size:12px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink);margin-bottom:14px;margin-top:1.5rem;display:flex;align-items:center;gap:10px}
 .sec-head::after{content:'';flex:1;height:1px;background:var(--cream-dark)}
-
 .ing-cards{display:flex;flex-direction:column;gap:10px}
 .ing-card{background:white;border-radius:12px;padding:16px;border-left:4px solid;box-shadow:0 1px 10px rgba(0,0,0,0.06)}
 .ing-card.danger{border-left-color:var(--red)}
@@ -203,15 +117,41 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .ing-card.warn .ing-card-badge{background:var(--amber-bg);color:var(--amber)}
 .ing-card.safe .ing-card-badge{background:var(--green-bg);color:var(--green)}
 .ing-card-detail{font-size:13px;font-weight:300;color:var(--ink);line-height:1.65}
-
-.share-strip{background:var(--black);border-radius:14px;padding:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2rem;flex-wrap:wrap}
-.share-txt{font-size:12px;font-weight:300;color:var(--cream-mute);line-height:1.5}
-.share-txt strong{color:var(--cream);font-weight:500}
-.share-links{display:flex;gap:8px}
-.share-link{font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:8px 14px;border:1px solid rgba(255,255,255,0.2);color:var(--cream-mute);text-decoration:none;border-radius:8px;transition:all 0.2s}
-.share-link:hover{border-color:rgba(255,255,255,0.5);color:var(--cream)}
-
-/* RECEIPT PAGE */
+.share-btn-row{display:flex;gap:10px;margin-top:1rem;flex-wrap:wrap}
+.share-btn{flex:1;padding:14px;border:none;border-radius:10px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s}
+.share-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.15)}
+.share-native{background:var(--black);color:var(--cream)}
+.share-ig{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:white}
+.share-x{background:#000;color:white;border:1px solid #333}
+.history-panel{margin-top:2rem}
+.history-title{font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.history-title::after{content:'';flex:1;height:1px;background:var(--cream-dark)}
+.history-list{display:flex;flex-direction:column;gap:6px}
+.history-item{background:white;border-radius:10px;padding:12px 16px;border:1px solid var(--cream-dark);display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.2s;box-shadow:0 1px 6px rgba(0,0,0,0.04)}
+.history-item:hover{transform:translateX(3px);box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.history-score{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;min-width:36px;text-align:center}
+.history-info{flex:1}
+.history-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:1px}
+.history-verdict{font-size:11px;font-weight:300;color:var(--cream-mute)}
+.history-time{font-size:10px;font-weight:300;color:var(--cream-dark);margin-left:auto;white-space:nowrap}
+.history-clear{font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--cream-mute);background:none;border:none;cursor:pointer;padding:4px 8px;transition:color 0.2s}
+.history-clear:hover{color:var(--red)}
+.auto-scan-bar{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(80,210,120,0);transition:background 0.3s}
+.auto-scan-bar.detecting{background:rgba(80,210,120,0.6);animation:detecting-pulse 1s ease-in-out infinite}
+@keyframes detecting-pulse{0%,100%{opacity:0.5}50%{opacity:1}}
+.auto-scan-badge{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.6);color:rgba(255,255,255,0.8);font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:5px 10px;border-radius:6px;display:none}
+.auto-scan-badge.show{display:block}
+/* BARCODE */
+.barcode-container{position:relative;background:#111;border-radius:10px;overflow:hidden;margin-bottom:12px}
+#barcode-scanner{width:100%;height:260px;position:relative;overflow:hidden}
+#barcode-scanner video{width:100%;height:260px;object-fit:cover;display:block}
+#barcode-scanner canvas{position:absolute;top:0;left:0;width:100%;height:100%}
+.barcode-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.barcode-box{width:80%;height:30%;border:2px solid rgba(255,255,255,0.4);border-radius:8px;position:relative;transition:all 0.4s}
+.barcode-box.found{border-color:rgba(80,210,120,0.9);box-shadow:0 0 20px rgba(80,210,120,0.3)}
+.barcode-laser{position:absolute;top:50%;left:5%;right:5%;height:2px;background:rgba(255,80,80,0.75);transform:translateY(-50%)}
+#barcode-status{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.65);color:rgba(255,255,255,0.85);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;padding:6px 14px;border-radius:6px;white-space:nowrap}
+/* RECEIPT */
 .receipt-page{max-width:640px;margin:0 auto;padding:2rem 1.25rem 4rem}
 .receipt-hero{text-align:center;margin-bottom:2rem}
 .receipt-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:400;font-style:italic;color:var(--ink);margin-bottom:8px}
@@ -224,13 +164,12 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .receipt-analyse-btn{width:100%;padding:22px;background:var(--black);color:var(--cream);border:none;border-radius:14px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:16px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:10px}
 .receipt-analyse-btn:hover:not(:disabled){background:#2A2A28;transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,0,0,0.18)}
 .receipt-analyse-btn:disabled{opacity:0.3;cursor:not-allowed}
-
 .pure-shop-card{border-radius:14px;padding:2rem;margin-bottom:1.25rem;text-align:center;border:2px solid}
 .pure-shop-card.pure{background:var(--green-bg);border-color:var(--green-bdr)}
 .pure-shop-card.getting{background:var(--amber-bg);border-color:var(--amber-bdr)}
 .pure-shop-card.needs{background:var(--red-bg);border-color:var(--red-bdr)}
 .psc-emoji{font-size:52px;display:block;margin-bottom:12px}
-.psc-score{font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:400;line-height:1}
+.psc-score{font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:400;line-height:1;transition:color 0.5s}
 .pure-shop-card.pure .psc-score{color:var(--green)}
 .pure-shop-card.getting .psc-score{color:var(--amber)}
 .pure-shop-card.needs .psc-score{color:var(--red)}
@@ -240,7 +179,6 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .pure-shop-card.getting .psc-verdict{color:var(--amber)}
 .pure-shop-card.needs .psc-verdict{color:var(--red)}
 .psc-summary{font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:var(--ink);line-height:1.75}
-
 .product-cards{display:flex;flex-direction:column;gap:8px}
 .product-card{background:white;border-radius:12px;padding:14px 16px;border-left:4px solid;box-shadow:0 1px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px}
 .product-card.pass{border-left-color:var(--green)}
@@ -254,14 +192,12 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .product-card.pass .pc-badge{background:var(--green-bg);color:var(--green)}
 .product-card.warn .pc-badge{background:var(--amber-bg);color:var(--amber)}
 .product-card.fail .pc-badge{background:var(--red-bg);color:var(--red)}
-
 .swap-cards{display:flex;flex-direction:column;gap:8px}
 .swap-card{background:white;border-radius:12px;padding:14px 16px;box-shadow:0 1px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:10px}
 .swap-from{font-size:13px;font-weight:400;color:var(--red);text-decoration:line-through;flex:1;opacity:0.75}
 .swap-arrow-icon{font-size:16px;color:var(--cream-mute);flex-shrink:0}
 .swap-to{font-size:13px;font-weight:600;color:var(--green);flex:1}
-
-/* LEARN PAGE */
+/* LEARN */
 .edu-page{max-width:640px;margin:0 auto;padding:2rem 1.25rem 4rem}
 .edu-hero-txt{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;font-style:italic;color:var(--ink);line-height:1.65;margin-bottom:2rem;border-left:3px solid var(--cream-dark);padding-left:1.25rem}
 .edu-sec-title{font-size:12px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--ink);margin-bottom:1rem;margin-top:2.5rem;display:flex;align-items:center;gap:10px}
@@ -288,8 +224,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .oil-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px;margin-top:10px}
 .oil-name:first-of-type{margin-top:0}
 .oil-why{font-size:11px;font-weight:300;color:var(--cream-mute);line-height:1.6;margin-bottom:8px}
-
-/* ABOUT PAGE */
+/* ABOUT */
 .about-page{max-width:640px;margin:0 auto;padding:2rem 1.25rem 4rem}
 .about-headline{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;font-style:italic;color:var(--ink);line-height:1.35;margin-bottom:1rem}
 .about-body{font-size:14px;font-weight:300;color:var(--cream-mute);line-height:1.9;margin-bottom:2rem}
@@ -324,145 +259,16 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .comm-handle{font-size:13px;font-weight:300;color:var(--cream)}
 .comm-dot{width:6px;height:6px;border-radius:50%;background:#5AAB72;margin-left:auto;animation:glow 2.5s infinite}
 @keyframes glow{0%,100%{opacity:1}50%{opacity:0.2}}
-
 @media(max-width:600px){
   .topbar-btn{font-size:8px;padding:6px 8px;letter-spacing:0.08em}
   .scanner-title,.receipt-title,.about-headline{font-size:28px}
-  .method-pill{font-size:9px;padding:10px 4px}
+  .method-pill{font-size:8px;padding:8px 3px}
   .edu-cards-grid,.oil-grid,.vision-cards,.founders-grid{grid-template-columns:1fr}
   .analyse-btn,.receipt-analyse-btn{font-size:14px;padding:18px}
   .v-score{font-size:56px}
   .psc-score{font-size:64px}
 }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js">
-// ─── BARCODE SCANNER ───
-let barcodeRunning = false;
-let lastBarcode = null;
-let barcodeDebounce = null;
-
-function startBarcode(){
-  if(barcodeRunning) return;
-  const el = document.getElementById('barcode-scanner');
-  if(!el) return;
-
-  barcodeRunning = true;
-  lastBarcode = null;
-
-  Quagga.init({
-    inputStream: {
-      type: 'LiveStream',
-      target: el,
-      constraints: {
-        facingMode: 'environment',
-        width: { ideal: 1280 },
-        height: { ideal: 720 }
-      }
-    },
-    decoder: {
-      readers: ['ean_reader','ean_8_reader','upc_reader','upc_e_reader','code_128_reader']
-    },
-    locate: true,
-    locator: { patchSize: 'medium', halfSample: true }
-  }, function(err){
-    if(err){
-      console.error('Barcode init error:', err);
-      const status = document.getElementById('barcode-status');
-      if(status) status.textContent = 'Camera not available';
-      barcodeRunning = false;
-      return;
-    }
-    Quagga.start();
-
-    // Style the video element Quagga creates
-    const video = el.querySelector('video');
-    if(video){
-      video.style.cssText = 'width:100%;height:260px;object-fit:cover;display:block';
-    }
-    const canvas = el.querySelectorAll('canvas');
-    canvas.forEach(c => { c.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%'; });
-  });
-
-  Quagga.offDetected();
-  Quagga.onDetected(function(result){
-    const code = result.codeResult.code;
-    if(!code || code === lastBarcode) return;
-
-    // Debounce — same code twice in 500ms = confirmed
-    if(barcodeDebounce) clearTimeout(barcodeDebounce);
-    barcodeDebounce = setTimeout(() => {
-      lastBarcode = code;
-      onBarcodeDetected(code);
-    }, 300);
-  });
-
-  // Update status while scanning
-  setTimeout(() => {
-    const status = document.getElementById('barcode-status');
-    if(status && barcodeRunning) status.textContent = 'Scanning...';
-  }, 1000);
-}
-
-function stopBarcode(){
-  if(!barcodeRunning) return;
-  try { Quagga.offDetected(); Quagga.stop(); } catch(e){}
-  barcodeRunning = false;
-  lastBarcode = null;
-  if(barcodeDebounce) clearTimeout(barcodeDebounce);
-}
-
-async function onBarcodeDetected(barcode){
-  haptic([40,30,40]);
-  stopBarcode();
-
-  const box = document.getElementById('barcode-box');
-  const status = document.getElementById('barcode-status');
-  if(box) { box.style.borderColor = 'rgba(80,210,120,0.9)'; box.style.boxShadow = '0 0 20px rgba(80,210,120,0.3)'; }
-  if(status) status.textContent = 'Barcode found: ' + barcode;
-
-  // Trigger scan with barcode
-  document.getElementById('error-msg').classList.remove('show');
-  document.getElementById('results').classList.remove('show');
-  document.getElementById('loading').classList.add('show');
-  document.getElementById('analyse-btn').disabled = true;
-  document.getElementById('analyse-btn-txt').textContent = 'CHECKING...';
-  stepTimer = startSteps('loading-step', scanSteps);
-  const pb = document.getElementById('progress-bar');
-  if(pb){ pb.className='progress-bar running'; }
-  window.scrollTo({top: document.getElementById('loading').offsetTop - 70, behavior: 'smooth'});
-
-  try {
-    const res = await fetch('/api/scan', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({mode: 'barcode', text: barcode})
-    });
-    const parsed = await res.json();
-    if(!res.ok) throw new Error(parsed.error || 'Something went wrong.');
-    if(parsed.error) throw new Error(parsed.error);
-    if(!parsed.ingredients) throw new Error('Could not read results. Please try again.');
-    renderResults(parsed);
-  } catch(err) {
-    document.getElementById('error-msg').textContent = err.message;
-    document.getElementById('error-msg').classList.add('show');
-    // Restart barcode scanner on error
-    setTimeout(() => {
-      if(currentMode === 'barcode') startBarcode();
-    }, 2000);
-  } finally {
-    clearInterval(stepTimer);
-    const pbDone = document.getElementById('progress-bar');
-    if(pbDone){ pbDone.className='progress-bar done'; }
-    setTimeout(()=>{
-      document.getElementById('loading').classList.remove('show');
-      if(pbDone) pbDone.className='progress-bar';
-    }, 200);
-    document.getElementById('analyse-btn').disabled = false;
-    document.getElementById('analyse-btn-txt').textContent = 'CHECK THIS FOOD';
-  }
-}
-
-</script>
 </head>
 <body>
 
@@ -483,17 +289,33 @@ async function onBarcodeDetected(barcode){
       <div class="scanner-title">Is my food safe?</div>
       <div class="scanner-subtitle">Scan any food label and get an honest answer in seconds — no jargon, no confusion.</div>
     </div>
-
     <div class="scan-card">
       <div class="method-pills">
-        <div class="method-pill active" onclick="setMode('barcode',this)"><span class="method-icon">▐▌</span>Scan barcode</div>
-        <div class="method-pill" onclick="setMode('camera',this)"><span class="method-icon">📷</span>Take photo</div>
-        <div class="method-pill" onclick="setMode('paste',this)"><span class="method-icon">📋</span>Paste label</div>
+        <div class="method-pill active" onclick="setMode('barcode',this)"><span class="method-icon">▐▌</span>Barcode</div>
+        <div class="method-pill" onclick="setMode('camera',this)"><span class="method-icon">📷</span>Photo</div>
+        <div class="method-pill" onclick="setMode('paste',this)"><span class="method-icon">📋</span>Paste</div>
         <div class="method-pill" onclick="setMode('search',this)"><span class="method-icon">🔍</span>Search</div>
       </div>
       <div class="scan-input-area">
 
-        <div id="mode-camera">
+        <!-- BARCODE MODE -->
+        <div id="mode-barcode">
+          <div class="barcode-container">
+            <div id="barcode-scanner"></div>
+            <div class="barcode-overlay">
+              <div class="barcode-box" id="barcode-box">
+                <div class="corner tl"></div><div class="corner tr"></div>
+                <div class="corner bl"></div><div class="corner br"></div>
+                <div class="barcode-laser"></div>
+              </div>
+            </div>
+            <div id="barcode-status">Point at barcode</div>
+          </div>
+          <div class="helper-txt">Point at the barcode on any food product — it will scan automatically</div>
+        </div>
+
+        <!-- CAMERA MODE -->
+        <div id="mode-camera" style="display:none">
           <div class="camera-container" id="camera-wrap">
             <video id="camera-feed" autoplay playsinline muted></video>
             <div class="scan-overlay" id="scan-overlay">
@@ -502,12 +324,12 @@ async function onBarcodeDetected(barcode){
                 <div class="corner bl"></div><div class="corner br"></div>
                 <div class="scan-line-el"></div>
                 <div class="scan-hint" id="scan-hint">Point at ingredients list</div>
-            <div class="auto-scan-bar" id="auto-scan-bar"></div>
+                <div class="auto-scan-bar" id="auto-scan-bar"></div>
               </div>
             </div>
             <img id="camera-preview" alt="captured"/>
             <button class="retake-btn-cam" id="retake-btn" onclick="retakePhoto()">Retake</button>
-          <div class="auto-scan-badge" id="auto-badge">Auto-detecting text...</div>
+            <div class="auto-scan-badge" id="auto-badge">Auto-detecting text...</div>
           </div>
           <button class="capture-btn" id="capture-btn" onclick="capturePhoto()">📷 &nbsp;Capture Label</button>
           <div class="or-line">or upload from your photos</div>
@@ -516,11 +338,13 @@ async function onBarcodeDetected(barcode){
           <div class="helper-txt">Point your camera at the ingredients list on the back of the packet</div>
         </div>
 
+        <!-- PASTE MODE -->
         <div id="mode-paste" style="display:none">
           <textarea class="big-textarea" id="paste-input" placeholder="Copy and paste the ingredients list here...&#10;&#10;e.g. Water, Maltodextrin, Fructose, Salt..."></textarea>
           <div class="helper-txt">Find the ingredients list on the back of the packet and paste it here</div>
         </div>
 
+        <!-- SEARCH MODE -->
         <div id="mode-search" style="display:none">
           <input type="text" class="big-input" id="search-input" placeholder="e.g. Weet-Bix, Heinz Tomato Sauce, Vegemite..."/>
           <div class="helper-txt">Type the name of the food and we'll look up what's in it</div>
@@ -528,30 +352,21 @@ async function onBarcodeDetected(barcode){
 
       </div>
     </div>
-
     <div class="error-msg" id="error-msg"></div>
     <button class="analyse-btn" id="analyse-btn" onclick="runScan()">
       <span>🔍</span><span id="analyse-btn-txt">CHECK THIS FOOD</span>
     </button>
-
     <div class="loading-screen" id="loading">
       <div class="loading-spinner"></div>
       <div class="loading-title">Checking your food...</div>
       <div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
       <div class="loading-step" id="loading-step"></div>
     </div>
-
     <div class="results-section" id="results"></div>
-
-    <!-- SCAN HISTORY -->
     <div id="history-panel" style="display:none" class="history-panel">
-      <div class="history-title">
-        Recent Scans
-        <button class="history-clear" onclick="clearHistory()">Clear</button>
-      </div>
+      <div class="history-title">Recent Scans <button class="history-clear" onclick="clearHistory()">Clear</button></div>
       <div class="history-list" id="history-list"></div>
     </div>
-
   </div>
 </div>
 
@@ -596,7 +411,6 @@ async function onBarcodeDetected(barcode){
 <div id="page-education" class="page">
   <div class="edu-page">
     <div class="edu-hero-txt">"In a world where ingredients have become increasingly complex and unrecognisable, Pure exists to bring clarity, transparency and a return to simplicity."</div>
-
     <div class="edu-sec-title">What Pure stands for — The Five Pillars</div>
     <div class="pillar-cards">
       <div class="pillar-card"><div class="pillar-num">01</div><div><div class="pillar-title">Pure Provenance</div><div class="pillar-desc">Where food comes from matters. Organic, pasture-raised, and wild-caught sources only.</div></div></div>
@@ -605,7 +419,6 @@ async function onBarcodeDetected(barcode){
       <div class="pillar-card"><div class="pillar-num">04</div><div><div class="pillar-title">Traditional Food Craft</div><div class="pillar-desc">Methods that have nourished humans for thousands of years — fermented, slow-made, time-honoured.</div></div></div>
       <div class="pillar-card"><div class="pillar-num">05</div><div><div class="pillar-title">Complete Transparency</div><div class="pillar-desc">Full disclosure. No misleading claims. No hidden ingredients. What you see is what you get.</div></div></div>
     </div>
-
     <div class="edu-sec-title">Ingredients to avoid</div>
     <div class="edu-cards-grid">
       <div class="edu-card"><div class="edu-risk risk-high">High Risk</div><div class="edu-card-name">High Fructose Corn Syrup</div><div class="edu-card-aka">Also: HFCS, Corn Syrup, Maize Syrup</div><div class="edu-card-desc">Processed sugar that goes straight to your liver. Your body can't tell when it's full — so you keep eating.</div><div class="edu-card-found">In: Soft drinks, cereals, bread, condiments</div></div>
@@ -615,7 +428,6 @@ async function onBarcodeDetected(barcode){
       <div class="edu-card"><div class="edu-risk risk-med">Moderate</div><div class="edu-card-name">Aspartame</div><div class="edu-card-aka">Also: E951, NutraSweet, Equal</div><div class="edu-card-desc">Classified as "possibly cancer-causing" by the WHO in 2023. Despite zero calories, it can make you hungrier.</div><div class="edu-card-found">In: Diet drinks, sugar-free gum, protein bars</div></div>
       <div class="edu-card"><div class="edu-risk risk-med">Moderate</div><div class="edu-card-name">Sodium Benzoate</div><div class="edu-card-aka">Also: E211, Benzoic Acid</div><div class="edu-card-desc">Reacts with Vitamin C to create benzene — a known carcinogen. Often found in vitamin-fortified drinks at the same time.</div><div class="edu-card-found">In: Juices, dressings, energy drinks</div></div>
     </div>
-
     <div class="edu-sec-title">Seed oils — what to avoid and what to use instead</div>
     <div class="oil-grid">
       <div class="oil-card">
@@ -641,7 +453,6 @@ async function onBarcodeDetected(barcode){
   <div class="about-page">
     <div class="about-headline">A devotion of knowledge, passion and personal experience — bringing food back to its simplest form.</div>
     <div class="about-body">Pure was created to simplify the way we see food and reconnect with what's real. Two founders. Two lanes. One mission.<br><br>Our goal is to be the easiest food intelligence tool in the world — so easy that anyone can use it, regardless of how much they know about food or technology. Real people deserve real answers about what they're eating.</div>
-
     <div class="edu-sec-title">Our Vision — Pure Whole Foods Store</div>
     <div class="vision-cards">
       <div class="vision-card"><div class="vision-card-num">01</div><div class="vision-card-title">Zero Seed Oils</div><div class="vision-card-text">Canola, soybean, sunflower, corn, cottonseed — banned from every product on the shelf.</div></div>
@@ -650,24 +461,21 @@ async function onBarcodeDetected(barcode){
       <div class="vision-card"><div class="vision-card-num">04</div><div class="vision-card-title">Radical Transparency</div><div class="vision-card-text">Every product shows its farm source and how it was made. No misleading claims.</div></div>
       <div class="vision-card" style="grid-column:1/-1"><div class="vision-card-num">05</div><div class="vision-card-title">Education Built In</div><div class="vision-card-text">Education at every shelf — why we chose each product and what makes it genuinely different.</div></div>
     </div>
-
     <div class="edu-sec-title">Founders</div>
     <div class="founders-grid">
       <div class="founder-card"><div class="founder-role">Food Education · Instagram</div><div class="founder-name">Melissa Marie</div><div class="founder-handle">@pure.wholefoods · @melissamarie.__</div><div class="founder-desc">Devoting her knowledge, passion and personal experience to educating others on real food. Creator of The Five Pillars.</div></div>
       <div class="founder-card"><div class="founder-role">Bittensor AI · X · Discord · Melbourne</div><div class="founder-name">PURE Scanner</div><div class="founder-handle">@PURE_Scanner · discord.gg/nJnhSxYv</div><div class="founder-desc">Building the world's most accessible food intelligence tool on Bittensor — for normal people, not just crypto or health experts.</div></div>
     </div>
-
     <div class="edu-sec-title">Roadmap</div>
     <div class="roadmap-list">
       <div class="roadmap-item done"><div class="rm-badge rm-done">Live</div><div class="rm-text">@pure.wholefoods Instagram — food education, The Five Pillars</div><div class="rm-note">By Melissa</div></div>
       <div class="roadmap-item done"><div class="rm-badge rm-done">Live</div><div class="rm-text">@PURE_Scanner on X — Bittensor AI scanner</div><div class="rm-note">Live</div></div>
       <div class="roadmap-item done"><div class="rm-badge rm-done">Live</div><div class="rm-text">Discord — #toxin-talk, #scanner-demos, #tao-funding</div><div class="rm-note">Live</div></div>
-      <div class="roadmap-item now"><div class="rm-badge rm-now">Now</div><div class="rm-text">Pure AI Scanner v1 — real-time ingredient analysis, receipt scanner</div><div class="rm-note">In progress</div></div>
-      <div class="roadmap-item future"><div class="rm-badge rm-future">Next</div><div class="rm-text">Mobile app — barcode scanner, in-store lookup</div><div class="rm-note">Seed funding</div></div>
+      <div class="roadmap-item now"><div class="rm-badge rm-now">Now</div><div class="rm-text">Pure AI Scanner v1 — barcode scanner, ingredient analysis, receipt scanner</div><div class="rm-note">In progress</div></div>
+      <div class="roadmap-item future"><div class="rm-badge rm-future">Next</div><div class="rm-text">Mobile app — native barcode scanning, in-store lookup</div><div class="rm-note">Seed funding</div></div>
       <div class="roadmap-item future"><div class="rm-badge rm-future">Future</div><div class="rm-text">Bittensor Subnet — decentralised nutritional AI + $PURE token</div><div class="rm-note">Series A</div></div>
       <div class="roadmap-item future"><div class="rm-badge rm-future">Vision</div><div class="rm-text">Pure Whole Foods — organic grocery store, zero toxic ingredients</div><div class="rm-note">The Dream</div></div>
     </div>
-
     <div class="community-footer">
       <div class="comm-title">Join the Community</div>
       <div class="comm-links">
@@ -680,30 +488,40 @@ async function onBarcodeDetected(barcode){
 </div>
 
 <script>
-let currentMode='camera', uploadedB64=null, uploadedMime='image/jpeg';
+// STATE
+let currentMode='barcode', uploadedB64=null, uploadedMime='image/jpeg';
 let receiptMode='photo', receiptB64=null;
 let cameraStream=null;
+let stepTimer=null;
 
+// NAVIGATION
 function showPage(id,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.topbar-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   el.classList.add('active');
-  if(id!=='scanner'){ stopCamera(); stopBarcode(); }
+  if(id!=='scanner'){stopCamera();stopBarcode();}
   window.scrollTo(0,0);
 }
 
+// MODE SWITCHING
 function setMode(mode,el){
-  if(mode!=='camera') stopCamera();
+  stopCamera(); stopBarcode();
   currentMode=mode;
   document.querySelectorAll('.method-pill').forEach(p=>p.classList.remove('active'));
   el.classList.add('active');
+  document.getElementById('mode-barcode').style.display=mode==='barcode'?'block':'none';
   document.getElementById('mode-camera').style.display=mode==='camera'?'block':'none';
   document.getElementById('mode-paste').style.display=mode==='paste'?'block':'none';
   document.getElementById('mode-search').style.display=mode==='search'?'block':'none';
-  if(mode==='camera') setTimeout(startCamera,100);
+  if(mode==='barcode') setTimeout(startBarcode,100);
+  else if(mode==='camera') setTimeout(startCamera,100);
 }
 
+// HAPTIC
+function haptic(pattern){if(navigator.vibrate) navigator.vibrate(pattern);}
+
+// CAMERA
 async function startCamera(){
   const video=document.getElementById('camera-feed');
   const preview=document.getElementById('camera-preview');
@@ -715,9 +533,9 @@ async function startCamera(){
   try{
     cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1080}}});
     video.srcObject=cameraStream;
-    video.addEventListener('playing', () => startAutoDetect(video), {once:true});
+    video.addEventListener('playing',()=>startAutoDetect(video),{once:true});
     setTimeout(()=>{
-      const b=document.getElementById('scan-box'), h=document.getElementById('scan-hint');
+      const b=document.getElementById('scan-box'),h=document.getElementById('scan-hint');
       if(b) b.classList.add('ready');
       if(h){h.textContent='Ready — tap Capture';h.classList.add('ready');}
     },1500);
@@ -727,13 +545,8 @@ async function startCamera(){
     document.getElementById('scan-overlay').style.display='none';
   }
 }
-
-function haptic(pattern){
-  if(navigator.vibrate) navigator.vibrate(pattern);
-}
 function capturePhoto(){
-  stopAutoDetect();
-  haptic(40);
+  stopAutoDetect(); haptic(40);
   const video=document.getElementById('camera-feed');
   const canvas=document.createElement('canvas');
   canvas.width=video.videoWidth; canvas.height=video.videoHeight;
@@ -755,23 +568,19 @@ function capturePhoto(){
   document.getElementById('scan-overlay').style.display='none';
   stopCamera();
 }
-
 function retakePhoto(){
-  uploadedB64=null;
-  stopAutoDetect();
+  uploadedB64=null; stopAutoDetect();
   document.getElementById('camera-preview').style.display='none';
   document.getElementById('retake-btn').style.display='none';
-  const b=document.getElementById('scan-box'), h=document.getElementById('scan-hint');
+  const b=document.getElementById('scan-box'),h=document.getElementById('scan-hint');
   if(b) b.classList.remove('ready');
   if(h){h.textContent='Point at ingredients list';h.classList.remove('ready');}
   startCamera();
 }
-
 function stopCamera(){
   stopAutoDetect();
   if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null;}
 }
-
 function handleUpload(input){
   const file=input.files[0];if(!file)return;
   uploadedMime=file.type||'image/jpeg';
@@ -789,6 +598,123 @@ function handleUpload(input){
   r.readAsDataURL(file);
 }
 
+// AUTO DETECT
+let autoDetectTimer=null, autoDetectCount=0;
+function startAutoDetect(video){
+  if(autoDetectTimer) clearInterval(autoDetectTimer);
+  const badge=document.getElementById('auto-badge'), bar=document.getElementById('auto-scan-bar');
+  autoDetectCount=0;
+  autoDetectTimer=setInterval(()=>{
+    if(!cameraStream||video.readyState<2) return;
+    const canvas=document.createElement('canvas');
+    canvas.width=80; canvas.height=60;
+    const ctx=canvas.getContext('2d');
+    ctx.drawImage(video,0,0,80,60);
+    try{
+      const data=ctx.getImageData(0,0,80,60).data;
+      let dark=0,light=0;
+      for(let i=0;i<data.length;i+=16){
+        const b=(data[i]+data[i+1]+data[i+2])/3;
+        if(b<80) dark++; else if(b>180) light++;
+      }
+      const contrast=(dark+light)/(data.length/16);
+      if(contrast>0.5){
+        autoDetectCount++;
+        if(badge){badge.classList.add('show');badge.textContent='Text detected — hold steady';}
+        if(bar) bar.classList.add('detecting');
+        if(autoDetectCount>=3){
+          if(badge) badge.textContent='Capturing...';
+          clearInterval(autoDetectTimer); haptic(60);
+          setTimeout(()=>capturePhoto(),300);
+        }
+      } else {
+        autoDetectCount=0;
+        if(badge) badge.classList.remove('show');
+        if(bar) bar.classList.remove('detecting');
+      }
+    } catch(e){}
+  },500);
+}
+function stopAutoDetect(){
+  if(autoDetectTimer){clearInterval(autoDetectTimer);autoDetectTimer=null;}
+  const badge=document.getElementById('auto-badge'), bar=document.getElementById('auto-scan-bar');
+  if(badge) badge.classList.remove('show');
+  if(bar) bar.classList.remove('detecting');
+}
+
+// BARCODE
+let barcodeRunning=false, lastBarcode=null, barcodeDebounce=null;
+function startBarcode(){
+  if(barcodeRunning) return;
+  const el=document.getElementById('barcode-scanner');
+  if(!el||typeof Quagga==='undefined') return;
+  barcodeRunning=true; lastBarcode=null;
+  Quagga.init({
+    inputStream:{type:'LiveStream',target:el,constraints:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}}},
+    decoder:{readers:['ean_reader','ean_8_reader','upc_reader','upc_e_reader','code_128_reader']},
+    locate:true,locator:{patchSize:'medium',halfSample:true}
+  },function(err){
+    if(err){
+      const s=document.getElementById('barcode-status');
+      if(s) s.textContent='Camera unavailable — use Photo or Search tab';
+      barcodeRunning=false; return;
+    }
+    Quagga.start();
+    const v=el.querySelector('video');
+    if(v) v.style.cssText='width:100%;height:260px;object-fit:cover;display:block';
+    el.querySelectorAll('canvas').forEach(c=>c.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%');
+    setTimeout(()=>{const s=document.getElementById('barcode-status');if(s&&barcodeRunning) s.textContent='Scanning — point at barcode';},1000);
+  });
+  Quagga.offDetected();
+  Quagga.onDetected(function(result){
+    const code=result.codeResult.code;
+    if(!code||code===lastBarcode) return;
+    if(barcodeDebounce) clearTimeout(barcodeDebounce);
+    barcodeDebounce=setTimeout(()=>{lastBarcode=code;onBarcodeDetected(code);},300);
+  });
+}
+function stopBarcode(){
+  if(!barcodeRunning) return;
+  try{Quagga.offDetected();Quagga.stop();}catch(e){}
+  barcodeRunning=false; lastBarcode=null;
+  if(barcodeDebounce) clearTimeout(barcodeDebounce);
+}
+async function onBarcodeDetected(barcode){
+  haptic([40,30,40]); stopBarcode();
+  const box=document.getElementById('barcode-box'), status=document.getElementById('barcode-status');
+  if(box){box.classList.add('found');}
+  if(status) status.textContent='Found: '+barcode+' — looking up...';
+  document.getElementById('error-msg').classList.remove('show');
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('loading').classList.add('show');
+  document.getElementById('analyse-btn').disabled=true;
+  document.getElementById('analyse-btn-txt').textContent='CHECKING...';
+  stepTimer=startSteps('loading-step',scanSteps);
+  const pb=document.getElementById('progress-bar');
+  if(pb) pb.className='progress-bar running';
+  window.scrollTo({top:document.getElementById('loading').offsetTop-70,behavior:'smooth'});
+  try{
+    const res=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'barcode',text:barcode})});
+    const parsed=await res.json();
+    if(!res.ok) throw new Error(parsed.error||'Something went wrong.');
+    if(parsed.error) throw new Error(parsed.error);
+    if(!parsed.ingredients) throw new Error('Could not read results. Please try again.');
+    renderResults(parsed);
+  } catch(err){
+    document.getElementById('error-msg').textContent=err.message;
+    document.getElementById('error-msg').classList.add('show');
+    setTimeout(()=>{if(currentMode==='barcode'){if(box) box.classList.remove('found');startBarcode();}},2000);
+  } finally {
+    clearInterval(stepTimer);
+    const pbD=document.getElementById('progress-bar');
+    if(pbD) pbD.className='progress-bar done';
+    setTimeout(()=>{document.getElementById('loading').classList.remove('show');if(pbD) pbD.className='progress-bar';},200);
+    document.getElementById('analyse-btn').disabled=false;
+    document.getElementById('analyse-btn-txt').textContent='CHECK THIS FOOD';
+  }
+}
+
+// RECEIPT MODE
 function setReceiptMode(mode,el){
   receiptMode=mode;
   document.querySelectorAll('.receipt-tab').forEach(t=>t.classList.remove('active'));
@@ -796,7 +722,6 @@ function setReceiptMode(mode,el){
   document.getElementById('receipt-mode-photo').style.display=mode==='photo'?'block':'none';
   document.getElementById('receipt-mode-type').style.display=mode==='type'?'block':'none';
 }
-
 function handleReceiptUpload(input){
   const file=input.files[0];if(!file)return;
   const r=new FileReader();
@@ -808,82 +733,69 @@ function handleReceiptUpload(input){
   r.readAsDataURL(file);
 }
 
+// HELPERS
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-
-function getKey(){
-  let k=localStorage.getItem('pure_api_key')||'';
-  if(!k||!k.startsWith('sk-ant-')){
-    k=prompt('To use PURE Scanner, enter your Anthropic API key.\n\nGet a free key at: console.anthropic.com → API Keys → Create Key\n\nPaste your key here:');
-    if(k&&k.startsWith('sk-ant-')) localStorage.setItem('pure_api_key',k);
-    else return null;
-  }
-  return k;
-}
-
+function scoreColor(s){return s>=7?'var(--green)':s>=4?'var(--amber)':'var(--red)';}
+function scoreClass(s){return s>=7?'safe':s>=4?'warn':'danger'}
+function scoreEmoji(s){return s>=7?'✅':s>=4?'⚠️':'❌'}
 const scanSteps=['Reading ingredients...','Checking what each one is...','Comparing against our standards...','Working out your score...','Almost done...'];
 const receiptSteps=['Reading your receipt...','Looking up each product...','Checking against our standards...','Calculating your shop score...','Finding better options...'];
-let stepTimer=null;
-
 function startSteps(elId,steps){
   let i=0; document.getElementById(elId).textContent=steps[0];
   return setInterval(()=>{i=(i+1)%steps.length; document.getElementById(elId).textContent=steps[i];},2000);
 }
 
-function scoreColor(s){return s>=7?"var(--green)":s>=4?"var(--amber)":"var(--red)";}
-function scoreClass(s){return s>=7?'safe':s>=4?'warn':'danger'}
-function scoreEmoji(s){return s>=7?'✅':s>=4?'⚠️':'❌'}
+// SCORE ANIMATION
+function animateScore(elementId,targetScore,isPercent,color,duration){
+  const el=document.getElementById(elementId);
+  if(!el) return;
+  const suffix=isPercent?'<span style="font-size:28px;opacity:0.35">%</span>':'<span style="font-size:28px;opacity:0.35">/10</span>';
+  el.innerHTML='0'+suffix; el.style.color='var(--cream-mute)';
+  const startTime=performance.now();
+  function easeOut(t){return 1-Math.pow(1-t,3);}
+  function update(now){
+    const progress=Math.min((now-startTime)/duration,1);
+    const current=Math.round(targetScore*easeOut(progress));
+    el.innerHTML=current+suffix; el.style.color=color;
+    if(progress<1) requestAnimationFrame(update);
+    else{el.innerHTML=targetScore+suffix; haptic([30,20,60]);}
+  }
+  requestAnimationFrame(update);
+}
 
+// MAIN SCAN
 async function runScan(){
   document.getElementById('error-msg').classList.remove('show');
-  let messages;
-  if(currentMode==='camera'){
-    if(!uploadedB64){document.getElementById('error-msg').textContent='Please take a photo of the food label first.';document.getElementById('error-msg').classList.add('show');return;}
-    messages=[{role:'user',content:[{type:'image',source:{type:'base64',media_type:uploadedMime,data:uploadedB64}},{type:'text',text:'Read ALL ingredients from this food label photo and analyse each one.'}]}];
-  } else if(currentMode==='paste'){
-    const v=document.getElementById('paste-input').value.trim();
-    if(!v){document.getElementById('error-msg').textContent='Please paste the ingredients list first.';document.getElementById('error-msg').classList.add('show');return;}
-    messages=[{role:'user',content:`Analyse these food ingredients:\n\n${v}`}];
-  } else {
-    const v=document.getElementById('search-input').value.trim();
-    if(!v){document.getElementById('error-msg').textContent='Please type the food name first.';document.getElementById('error-msg').classList.add('show');return;}
-    messages=[{role:'user',content:`Analyse the typical ingredients of: "${v}".`}];
+  if(currentMode==='barcode'){
+    document.getElementById('error-msg').textContent='Point your camera at a barcode — it will scan automatically.';
+    document.getElementById('error-msg').classList.add('show'); return;
   }
-
+  if(currentMode==='camera'&&!uploadedB64){
+    document.getElementById('error-msg').textContent='Please take a photo of the food label first.';
+    document.getElementById('error-msg').classList.add('show'); return;
+  }
+  if(currentMode==='paste'&&!document.getElementById('paste-input').value.trim()){
+    document.getElementById('error-msg').textContent='Please paste the ingredients list first.';
+    document.getElementById('error-msg').classList.add('show'); return;
+  }
+  if(currentMode==='search'&&!document.getElementById('search-input').value.trim()){
+    document.getElementById('error-msg').textContent='Please type the food name first.';
+    document.getElementById('error-msg').classList.add('show'); return;
+  }
   document.getElementById('results').classList.remove('show');
   document.getElementById('loading').classList.add('show');
   document.getElementById('analyse-btn').disabled=true;
   document.getElementById('analyse-btn-txt').textContent='CHECKING...';
   stepTimer=startSteps('loading-step',scanSteps);
-  const pb=document.getElementById('progress-bar');if(pb){pb.className='progress-bar running';}
+  const pb=document.getElementById('progress-bar');if(pb) pb.className='progress-bar running';
   window.scrollTo({top:document.getElementById('loading').offsetTop-70,behavior:'smooth'});
-
-  const system=`You are PURE — a friendly food safety checker that gives honest plain-English answers. No jargon. Write like you're talking to someone's mum or grandparent.
-
-Respond ONLY with valid JSON, no markdown, no backticks.
-{
-  "productName": "string",
-  "overallScore": number 1-10,
-  "overallVerdict": "Safe" | "Okay" | "Be Careful" | "Avoid",
-  "summary": "2-3 sentences in plain simple English. Be honest but kind. No technical words.",
-  "ingredients": [
-    {
-      "name": "string",
-      "risk": "danger"|"warn"|"safe",
-      "tag": "simple words: Safe · Caution · Avoid · Artificial Colour · Added Sugar · Seed Oil · Preservative · Natural",
-      "detail": "One simple sentence. Plain English. What is this and should I be worried?"
-    }
-  ]
-}
-Keep it simple. Honest. Return only valid JSON.`;
-
   try{
-    const res=await fetch('/api/scan',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({mode:currentMode,text:currentMode==='paste'?document.getElementById('paste-input').value.trim():currentMode==='search'?document.getElementById('search-input').value.trim():null,imageBase64:uploadedB64,imageMime:uploadedMime})
-    });
+    const res=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({mode:currentMode,
+        text:currentMode==='paste'?document.getElementById('paste-input').value.trim():currentMode==='search'?document.getElementById('search-input').value.trim():null,
+        imageBase64:uploadedB64,imageMime:uploadedMime})});
     const parsed=await res.json();
-        if(!res.ok) throw new Error(parsed.error||'Request failed');
+    if(!res.ok) throw new Error(parsed.error||'Request failed');
     if(parsed.error) throw new Error(parsed.error);
     if(!parsed.ingredients) throw new Error('Could not read results. Please try again.');
     renderResults(parsed);
@@ -892,70 +804,32 @@ Keep it simple. Honest. Return only valid JSON.`;
     document.getElementById('error-msg').classList.add('show');
   } finally {
     clearInterval(stepTimer);
-    const pbDone=document.getElementById('progress-bar');if(pbDone){pbDone.className='progress-bar done';}
-    setTimeout(()=>{
-      document.getElementById('loading').classList.remove('show');
-      if(pbDone) pbDone.className='progress-bar';
-    },200);
+    const pbD=document.getElementById('progress-bar');if(pbD) pbD.className='progress-bar done';
+    setTimeout(()=>{document.getElementById('loading').classList.remove('show');if(pbD) pbD.className='progress-bar';},200);
     document.getElementById('analyse-btn').disabled=false;
     document.getElementById('analyse-btn-txt').textContent='CHECK THIS FOOD';
   }
 }
 
-
-function animateScore(elementId, targetScore, isPercent, color, duration){
-  const el = document.getElementById(elementId);
-  if(!el) return;
-  const suffix = isPercent ? '<span style="font-size:28px;opacity:0.35">%</span>' : '<span style="font-size:28px;opacity:0.35">/10</span>';
-  el.innerHTML = '0' + suffix;
-  el.style.color = 'var(--cream-mute)';
-  const start = 0;
-  const startTime = performance.now();
-  // Easing function - fast then slow
-  function easeOut(t){ return 1 - Math.pow(1-t, 3); }
-  function update(currentTime){
-    const elapsed = currentTime - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    const eased = easeOut(progress);
-    const current = Math.round(start + (targetScore - start) * eased);
-    el.innerHTML = current + suffix;
-    el.style.color = color;
-    if(progress < 1){
-      requestAnimationFrame(update);
-    } else {
-      el.innerHTML = targetScore + suffix;
-      // Final haptic on completion
-      haptic([30,20,60]);
-    }
-  }
-  requestAnimationFrame(update);
-}
-
+// RENDER RESULTS
 function renderResults(d){
-  // Haptic feedback based on result
-  if(d.overallScore>=7) haptic([50,30,50]); // double pulse = good
-  else if(d.overallScore>=4) haptic([80,40,80]); // medium warning
-  else haptic([100,50,100,50,200]); // long pattern = avoid
+  if(d.overallScore>=7) haptic([50,30,50]);
+  else if(d.overallScore>=4) haptic([80,40,80]);
+  else haptic([100,50,100,50,200]);
   const cls=scoreClass(d.overallScore);
   const dc=(d.ingredients||[]).filter(i=>i.risk==='danger').length;
   const wc=(d.ingredients||[]).filter(i=>i.risk==='warn').length;
   const sc=(d.ingredients||[]).filter(i=>i.risk==='safe').length;
-
   const ings=(d.ingredients||[]).map(i=>`
     <div class="ing-card ${i.risk}">
-      <div class="ing-card-top">
-        <div class="ing-card-name">${esc(i.name)}</div>
-        <div class="ing-card-badge">${esc(i.tag)}</div>
-      </div>
+      <div class="ing-card-top"><div class="ing-card-name">${esc(i.name)}</div><div class="ing-card-badge">${esc(i.tag)}</div></div>
       <div class="ing-card-detail">${esc(i.detail)}</div>
     </div>`).join('');
-
-  const scoreEl=document.getElementById('animated-score');
-  if(scoreEl) scoreEl.innerHTML='0<span style="font-size:28px;opacity:0.35">/10</span>';
+  const pn=esc(d.productName||'Food');
   document.getElementById('results').innerHTML=`
     <div class="verdict-card ${cls}">
       <span class="v-emoji">${scoreEmoji(d.overallScore)}</span>
-      <div class="v-product">${esc(d.productName||'Your Food')}</div>
+      <div class="v-product">${pn}</div>
       <div class="v-score" id="animated-score">0<span style="font-size:28px;opacity:0.35">/10</span></div>
       <div class="v-word">${esc(d.overallVerdict)}</div>
       <div class="v-summary">${esc(d.summary)}</div>
@@ -963,63 +837,48 @@ function renderResults(d){
     ${dc||wc?`<div class="count-pills">
       ${dc?`<div class="count-pill danger">⚠️ ${dc} ingredient${dc>1?'s':''} to avoid</div>`:''}
       ${wc?`<div class="count-pill warn">⚡ ${wc} to watch out for</div>`:''}
-      ${sc?`<div class="count-pill safe">✓ ${sc} safe ingredient${sc>1?'s':''}</div>`:''}
+      ${sc?`<div class="count-pill safe">✓ ${sc} safe</div>`:''}
     </div>`:''}
     <div class="sec-head">What's in it</div>
     <div class="ing-cards">${ings}</div>
     <div class="share-btn-row">
-      <button class="share-btn share-native" onclick="shareResult('${esc(d.productName||'Food')}',${d.overallScore},'${esc(d.overallVerdict)}')">📤 Share Result</button>
-      <button class="share-btn share-x" onclick="shareToX('${esc(d.productName||'Food')}',${d.overallScore},'${esc(d.overallVerdict)}')">𝕏 Post on X</button>
-      <button class="share-btn share-ig" onclick="shareToIG('${esc(d.productName||'Food')}',${d.overallScore},'${esc(d.overallVerdict)}')">📸 Share to IG</button>
+      <button class="share-btn share-native" onclick="shareResult('${pn}',${d.overallScore},'${esc(d.overallVerdict)}')">📤 Share</button>
+      <button class="share-btn share-x" onclick="shareToX('${pn}',${d.overallScore},'${esc(d.overallVerdict)}')">𝕏 Post on X</button>
+      <button class="share-btn share-ig" onclick="shareToIG('${pn}',${d.overallScore},'${esc(d.overallVerdict)}')">📸 Instagram</button>
     </div>`;
-  saveToHistory(d.productName||'Scanned Food', d.overallScore, d.overallVerdict, d);
+  saveToHistory(d.productName||'Scanned Food',d.overallScore,d.overallVerdict,d);
   document.getElementById('results').classList.add('show');
   setTimeout(()=>{
     window.scrollTo({top:document.getElementById('results').offsetTop-70,behavior:'smooth'});
-    const el=document.getElementById('animated-score'); if(el) el.innerHTML='0<span style="font-size:28px;opacity:0.35">/10</span>';
-    animateScore('animated-score', d.overallScore, false, scoreColor(d.overallScore), 1200);
+    const el=document.getElementById('animated-score');
+    if(el) el.innerHTML='0<span style="font-size:28px;opacity:0.35">/10</span>';
+    animateScore('animated-score',d.overallScore,false,scoreColor(d.overallScore),2000);
   },150);
 }
 
+// RECEIPT SCAN
 async function runReceiptScan(){
   document.getElementById('receipt-error-msg').classList.remove('show');
-  let messageContent;
-  if(receiptMode==='photo'){
-    if(!receiptB64){document.getElementById('receipt-error-msg').textContent='Please upload a photo of your receipt first.';document.getElementById('receipt-error-msg').classList.add('show');return;}
-    messageContent=[{type:'image',source:{type:'base64',media_type:'image/jpeg',data:receiptB64}},{type:'text',text:'Read all the product names from this grocery receipt and analyse each one.'}];
-  } else {
-    const v=document.getElementById('receipt-text').value.trim();
-    if(!v){document.getElementById('receipt-error-msg').textContent='Please type the products you bought.';document.getElementById('receipt-error-msg').classList.add('show');return;}
-    messageContent=`Analyse these grocery products from a receipt:\n\n${v}`;
+  if(receiptMode==='photo'&&!receiptB64){
+    document.getElementById('receipt-error-msg').textContent='Please upload a photo of your receipt first.';
+    document.getElementById('receipt-error-msg').classList.add('show'); return;
   }
-
+  if(receiptMode==='type'&&!document.getElementById('receipt-text').value.trim()){
+    document.getElementById('receipt-error-msg').textContent='Please type the products you bought.';
+    document.getElementById('receipt-error-msg').classList.add('show'); return;
+  }
   document.getElementById('receipt-results').classList.remove('show');
   document.getElementById('receipt-loading').classList.add('show');
   document.getElementById('receipt-btn').disabled=true;
   document.getElementById('receipt-btn-txt').textContent='CHECKING...';
   const t=startSteps('receipt-loading-step',receiptSteps);
-
-  const system=`You are PURE — a friendly food safety checker. Analyse each grocery product based on typical ingredients. Keep language simple and easy to understand.
-
-A "Pure Shop" = 80%+ of products are genuinely healthy. Be honest — most supermarket shops score 30-60%.
-
-Respond ONLY with valid JSON, no markdown.
-{
-  "pureScore": number 0-100,
-  "verdict": "Pure Shop" | "Getting There" | "Needs Work",
-  "summary": "2-3 friendly simple sentences about their overall shop",
-  "products": [{"name":"string","status":"pass"|"warn"|"fail","badge":"Clean|Okay|Avoid|Seed Oils|Too Processed|Too Much Sugar","reason":"1 simple sentence"}],
-  "swaps": [{"from":"product to replace","to":"better alternative"}]
-}`;
-
   try{
-    const res=await fetch('/api/scan',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({mode:receiptMode==='photo'?'receipt_photo':'receipt_text',imageBase64:receiptB64,text:receiptMode==='type'?document.getElementById('receipt-text').value.trim():null})
-    });
+    const res=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({mode:receiptMode==='photo'?'receipt_photo':'receipt_text',
+        imageBase64:receiptB64,
+        text:receiptMode==='type'?document.getElementById('receipt-text').value.trim():null})});
     const parsed=await res.json();
-        if(!res.ok) throw new Error(parsed.error||'Request failed');
+    if(!res.ok) throw new Error(parsed.error||'Request failed');
     if(parsed.error) throw new Error(parsed.error);
     if(!parsed.products) throw new Error('Could not read results. Please try again.');
     renderReceiptResults(parsed);
@@ -1042,20 +901,15 @@ function renderReceiptResults(d){
   const emoji=d.pureScore>=80?'🌿':d.pureScore>=50?'👍':'🛒';
   const pass=(d.products||[]).filter(p=>p.status==='pass').length;
   const total=(d.products||[]).length;
-
   const products=(d.products||[]).map(p=>`
     <div class="product-card ${p.status}">
       <div class="pc-icon">${p.status==='pass'?'✅':p.status==='warn'?'⚠️':'❌'}</div>
       <div class="pc-info"><div class="pc-name">${esc(p.name)}</div><div class="pc-reason">${esc(p.reason)}</div></div>
       <div class="pc-badge">${esc(p.badge)}</div>
     </div>`).join('');
-
   const swaps=d.swaps&&d.swaps.length?`
     <div class="sec-head" style="margin-top:1.5rem">Better swaps for next time</div>
-    <div class="swap-cards">
-      ${d.swaps.map(s=>`<div class="swap-card"><div class="swap-from">${esc(s.from)}</div><div class="swap-arrow-icon">→</div><div class="swap-to">${esc(s.to)}</div></div>`).join('')}
-    </div>`:'';
-
+    <div class="swap-cards">${d.swaps.map(s=>`<div class="swap-card"><div class="swap-from">${esc(s.from)}</div><div class="swap-arrow-icon">→</div><div class="swap-to">${esc(s.to)}</div></div>`).join('')}</div>`:'';
   document.getElementById('receipt-results').innerHTML=`
     <div class="pure-shop-card ${cls}">
       <span class="psc-emoji">${emoji}</span>
@@ -1067,306 +921,85 @@ function renderReceiptResults(d){
     <div class="sec-head">${total} products · ${pass} healthy · ${total-pass} flagged</div>
     <div class="product-cards">${products}</div>
     ${swaps}
-    <div class="share-strip" style="margin-top:1.5rem">
-      <div class="share-txt">Share your score · Tag <strong>@pure.wholefoods</strong></div>
-      <div class="share-links">
-        <a class="share-link" href="https://instagram.com/pure.wholefoods" target="_blank">Instagram</a>
-        <a class="share-link" href="https://x.com/PURE_Scanner" target="_blank">X</a>
-      </div>
+    <div class="share-btn-row" style="margin-top:1.5rem">
+      <button class="share-btn share-native" onclick="shareResult('My Shop',${d.pureScore},'${esc(d.verdict)}')">📤 Share Score</button>
+      <button class="share-btn share-x" onclick="shareToX('My Shop',${d.pureScore}+'%','${esc(d.verdict)}')">𝕏 Post on X</button>
     </div>`;
   document.getElementById('receipt-results').classList.add('show');
   setTimeout(()=>{
     window.scrollTo({top:document.getElementById('receipt-results').offsetTop-70,behavior:'smooth'});
-    const shopColor = d.pureScore>=80?'var(--green)':d.pureScore>=50?'var(--amber)':'var(--red)';
-    const sel=document.getElementById('animated-shop-score'); if(sel) sel.innerHTML='0<span style="font-size:28px;opacity:0.35">%</span>';
-    animateScore('animated-shop-score', d.pureScore, true, shopColor, 1400);
+    const shopColor=d.pureScore>=80?'var(--green)':d.pureScore>=50?'var(--amber)':'var(--red)';
+    const sel=document.getElementById('animated-shop-score');
+    if(sel) sel.innerHTML='0<span style="font-size:28px;opacity:0.35">%</span>';
+    animateScore('animated-shop-score',d.pureScore,true,shopColor,1400);
   },150);
 }
 
-window.addEventListener('load',()=>{ setTimeout(startCamera,300); });
-
-// ─── SHARE ───
-function shareResult(productName, score, verdict) {
-  const text = `I just scanned ${productName} on PURE Scanner\n\n${score}/10 — ${verdict}\n\nCheck your food at pure-scanner-int2.vercel.app`;
-  if (navigator.share) {
-    navigator.share({ title: 'PURE Scanner Result', text, url: 'https://pure-scanner-int2.vercel.app' })
-      .catch(()=>{});
-  } else {
-    navigator.clipboard.writeText(text).then(()=>{
-      alert('Result copied to clipboard! Paste it anywhere to share.');
-    });
-  }
+// SHARE
+function shareResult(productName,score,verdict){
+  const text=`I just scanned ${productName} on PURE Scanner\n\n${score}/10 — ${verdict}\n\nCheck your food at pure-scanner-int2.vercel.app`;
+  if(navigator.share) navigator.share({title:'PURE Scanner Result',text,url:'https://pure-scanner-int2.vercel.app'}).catch(()=>{});
+  else navigator.clipboard.writeText(text).then(()=>alert('Result copied! Paste it anywhere to share.'));
 }
-function shareToX(productName, score, verdict) {
-  const text = encodeURIComponent(`Scanned ${productName} on @PURE_Scanner\n\n${score}/10 — ${verdict}\n\nCheck your food 👇`);
-  const url = encodeURIComponent('https://pure-scanner-int2.vercel.app');
-  window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+function shareToX(productName,score,verdict){
+  const text=encodeURIComponent(`Scanned ${productName} on @PURE_Scanner\n\n${score}/10 — ${verdict}\n\nCheck your food 👇`);
+  window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent('https://pure-scanner-int2.vercel.app')}`, '_blank');
 }
-function shareToIG(productName, score, verdict) {
-  const text = `Scanned ${productName} on PURE Scanner\n${score}/10 — ${verdict}\n\npure-scanner-int2.vercel.app`;
+function shareToIG(productName,score,verdict){
+  const text=`Scanned ${productName} on PURE Scanner\n${score}/10 — ${verdict}\n\npure-scanner-int2.vercel.app`;
   navigator.clipboard.writeText(text).then(()=>{
-    alert('Caption copied! Open Instagram and paste it into your story or post.');
-    window.open('instagram://app', '_blank');
-    setTimeout(()=>window.open('https://www.instagram.com', '_blank'), 500);
-  }).catch(()=>{
-    window.open('https://www.instagram.com', '_blank');
-  });
+    alert('Caption copied! Open Instagram and paste into your story or post.');
+    window.open('https://www.instagram.com','_blank');
+  }).catch(()=>window.open('https://www.instagram.com','_blank'));
 }
 
-// ─── HISTORY ───
-const MAX_HISTORY = 10;
-function saveToHistory(productName, score, verdict, data) {
-  try {
-    const history = getHistory();
-    const entry = {
-      id: Date.now(),
-      name: productName,
-      score,
-      verdict,
-      time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),
-      date: new Date().toLocaleDateString([], {day:'numeric',month:'short'}),
-      data: JSON.stringify(data)
-    };
-    history.unshift(entry);
-    if (history.length > MAX_HISTORY) history.pop();
-    localStorage.setItem('pure_scan_history', JSON.stringify(history));
+// HISTORY
+const MAX_HISTORY=10;
+function saveToHistory(productName,score,verdict,data){
+  try{
+    const history=getHistory();
+    history.unshift({id:Date.now(),name:productName,score,verdict,
+      time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),
+      date:new Date().toLocaleDateString([],{day:'numeric',month:'short'}),
+      data:JSON.stringify(data)});
+    if(history.length>MAX_HISTORY) history.pop();
+    localStorage.setItem('pure_scan_history',JSON.stringify(history));
     renderHistory();
-  } catch(e) {}
+  } catch(e){}
 }
-function getHistory() {
-  try { return JSON.parse(localStorage.getItem('pure_scan_history') || '[]'); }
-  catch(e) { return []; }
-}
-function clearHistory() {
-  localStorage.removeItem('pure_scan_history');
-  renderHistory();
-}
-function renderHistory() {
-  const history = getHistory();
-  const panel = document.getElementById('history-panel');
-  const list = document.getElementById('history-list');
-  if (!panel || !list) return;
-  if (history.length === 0) { panel.style.display = 'none'; return; }
-  panel.style.display = 'block';
-  list.innerHTML = history.map(h => {
-    const color = h.score >= 7 ? 'var(--green)' : h.score >= 4 ? 'var(--amber)' : 'var(--red)';
-    const emoji = h.score >= 7 ? '✅' : h.score >= 4 ? '⚠️' : '❌';
-    return `<div class="history-item" onclick="replayResult('${h.id}')">
+function getHistory(){try{return JSON.parse(localStorage.getItem('pure_scan_history')||'[]');}catch(e){return [];}}
+function clearHistory(){localStorage.removeItem('pure_scan_history');renderHistory();}
+function renderHistory(){
+  const history=getHistory();
+  const panel=document.getElementById('history-panel'), list=document.getElementById('history-list');
+  if(!panel||!list) return;
+  if(history.length===0){panel.style.display='none';return;}
+  panel.style.display='block';
+  list.innerHTML=history.map(h=>{
+    const color=h.score>=7?'var(--green)':h.score>=4?'var(--amber)':'var(--red)';
+    const emoji=h.score>=7?'✅':h.score>=4?'⚠️':'❌';
+    return `<div class="history-item" onclick="replayResult(${h.id})">
       <div class="history-score" style="color:${color}">${h.score}</div>
-      <div class="history-info">
-        <div class="history-name">${esc(h.name)}</div>
-        <div class="history-verdict">${emoji} ${esc(h.verdict)}</div>
-      </div>
+      <div class="history-info"><div class="history-name">${esc(h.name)}</div><div class="history-verdict">${emoji} ${esc(h.verdict)}</div></div>
       <div class="history-time">${h.date} ${h.time}</div>
     </div>`;
   }).join('');
 }
-function replayResult(id) {
-  const entry = getHistory().find(h => h.id == id);
-  if (!entry) return;
-  try {
-    const data = JSON.parse(entry.data);
+function replayResult(id){
+  const entry=getHistory().find(h=>h.id==id);
+  if(!entry) return;
+  try{
+    const data=JSON.parse(entry.data);
     document.getElementById('results').classList.remove('show');
-    setTimeout(() => {
-      renderResults(data);
-      window.scrollTo({top: document.getElementById('results').offsetTop - 70, behavior: 'smooth'});
-    }, 100);
-  } catch(e) {}
+    setTimeout(()=>{renderResults(data);window.scrollTo({top:document.getElementById('results').offsetTop-70,behavior:'smooth'});},100);
+  } catch(e){}
 }
 
-// Load history on page load
-window.addEventListener('load', () => {
-  setTimeout(startCamera, 300);
+// INIT
+window.addEventListener('load',()=>{
+  setTimeout(startBarcode,300);
   renderHistory();
 });
-
-// ─── AUTO-DETECT TEXT IN CAMERA ───
-let autoDetectTimer = null;
-let autoDetectCount = 0;
-
-function startAutoDetect(video) {
-  if (autoDetectTimer) clearInterval(autoDetectTimer);
-  const badge = document.getElementById('auto-badge');
-  const bar = document.getElementById('auto-scan-bar');
-  autoDetectCount = 0;
-  
-  autoDetectTimer = setInterval(() => {
-    if (!cameraStream || video.readyState < 2) return;
-    
-    // Sample the video frame and check for high contrast (text indicator)
-    const canvas = document.createElement('canvas');
-    canvas.width = 80; canvas.height = 60;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0, 80, 60);
-    
-    try {
-      const data = ctx.getImageData(0, 0, 80, 60).data;
-      let dark = 0, light = 0;
-      for (let i = 0; i < data.length; i += 16) {
-        const brightness = (data[i] + data[i+1] + data[i+2]) / 3;
-        if (brightness < 80) dark++;
-        else if (brightness > 180) light++;
-      }
-      const total = data.length / 16;
-      const contrast = (dark + light) / total;
-      
-      if (contrast > 0.5) {
-        // High contrast detected — likely text/label
-        autoDetectCount++;
-        if (badge) { badge.classList.add('show'); badge.textContent = 'Text detected — hold steady'; }
-        if (bar) bar.classList.add('detecting');
-        
-        if (autoDetectCount >= 3) {
-          // Steady for 4 checks (~2s) — auto capture
-          if (badge) badge.textContent = 'Capturing...';
-          clearInterval(autoDetectTimer);
-          haptic(60);
-          setTimeout(() => capturePhoto(), 300);
-        }
-      } else {
-        autoDetectCount = 0;
-        if (badge) { badge.classList.remove('show'); }
-        if (bar) bar.classList.remove('detecting');
-      }
-    } catch(e) {}
-  }, 500);
-}
-
-function stopAutoDetect() {
-  if (autoDetectTimer) { clearInterval(autoDetectTimer); autoDetectTimer = null; }
-  const badge = document.getElementById('auto-badge');
-  const bar = document.getElementById('auto-scan-bar');
-  if (badge) badge.classList.remove('show');
-  if (bar) bar.classList.remove('detecting');
-}
-
-
-// ─── BARCODE SCANNER ───
-let barcodeRunning = false;
-let lastBarcode = null;
-let barcodeDebounce = null;
-
-function startBarcode(){
-  if(barcodeRunning) return;
-  const el = document.getElementById('barcode-scanner');
-  if(!el) return;
-
-  barcodeRunning = true;
-  lastBarcode = null;
-
-  Quagga.init({
-    inputStream: {
-      type: 'LiveStream',
-      target: el,
-      constraints: {
-        facingMode: 'environment',
-        width: { ideal: 1280 },
-        height: { ideal: 720 }
-      }
-    },
-    decoder: {
-      readers: ['ean_reader','ean_8_reader','upc_reader','upc_e_reader','code_128_reader']
-    },
-    locate: true,
-    locator: { patchSize: 'medium', halfSample: true }
-  }, function(err){
-    if(err){
-      console.error('Barcode init error:', err);
-      const status = document.getElementById('barcode-status');
-      if(status) status.textContent = 'Camera not available';
-      barcodeRunning = false;
-      return;
-    }
-    Quagga.start();
-
-    // Style the video element Quagga creates
-    const video = el.querySelector('video');
-    if(video){
-      video.style.cssText = 'width:100%;height:260px;object-fit:cover;display:block';
-    }
-    const canvas = el.querySelectorAll('canvas');
-    canvas.forEach(c => { c.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%'; });
-  });
-
-  Quagga.offDetected();
-  Quagga.onDetected(function(result){
-    const code = result.codeResult.code;
-    if(!code || code === lastBarcode) return;
-
-    // Debounce — same code twice in 500ms = confirmed
-    if(barcodeDebounce) clearTimeout(barcodeDebounce);
-    barcodeDebounce = setTimeout(() => {
-      lastBarcode = code;
-      onBarcodeDetected(code);
-    }, 300);
-  });
-
-  // Update status while scanning
-  setTimeout(() => {
-    const status = document.getElementById('barcode-status');
-    if(status && barcodeRunning) status.textContent = 'Scanning...';
-  }, 1000);
-}
-
-function stopBarcode(){
-  if(!barcodeRunning) return;
-  try { Quagga.offDetected(); Quagga.stop(); } catch(e){}
-  barcodeRunning = false;
-  lastBarcode = null;
-  if(barcodeDebounce) clearTimeout(barcodeDebounce);
-}
-
-async function onBarcodeDetected(barcode){
-  haptic([40,30,40]);
-  stopBarcode();
-
-  const box = document.getElementById('barcode-box');
-  const status = document.getElementById('barcode-status');
-  if(box) { box.style.borderColor = 'rgba(80,210,120,0.9)'; box.style.boxShadow = '0 0 20px rgba(80,210,120,0.3)'; }
-  if(status) status.textContent = 'Barcode found: ' + barcode;
-
-  // Trigger scan with barcode
-  document.getElementById('error-msg').classList.remove('show');
-  document.getElementById('results').classList.remove('show');
-  document.getElementById('loading').classList.add('show');
-  document.getElementById('analyse-btn').disabled = true;
-  document.getElementById('analyse-btn-txt').textContent = 'CHECKING...';
-  stepTimer = startSteps('loading-step', scanSteps);
-  const pb = document.getElementById('progress-bar');
-  if(pb){ pb.className='progress-bar running'; }
-  window.scrollTo({top: document.getElementById('loading').offsetTop - 70, behavior: 'smooth'});
-
-  try {
-    const res = await fetch('/api/scan', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({mode: 'barcode', text: barcode})
-    });
-    const parsed = await res.json();
-    if(!res.ok) throw new Error(parsed.error || 'Something went wrong.');
-    if(parsed.error) throw new Error(parsed.error);
-    if(!parsed.ingredients) throw new Error('Could not read results. Please try again.');
-    renderResults(parsed);
-  } catch(err) {
-    document.getElementById('error-msg').textContent = err.message;
-    document.getElementById('error-msg').classList.add('show');
-    // Restart barcode scanner on error
-    setTimeout(() => {
-      if(currentMode === 'barcode') startBarcode();
-    }, 2000);
-  } finally {
-    clearInterval(stepTimer);
-    const pbDone = document.getElementById('progress-bar');
-    if(pbDone){ pbDone.className='progress-bar done'; }
-    setTimeout(()=>{
-      document.getElementById('loading').classList.remove('show');
-      if(pbDone) pbDone.className='progress-bar';
-    }, 200);
-    document.getElementById('analyse-btn').disabled = false;
-    document.getElementById('analyse-btn-txt').textContent = 'CHECK THIS FOOD';
-  }
-}
-
 </script>
 </body>
 </html>
