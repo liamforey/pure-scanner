@@ -56,17 +56,30 @@ Respond ONLY with valid JSON, no markdown, no backticks.
       // Look up real product from Open Food Facts
       let productName = null;
       let ingredientsList = null;
+      let brandName = null;
       try {
-        const offRes = await fetch(`https://world.openfoodfacts.org/api/v0/product/${text}.json`);
+        // Try world database first, then AU specific
+        const offRes = await fetch(`https://world.openfoodfacts.org/api/v2/product/${text}?fields=product_name,product_name_en,ingredients_text,ingredients_text_en,brands,categories`);
         const offData = await offRes.json();
         if (offData.status === 1 && offData.product) {
           const p = offData.product;
           productName = p.product_name || p.product_name_en || null;
           ingredientsList = p.ingredients_text || p.ingredients_text_en || null;
+          brandName = p.brands || null;
+          // Clean up ingredients text
+          if (ingredientsList) {
+            ingredientsList = ingredientsList.replace(/_/g, '').replace(/\[.*?\]/g, '').trim();
+          }
+          // Combine brand + product name
+          if (brandName && productName && !productName.toLowerCase().includes(brandName.toLowerCase().split(',')[0].toLowerCase())) {
+            productName = brandName.split(',')[0].trim() + ' ' + productName;
+          }
         }
       } catch(e) {
         console.error('Open Food Facts error:', e);
       }
+      
+      console.log('Barcode lookup:', text, '-> Product:', productName, 'Ingredients:', ingredientsList ? 'found' : 'not found');
 
       if (productName && ingredientsList) {
         messageContent = `Product: ${productName}\n\nIngredients: ${ingredientsList}\n\nAnalyse these real ingredients. Respond ONLY with valid JSON starting with { and ending with }`;
