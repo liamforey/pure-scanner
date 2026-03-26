@@ -52,7 +52,29 @@ Respond ONLY with valid JSON, no markdown, no backticks.
       messageContent = `Analyse the typical ingredients of: "${text}".`;
     } else if (mode === 'barcode') {
       if (!text) return res.status(400).json({ error: 'Missing barcode' });
-      messageContent = `Barcode number: ${text}\n\nRespond ONLY with valid JSON. No explanation, no preamble, no markdown. Start your response with { and end with }`;
+
+      // Look up real product from Open Food Facts
+      let productName = null;
+      let ingredientsList = null;
+      try {
+        const offRes = await fetch(`https://world.openfoodfacts.org/api/v0/product/${text}.json`);
+        const offData = await offRes.json();
+        if (offData.status === 1 && offData.product) {
+          const p = offData.product;
+          productName = p.product_name || p.product_name_en || null;
+          ingredientsList = p.ingredients_text || p.ingredients_text_en || null;
+        }
+      } catch(e) {
+        console.error('Open Food Facts error:', e);
+      }
+
+      if (productName && ingredientsList) {
+        messageContent = `Product: ${productName}\n\nIngredients: ${ingredientsList}\n\nAnalyse these real ingredients. Respond ONLY with valid JSON starting with { and ending with }`;
+      } else if (productName) {
+        messageContent = `Product: ${productName} (barcode: ${text}). Analyse the typical ingredients of this product. Respond ONLY with valid JSON starting with { and ending with }`;
+      } else {
+        messageContent = `Barcode: ${text}. Identify this food product and analyse its typical ingredients. Respond ONLY with valid JSON starting with { and ending with }`;
+      }
     } else {
       return res.status(400).json({ error: 'Invalid mode' });
     }
