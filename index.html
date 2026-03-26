@@ -689,6 +689,7 @@ function animateScore(elementId, targetScore, isPercent, color, duration){
   const el = document.getElementById(elementId);
   if(!el) return;
   const suffix = isPercent ? '<span style="font-size:28px;opacity:0.35">%</span>' : '<span style="font-size:28px;opacity:0.35">/10</span>';
+  el.innerHTML = "0" + suffix;
   const start = 0;
   const startTime = performance.now();
   // Easing function - fast then slow
@@ -755,6 +756,7 @@ function renderResults(d){
   document.getElementById('results').classList.add('show');
   setTimeout(()=>{
     window.scrollTo({top:document.getElementById('results').offsetTop-70,behavior:'smooth'});
+    const el=document.getElementById('animated-score'); if(el) el.innerHTML='0<span style="font-size:28px;opacity:0.35">/10</span>';
     animateScore('animated-score', d.overallScore, false, scoreColor(d.overallScore), 1200);
   },150);
 }
@@ -856,6 +858,7 @@ function renderReceiptResults(d){
   setTimeout(()=>{
     window.scrollTo({top:document.getElementById('receipt-results').offsetTop-70,behavior:'smooth'});
     const shopColor = d.pureScore>=80?'var(--green)':d.pureScore>=50?'var(--amber)':'var(--red)';
+    const sel=document.getElementById('animated-shop-score'); if(sel) sel.innerHTML='0<span style="font-size:28px;opacity:0.35">%</span>';
     animateScore('animated-shop-score', d.pureScore, true, shopColor, 1400);
   },150);
 }
