@@ -757,7 +757,7 @@ function renderResults(d){
   setTimeout(()=>{
     window.scrollTo({top:document.getElementById('results').offsetTop-70,behavior:'smooth'});
     const el=document.getElementById('animated-score'); if(el) el.innerHTML='0<span style="font-size:28px;opacity:0.35">/10</span>';
-    animateScore('animated-score', d.overallScore, false, scoreColor(d.overallScore), 1200);
+    animateScore('animated-score', d.overallScore, false, scoreColor(d.overallScore), 2000);
   },150);
 }
 
