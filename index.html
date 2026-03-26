@@ -662,6 +662,8 @@ Keep it simple. Honest. Return only valid JSON.`;
     if(!res.ok) throw new Error(data.error?.message||'Something went wrong. Please try again.');
     const raw=data.content.map(b=>b.text||'').join('');
     const parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    if(parsed.error) throw new Error(parsed.error);
+    if(!parsed.ingredients) throw new Error('Could not read results. Please try again.');
     renderResults(parsed);
   } catch(err){
     document.getElementById('error-msg').textContent=err.message;
@@ -756,6 +758,8 @@ Respond ONLY with valid JSON, no markdown.
     if(!res.ok) throw new Error(data.error?.message||'Something went wrong.');
     const raw=data.content.map(b=>b.text||'').join('');
     const parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    if(parsed.error) throw new Error(parsed.error);
+    if(!parsed.products) throw new Error('Could not read results. Please try again.');
     renderReceiptResults(parsed);
   } catch(err){
     document.getElementById('receipt-error-msg').textContent=err.message;
