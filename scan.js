@@ -52,7 +52,7 @@ Respond ONLY with valid JSON, no markdown, no backticks.
       messageContent = `Analyse the typical ingredients of: "${text}".`;
     } else if (mode === 'barcode') {
       if (!text) return res.status(400).json({ error: 'Missing barcode' });
-      messageContent = `A food product has barcode number: ${text}. Identify what product this likely is and analyse its typical ingredients. If you cannot identify the exact product, analyse based on the most common product with this type of barcode format and say so in your summary.`;
+      messageContent = `Barcode: ${text}. Identify this food product and analyse its typical ingredients. Respond ONLY with the JSON format specified - no other text.`;
     } else {
       return res.status(400).json({ error: 'Invalid mode' });
     }
