@@ -178,18 +178,6 @@ input[type=text]::placeholder{color:var(--cream-mute);opacity:0.5}
 .pv-item.fail .pv-text{color:#CC7070}
 .pv-item.warn .pv-text{color:#C8922A}
 
-.five-rule-verdict{display:flex;align-items:center;gap:12px;padding:12px 14px;margin-bottom:1.25rem;border:0.5px solid}
-.five-rule-verdict.pass{background:var(--safe-bg);border-color:var(--safe-bdr)}
-.five-rule-verdict.fail{background:var(--danger-bg);border-color:var(--danger-bdr)}
-.frv-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;flex-shrink:0}
-.five-rule-verdict.pass .frv-num{color:var(--safe)}
-.five-rule-verdict.fail .frv-num{color:var(--danger)}
-.frv-title{font-size:7.5px;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:2px}
-.five-rule-verdict.pass .frv-title{color:#5AAB72}
-.five-rule-verdict.fail .frv-title{color:#CC7070}
-.frv-desc{font-size:9.5px;font-weight:300;letter-spacing:0.04em;line-height:1.55}
-.five-rule-verdict.pass .frv-desc{color:#3A7050}
-.five-rule-verdict.fail .frv-desc{color:#9A4040}
 
 .ing-section-lbl{font-size:7.5px;letter-spacing:0.32em;text-transform:uppercase;color:var(--cream-mute);margin-bottom:10px}
 .ing-list{display:flex;flex-direction:column;gap:3px;margin-bottom:1.75rem}
@@ -575,7 +563,7 @@ input[type=text]::placeholder{color:var(--cream-mute);opacity:0.5}
       <div class="rmap-row now"><div class="rmap-badge badge-now">Now</div><div class="rmap-text">Pure AI Scanner v1 — real-time ingredient analysis, Five Pillars scoring</div><div class="rmap-note">In progress</div></div>
       <div class="rmap-row future"><div class="rmap-badge badge-future">Next</div><div class="rmap-text">Mobile app — barcode scanner, in-store product lookup, Pure-certified ratings</div><div class="rmap-note">Seed funding</div></div>
       <div class="rmap-row future"><div class="rmap-badge badge-future">Future</div><div class="rmap-text">Bittensor Subnet — decentralised nutritional AI miners, $PURE token, TAO</div><div class="rmap-note">Series A</div></div>
-      <div class="rmap-row future"><div class="rmap-badge badge-future">Vision</div><div class="rmap-text">Pure Whole Foods — organic grocery store, &lt;5 ingredient policy, zero toxic ingredients</div><div class="rmap-note">The Dream</div></div>
+      <div class="rmap-row future"><div class="rmap-badge badge-future">Vision</div><div class="rmap-text">Pure Whole Foods — organic grocery store, zero toxic ingredients, real whole foods only</div><div class="rmap-note">The Dream</div></div>
     </div>
   </div>
 </div>
@@ -705,12 +693,6 @@ function renderResults(d){
     </div>`).join('');
 
   const fiveHtml=`
-    <div class="five-rule-verdict ${d.passesFiveRule?'pass':'fail'}">
-      <div class="frv-num">${d.ingredientCount||'?'}</div>
-      <div class="frv-body">
-        <div class="frv-title">${d.passesFiveRule?'Passes the Pure Rule':'Fails the Pure Rule'} — ${d.ingredientCount} ingredient${d.ingredientCount===1?'':'s'}</div>
-        <div class="frv-desc">${d.passesFiveRule?'Five or fewer real ingredients. This is what food should look like.':'Real food doesn\'t need this many ingredients. Complexity is a red flag.'}</div>
-      </div>
     </div>`;
 
   const ings=(d.ingredients||[]).map(i=>`
