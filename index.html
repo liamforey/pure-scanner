@@ -1087,7 +1087,7 @@ function startAutoDetect(video) {
         if (badge) { badge.classList.add('show'); badge.textContent = 'Text detected — hold steady'; }
         if (bar) bar.classList.add('detecting');
         
-        if (autoDetectCount >= 4) {
+        if (autoDetectCount >= 3) {
           // Steady for 4 checks (~2s) — auto capture
           if (badge) badge.textContent = 'Capturing...';
           clearInterval(autoDetectTimer);
