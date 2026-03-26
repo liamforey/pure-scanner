@@ -658,10 +658,8 @@ Keep it simple. Honest. Return only valid JSON.`;
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({mode:currentMode,text:currentMode==='paste'?document.getElementById('paste-input').value.trim():currentMode==='search'?document.getElementById('search-input').value.trim():null,imageBase64:uploadedB64,imageMime:uploadedMime})
     });
-    const data=await res.json();
-    if(!res.ok) throw new Error(data.error?.message||'Something went wrong. Please try again.');
-    const raw=const parsed=data;(b=>b.text||'').join('');
-    const parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    const parsed=await res.json();
+        if(!res.ok) throw new Error(parsed.error||'Request failed');
     if(parsed.error) throw new Error(parsed.error);
     if(!parsed.ingredients) throw new Error('Could not read results. Please try again.');
     renderResults(parsed);
@@ -754,10 +752,8 @@ Respond ONLY with valid JSON, no markdown.
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({mode:receiptMode==='photo'?'receipt_photo':'receipt_text',imageBase64:receiptB64,text:receiptMode==='type'?document.getElementById('receipt-text').value.trim():null})
     });
-    const data=await res.json();
-    if(!res.ok) throw new Error(data.error?.message||'Something went wrong.');
-    const raw=data.content?const parsed=data;(b=>b.text||'').join(''):JSON.stringify(data);
-    const parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    const parsed=await res.json();
+        if(!res.ok) throw new Error(parsed.error||'Request failed');
     if(parsed.error) throw new Error(parsed.error);
     if(!parsed.products) throw new Error('Could not read results. Please try again.');
     renderReceiptResults(parsed);
