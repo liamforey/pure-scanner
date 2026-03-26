@@ -335,6 +335,134 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
   .psc-score{font-size:64px}
 }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js">
+// ─── BARCODE SCANNER ───
+let barcodeRunning = false;
+let lastBarcode = null;
+let barcodeDebounce = null;
+
+function startBarcode(){
+  if(barcodeRunning) return;
+  const el = document.getElementById('barcode-scanner');
+  if(!el) return;
+
+  barcodeRunning = true;
+  lastBarcode = null;
+
+  Quagga.init({
+    inputStream: {
+      type: 'LiveStream',
+      target: el,
+      constraints: {
+        facingMode: 'environment',
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      }
+    },
+    decoder: {
+      readers: ['ean_reader','ean_8_reader','upc_reader','upc_e_reader','code_128_reader']
+    },
+    locate: true,
+    locator: { patchSize: 'medium', halfSample: true }
+  }, function(err){
+    if(err){
+      console.error('Barcode init error:', err);
+      const status = document.getElementById('barcode-status');
+      if(status) status.textContent = 'Camera not available';
+      barcodeRunning = false;
+      return;
+    }
+    Quagga.start();
+
+    // Style the video element Quagga creates
+    const video = el.querySelector('video');
+    if(video){
+      video.style.cssText = 'width:100%;height:260px;object-fit:cover;display:block';
+    }
+    const canvas = el.querySelectorAll('canvas');
+    canvas.forEach(c => { c.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%'; });
+  });
+
+  Quagga.offDetected();
+  Quagga.onDetected(function(result){
+    const code = result.codeResult.code;
+    if(!code || code === lastBarcode) return;
+
+    // Debounce — same code twice in 500ms = confirmed
+    if(barcodeDebounce) clearTimeout(barcodeDebounce);
+    barcodeDebounce = setTimeout(() => {
+      lastBarcode = code;
+      onBarcodeDetected(code);
+    }, 300);
+  });
+
+  // Update status while scanning
+  setTimeout(() => {
+    const status = document.getElementById('barcode-status');
+    if(status && barcodeRunning) status.textContent = 'Scanning...';
+  }, 1000);
+}
+
+function stopBarcode(){
+  if(!barcodeRunning) return;
+  try { Quagga.offDetected(); Quagga.stop(); } catch(e){}
+  barcodeRunning = false;
+  lastBarcode = null;
+  if(barcodeDebounce) clearTimeout(barcodeDebounce);
+}
+
+async function onBarcodeDetected(barcode){
+  haptic([40,30,40]);
+  stopBarcode();
+
+  const box = document.getElementById('barcode-box');
+  const status = document.getElementById('barcode-status');
+  if(box) { box.style.borderColor = 'rgba(80,210,120,0.9)'; box.style.boxShadow = '0 0 20px rgba(80,210,120,0.3)'; }
+  if(status) status.textContent = 'Barcode found: ' + barcode;
+
+  // Trigger scan with barcode
+  document.getElementById('error-msg').classList.remove('show');
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('loading').classList.add('show');
+  document.getElementById('analyse-btn').disabled = true;
+  document.getElementById('analyse-btn-txt').textContent = 'CHECKING...';
+  stepTimer = startSteps('loading-step', scanSteps);
+  const pb = document.getElementById('progress-bar');
+  if(pb){ pb.className='progress-bar running'; }
+  window.scrollTo({top: document.getElementById('loading').offsetTop - 70, behavior: 'smooth'});
+
+  try {
+    const res = await fetch('/api/scan', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({mode: 'barcode', text: barcode})
+    });
+    const parsed = await res.json();
+    if(!res.ok) throw new Error(parsed.error || 'Something went wrong.');
+    if(parsed.error) throw new Error(parsed.error);
+    if(!parsed.ingredients) throw new Error('Could not read results. Please try again.');
+    renderResults(parsed);
+  } catch(err) {
+    document.getElementById('error-msg').textContent = err.message;
+    document.getElementById('error-msg').classList.add('show');
+    // Restart barcode scanner on error
+    setTimeout(() => {
+      if(currentMode === 'barcode') startBarcode();
+    }, 2000);
+  } finally {
+    clearInterval(stepTimer);
+    const pbDone = document.getElementById('progress-bar');
+    if(pbDone){ pbDone.className='progress-bar done'; }
+    setTimeout(()=>{
+      document.getElementById('loading').classList.remove('show');
+      if(pbDone) pbDone.className='progress-bar';
+    }, 200);
+    document.getElementById('analyse-btn').disabled = false;
+    document.getElementById('analyse-btn-txt').textContent = 'CHECK THIS FOOD';
+  }
+}
+
+</script>
 </head>
 <body>
 
@@ -358,9 +486,10 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 
     <div class="scan-card">
       <div class="method-pills">
-        <div class="method-pill active" onclick="setMode('camera',this)"><span class="method-icon">📷</span>Take a photo</div>
+        <div class="method-pill active" onclick="setMode('barcode',this)"><span class="method-icon">▐▌</span>Scan barcode</div>
+        <div class="method-pill" onclick="setMode('camera',this)"><span class="method-icon">📷</span>Take photo</div>
         <div class="method-pill" onclick="setMode('paste',this)"><span class="method-icon">📋</span>Paste label</div>
-        <div class="method-pill" onclick="setMode('search',this)"><span class="method-icon">🔍</span>Search food</div>
+        <div class="method-pill" onclick="setMode('search',this)"><span class="method-icon">🔍</span>Search</div>
       </div>
       <div class="scan-input-area">
 
@@ -560,7 +689,7 @@ function showPage(id,el){
   document.querySelectorAll('.topbar-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   el.classList.add('active');
-  if(id!=='scanner') stopCamera();
+  if(id!=='scanner'){ stopCamera(); stopBarcode(); }
   window.scrollTo(0,0);
 }
 
@@ -1109,6 +1238,133 @@ function stopAutoDetect() {
   const bar = document.getElementById('auto-scan-bar');
   if (badge) badge.classList.remove('show');
   if (bar) bar.classList.remove('detecting');
+}
+
+
+// ─── BARCODE SCANNER ───
+let barcodeRunning = false;
+let lastBarcode = null;
+let barcodeDebounce = null;
+
+function startBarcode(){
+  if(barcodeRunning) return;
+  const el = document.getElementById('barcode-scanner');
+  if(!el) return;
+
+  barcodeRunning = true;
+  lastBarcode = null;
+
+  Quagga.init({
+    inputStream: {
+      type: 'LiveStream',
+      target: el,
+      constraints: {
+        facingMode: 'environment',
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      }
+    },
+    decoder: {
+      readers: ['ean_reader','ean_8_reader','upc_reader','upc_e_reader','code_128_reader']
+    },
+    locate: true,
+    locator: { patchSize: 'medium', halfSample: true }
+  }, function(err){
+    if(err){
+      console.error('Barcode init error:', err);
+      const status = document.getElementById('barcode-status');
+      if(status) status.textContent = 'Camera not available';
+      barcodeRunning = false;
+      return;
+    }
+    Quagga.start();
+
+    // Style the video element Quagga creates
+    const video = el.querySelector('video');
+    if(video){
+      video.style.cssText = 'width:100%;height:260px;object-fit:cover;display:block';
+    }
+    const canvas = el.querySelectorAll('canvas');
+    canvas.forEach(c => { c.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%'; });
+  });
+
+  Quagga.offDetected();
+  Quagga.onDetected(function(result){
+    const code = result.codeResult.code;
+    if(!code || code === lastBarcode) return;
+
+    // Debounce — same code twice in 500ms = confirmed
+    if(barcodeDebounce) clearTimeout(barcodeDebounce);
+    barcodeDebounce = setTimeout(() => {
+      lastBarcode = code;
+      onBarcodeDetected(code);
+    }, 300);
+  });
+
+  // Update status while scanning
+  setTimeout(() => {
+    const status = document.getElementById('barcode-status');
+    if(status && barcodeRunning) status.textContent = 'Scanning...';
+  }, 1000);
+}
+
+function stopBarcode(){
+  if(!barcodeRunning) return;
+  try { Quagga.offDetected(); Quagga.stop(); } catch(e){}
+  barcodeRunning = false;
+  lastBarcode = null;
+  if(barcodeDebounce) clearTimeout(barcodeDebounce);
+}
+
+async function onBarcodeDetected(barcode){
+  haptic([40,30,40]);
+  stopBarcode();
+
+  const box = document.getElementById('barcode-box');
+  const status = document.getElementById('barcode-status');
+  if(box) { box.style.borderColor = 'rgba(80,210,120,0.9)'; box.style.boxShadow = '0 0 20px rgba(80,210,120,0.3)'; }
+  if(status) status.textContent = 'Barcode found: ' + barcode;
+
+  // Trigger scan with barcode
+  document.getElementById('error-msg').classList.remove('show');
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('loading').classList.add('show');
+  document.getElementById('analyse-btn').disabled = true;
+  document.getElementById('analyse-btn-txt').textContent = 'CHECKING...';
+  stepTimer = startSteps('loading-step', scanSteps);
+  const pb = document.getElementById('progress-bar');
+  if(pb){ pb.className='progress-bar running'; }
+  window.scrollTo({top: document.getElementById('loading').offsetTop - 70, behavior: 'smooth'});
+
+  try {
+    const res = await fetch('/api/scan', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({mode: 'barcode', text: barcode})
+    });
+    const parsed = await res.json();
+    if(!res.ok) throw new Error(parsed.error || 'Something went wrong.');
+    if(parsed.error) throw new Error(parsed.error);
+    if(!parsed.ingredients) throw new Error('Could not read results. Please try again.');
+    renderResults(parsed);
+  } catch(err) {
+    document.getElementById('error-msg').textContent = err.message;
+    document.getElementById('error-msg').classList.add('show');
+    // Restart barcode scanner on error
+    setTimeout(() => {
+      if(currentMode === 'barcode') startBarcode();
+    }, 2000);
+  } finally {
+    clearInterval(stepTimer);
+    const pbDone = document.getElementById('progress-bar');
+    if(pbDone){ pbDone.className='progress-bar done'; }
+    setTimeout(()=>{
+      document.getElementById('loading').classList.remove('show');
+      if(pbDone) pbDone.className='progress-bar';
+    }, 200);
+    document.getElementById('analyse-btn').disabled = false;
+    document.getElementById('analyse-btn-txt').textContent = 'CHECK THIS FOOD';
+  }
 }
 
 </script>
