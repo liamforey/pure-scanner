@@ -115,6 +115,59 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 }
 .progress-bar.done{width:100%!important;animation:none;transition:width 0.15s ease}
 
+
+.share-btn-row{display:flex;gap:10px;margin-top:1rem;flex-wrap:wrap}
+.share-btn{
+  flex:1;padding:14px;border:none;border-radius:10px;cursor:pointer;
+  font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;
+  letter-spacing:0.08em;text-transform:uppercase;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all 0.2s;
+}
+.share-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.15)}
+.share-native{background:var(--black);color:var(--cream)}
+.share-ig{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:white}
+.share-x{background:#000;color:white;border:1px solid #333}
+
+/* ─── HISTORY CSS ─── */
+.history-panel{margin-top:2rem}
+.history-title{font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.history-title::after{content:'';flex:1;height:1px;background:var(--cream-dark)}
+.history-list{display:flex;flex-direction:column;gap:6px}
+.history-item{
+  background:white;border-radius:10px;padding:12px 16px;
+  border:1px solid var(--cream-dark);
+  display:flex;align-items:center;gap:12px;
+  cursor:pointer;transition:all 0.2s;
+  box-shadow:0 1px 6px rgba(0,0,0,0.04);
+}
+.history-item:hover{transform:translateX(3px);box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.history-score{
+  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;
+  min-width:36px;text-align:center;
+}
+.history-info{flex:1}
+.history-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:1px}
+.history-verdict{font-size:11px;font-weight:300;color:var(--cream-mute)}
+.history-time{font-size:10px;font-weight:300;color:var(--cream-dark);margin-left:auto;white-space:nowrap}
+.history-clear{font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--cream-mute);background:none;border:none;cursor:pointer;padding:4px 8px;transition:color 0.2s}
+.history-clear:hover{color:var(--red)}
+
+/* ─── AUTO SCAN INDICATOR ─── */
+.auto-scan-bar{
+  position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:rgba(80,210,120,0);transition:background 0.3s;
+}
+.auto-scan-bar.detecting{background:rgba(80,210,120,0.6);animation:detecting-pulse 1s ease-in-out infinite}
+@keyframes detecting-pulse{0%,100%{opacity:0.5}50%{opacity:1}}
+.auto-scan-badge{
+  position:absolute;top:10px;left:10px;
+  background:rgba(0,0,0,0.6);color:rgba(255,255,255,0.8);
+  font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+  padding:5px 10px;border-radius:6px;display:none;
+}
+.auto-scan-badge.show{display:block}
+
 /* ANIMATED SCORE */
 .v-score{font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:400;line-height:1;margin-bottom:4px;transition:color 0.5s}
 .score-counting{display:inline-block;min-width:80px}
@@ -320,10 +373,12 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
                 <div class="corner bl"></div><div class="corner br"></div>
                 <div class="scan-line-el"></div>
                 <div class="scan-hint" id="scan-hint">Point at ingredients list</div>
+            <div class="auto-scan-bar" id="auto-scan-bar"></div>
               </div>
             </div>
             <img id="camera-preview" alt="captured"/>
             <button class="retake-btn-cam" id="retake-btn" onclick="retakePhoto()">Retake</button>
+          <div class="auto-scan-badge" id="auto-badge">Auto-detecting text...</div>
           </div>
           <button class="capture-btn" id="capture-btn" onclick="capturePhoto()">📷 &nbsp;Capture Label</button>
           <div class="or-line">or upload from your photos</div>
@@ -358,6 +413,16 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
     </div>
 
     <div class="results-section" id="results"></div>
+
+    <!-- SCAN HISTORY -->
+    <div id="history-panel" style="display:none" class="history-panel">
+      <div class="history-title">
+        Recent Scans
+        <button class="history-clear" onclick="clearHistory()">Clear</button>
+      </div>
+      <div class="history-list" id="history-list"></div>
+    </div>
+
   </div>
 </div>
 
@@ -521,6 +586,7 @@ async function startCamera(){
   try{
     cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1080}}});
     video.srcObject=cameraStream;
+    video.addEventListener('playing', () => startAutoDetect(video), {once:true});
     setTimeout(()=>{
       const b=document.getElementById('scan-box'), h=document.getElementById('scan-hint');
       if(b) b.classList.add('ready');
@@ -537,6 +603,7 @@ function haptic(pattern){
   if(navigator.vibrate) navigator.vibrate(pattern);
 }
 function capturePhoto(){
+  stopAutoDetect();
   haptic(40);
   const video=document.getElementById('camera-feed');
   const canvas=document.createElement('canvas');
@@ -562,6 +629,7 @@ function capturePhoto(){
 
 function retakePhoto(){
   uploadedB64=null;
+  stopAutoDetect();
   document.getElementById('camera-preview').style.display='none';
   document.getElementById('retake-btn').style.display='none';
   const b=document.getElementById('scan-box'), h=document.getElementById('scan-hint');
@@ -571,6 +639,7 @@ function retakePhoto(){
 }
 
 function stopCamera(){
+  stopAutoDetect();
   if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null;}
 }
 
@@ -769,13 +838,12 @@ function renderResults(d){
     </div>`:''}
     <div class="sec-head">What's in it</div>
     <div class="ing-cards">${ings}</div>
-    <div class="share-strip">
-      <div class="share-txt">Share your result · Tag <strong>@pure.wholefoods</strong></div>
-      <div class="share-links">
-        <a class="share-link" href="https://instagram.com/pure.wholefoods" target="_blank">Instagram</a>
-        <a class="share-link" href="https://x.com/PURE_Scanner" target="_blank">X</a>
-      </div>
+    <div class="share-btn-row">
+      <button class="share-btn share-native" onclick="shareResult('${esc(d.productName||'Food')}',${d.overallScore},'${esc(d.overallVerdict)}')">📤 Share Result</button>
+      <button class="share-btn share-x" onclick="shareToX('${esc(d.productName||'Food')}',${d.overallScore},'${esc(d.overallVerdict)}')">𝕏 Post on X</button>
+      <button class="share-btn share-ig" onclick="shareToIG('${esc(d.productName||'Food')}',${d.overallScore},'${esc(d.overallVerdict)}')">📸 Share to IG</button>
     </div>`;
+  saveToHistory(d.productName||'Scanned Food', d.overallScore, d.overallVerdict, d);
   document.getElementById('results').classList.add('show');
   setTimeout(()=>{
     window.scrollTo({top:document.getElementById('results').offsetTop-70,behavior:'smooth'});
@@ -887,6 +955,162 @@ function renderReceiptResults(d){
 }
 
 window.addEventListener('load',()=>{ setTimeout(startCamera,300); });
+
+// ─── SHARE ───
+function shareResult(productName, score, verdict) {
+  const text = `I just scanned ${productName} on PURE Scanner\n\n${score}/10 — ${verdict}\n\nCheck your food at pure-scanner-int2.vercel.app`;
+  if (navigator.share) {
+    navigator.share({ title: 'PURE Scanner Result', text, url: 'https://pure-scanner-int2.vercel.app' })
+      .catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(text).then(()=>{
+      alert('Result copied to clipboard! Paste it anywhere to share.');
+    });
+  }
+}
+function shareToX(productName, score, verdict) {
+  const text = encodeURIComponent(`Scanned ${productName} on @PURE_Scanner\n\n${score}/10 — ${verdict}\n\nCheck your food 👇`);
+  const url = encodeURIComponent('https://pure-scanner-int2.vercel.app');
+  window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+}
+function shareToIG(productName, score, verdict) {
+  const text = `Scanned ${productName} on PURE Scanner\n${score}/10 — ${verdict}\n\npure-scanner-int2.vercel.app`;
+  navigator.clipboard.writeText(text).then(()=>{
+    alert('Caption copied! Open Instagram and paste it into your story or post.');
+    window.open('instagram://app', '_blank');
+    setTimeout(()=>window.open('https://www.instagram.com', '_blank'), 500);
+  }).catch(()=>{
+    window.open('https://www.instagram.com', '_blank');
+  });
+}
+
+// ─── HISTORY ───
+const MAX_HISTORY = 10;
+function saveToHistory(productName, score, verdict, data) {
+  try {
+    const history = getHistory();
+    const entry = {
+      id: Date.now(),
+      name: productName,
+      score,
+      verdict,
+      time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),
+      date: new Date().toLocaleDateString([], {day:'numeric',month:'short'}),
+      data: JSON.stringify(data)
+    };
+    history.unshift(entry);
+    if (history.length > MAX_HISTORY) history.pop();
+    localStorage.setItem('pure_scan_history', JSON.stringify(history));
+    renderHistory();
+  } catch(e) {}
+}
+function getHistory() {
+  try { return JSON.parse(localStorage.getItem('pure_scan_history') || '[]'); }
+  catch(e) { return []; }
+}
+function clearHistory() {
+  localStorage.removeItem('pure_scan_history');
+  renderHistory();
+}
+function renderHistory() {
+  const history = getHistory();
+  const panel = document.getElementById('history-panel');
+  const list = document.getElementById('history-list');
+  if (!panel || !list) return;
+  if (history.length === 0) { panel.style.display = 'none'; return; }
+  panel.style.display = 'block';
+  list.innerHTML = history.map(h => {
+    const color = h.score >= 7 ? 'var(--green)' : h.score >= 4 ? 'var(--amber)' : 'var(--red)';
+    const emoji = h.score >= 7 ? '✅' : h.score >= 4 ? '⚠️' : '❌';
+    return `<div class="history-item" onclick="replayResult('${h.id}')">
+      <div class="history-score" style="color:${color}">${h.score}</div>
+      <div class="history-info">
+        <div class="history-name">${esc(h.name)}</div>
+        <div class="history-verdict">${emoji} ${esc(h.verdict)}</div>
+      </div>
+      <div class="history-time">${h.date} ${h.time}</div>
+    </div>`;
+  }).join('');
+}
+function replayResult(id) {
+  const entry = getHistory().find(h => h.id == id);
+  if (!entry) return;
+  try {
+    const data = JSON.parse(entry.data);
+    document.getElementById('results').classList.remove('show');
+    setTimeout(() => {
+      renderResults(data);
+      window.scrollTo({top: document.getElementById('results').offsetTop - 70, behavior: 'smooth'});
+    }, 100);
+  } catch(e) {}
+}
+
+// Load history on page load
+window.addEventListener('load', () => {
+  setTimeout(startCamera, 300);
+  renderHistory();
+});
+
+// ─── AUTO-DETECT TEXT IN CAMERA ───
+let autoDetectTimer = null;
+let autoDetectCount = 0;
+
+function startAutoDetect(video) {
+  if (autoDetectTimer) clearInterval(autoDetectTimer);
+  const badge = document.getElementById('auto-badge');
+  const bar = document.getElementById('auto-scan-bar');
+  autoDetectCount = 0;
+  
+  autoDetectTimer = setInterval(() => {
+    if (!cameraStream || video.readyState < 2) return;
+    
+    // Sample the video frame and check for high contrast (text indicator)
+    const canvas = document.createElement('canvas');
+    canvas.width = 80; canvas.height = 60;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, 80, 60);
+    
+    try {
+      const data = ctx.getImageData(0, 0, 80, 60).data;
+      let dark = 0, light = 0;
+      for (let i = 0; i < data.length; i += 16) {
+        const brightness = (data[i] + data[i+1] + data[i+2]) / 3;
+        if (brightness < 80) dark++;
+        else if (brightness > 180) light++;
+      }
+      const total = data.length / 16;
+      const contrast = (dark + light) / total;
+      
+      if (contrast > 0.5) {
+        // High contrast detected — likely text/label
+        autoDetectCount++;
+        if (badge) { badge.classList.add('show'); badge.textContent = 'Text detected — hold steady'; }
+        if (bar) bar.classList.add('detecting');
+        
+        if (autoDetectCount >= 4) {
+          // Steady for 4 checks (~2s) — auto capture
+          if (badge) badge.textContent = 'Capturing...';
+          clearInterval(autoDetectTimer);
+          haptic(60);
+          setTimeout(() => capturePhoto(), 300);
+        }
+      } else {
+        autoDetectCount = 0;
+        if (badge) { badge.classList.remove('show'); }
+        if (bar) bar.classList.remove('detecting');
+      }
+    } catch(e) {}
+  }, 500);
+}
+
+function stopAutoDetect() {
+  if (autoDetectTimer) { clearInterval(autoDetectTimer); autoDetectTimer = null; }
+  const badge = document.getElementById('auto-badge');
+  const bar = document.getElementById('auto-scan-bar');
+  if (badge) badge.classList.remove('show');
+  if (bar) bar.classList.remove('detecting');
+}
+
 </script>
 </body>
 </html>
