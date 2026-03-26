@@ -100,7 +100,12 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .verdict-card.danger{background:var(--red-bg);border-color:var(--red-bdr)}
 .v-emoji{font-size:52px;display:block;margin-bottom:12px}
 .v-product{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream-mute);margin-bottom:6px}
-.v-score{font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:400;line-height:1;margin-bottom:4px}
+
+/* ANIMATED SCORE */
+.v-score{font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:400;line-height:1;margin-bottom:4px;transition:color 0.5s}
+.score-counting{display:inline-block;min-width:80px}
+.psc-score{font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:400;line-height:1;transition:color 0.5s}
+
 .verdict-card.safe .v-score{color:var(--green)}
 .verdict-card.warn .v-score{color:var(--amber)}
 .verdict-card.danger .v-score{color:var(--red)}
@@ -611,6 +616,7 @@ function startSteps(elId,steps){
   return setInterval(()=>{i=(i+1)%steps.length; document.getElementById(elId).textContent=steps[i];},2000);
 }
 
+function scoreColor(s){return s>=7?"var(--green)":s>=4?"var(--amber)":"var(--red)";}
 function scoreClass(s){return s>=7?'safe':s>=4?'warn':'danger'}
 function scoreEmoji(s){return s>=7?'✅':s>=4?'⚠️':'❌'}
 
@@ -678,6 +684,33 @@ Keep it simple. Honest. Return only valid JSON.`;
   }
 }
 
+
+function animateScore(elementId, targetScore, isPercent, color, duration){
+  const el = document.getElementById(elementId);
+  if(!el) return;
+  const suffix = isPercent ? '<span style="font-size:28px;opacity:0.35">%</span>' : '<span style="font-size:28px;opacity:0.35">/10</span>';
+  const start = 0;
+  const startTime = performance.now();
+  // Easing function - fast then slow
+  function easeOut(t){ return 1 - Math.pow(1-t, 3); }
+  function update(currentTime){
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = easeOut(progress);
+    const current = Math.round(start + (targetScore - start) * eased);
+    el.innerHTML = current + suffix;
+    el.style.color = color;
+    if(progress < 1){
+      requestAnimationFrame(update);
+    } else {
+      el.innerHTML = targetScore + suffix;
+      // Final haptic on completion
+      haptic([30,20,60]);
+    }
+  }
+  requestAnimationFrame(update);
+}
+
 function renderResults(d){
   // Haptic feedback based on result
   if(d.overallScore>=7) haptic([50,30,50]); // double pulse = good
@@ -701,7 +734,7 @@ function renderResults(d){
     <div class="verdict-card ${cls}">
       <span class="v-emoji">${scoreEmoji(d.overallScore)}</span>
       <div class="v-product">${esc(d.productName||'Your Food')}</div>
-      <div class="v-score">${d.overallScore}<span style="font-size:28px;opacity:0.35">/10</span></div>
+      <div class="v-score" id="animated-score">0<span style="font-size:28px;opacity:0.35">/10</span></div>
       <div class="v-word">${esc(d.overallVerdict)}</div>
       <div class="v-summary">${esc(d.summary)}</div>
     </div>
@@ -720,7 +753,10 @@ function renderResults(d){
       </div>
     </div>`;
   document.getElementById('results').classList.add('show');
-  setTimeout(()=>window.scrollTo({top:document.getElementById('results').offsetTop-70,behavior:'smooth'}),100);
+  setTimeout(()=>{
+    window.scrollTo({top:document.getElementById('results').offsetTop-70,behavior:'smooth'});
+    animateScore('animated-score', d.overallScore, false, scoreColor(d.overallScore), 1200);
+  },150);
 }
 
 async function runReceiptScan(){
@@ -802,7 +838,7 @@ function renderReceiptResults(d){
     <div class="pure-shop-card ${cls}">
       <span class="psc-emoji">${emoji}</span>
       <div class="psc-label">Your Pure Shop Score</div>
-      <div class="psc-score">${d.pureScore}<span style="font-size:28px;opacity:0.35">%</span></div>
+      <div class="psc-score" id="animated-shop-score">0<span style="font-size:28px;opacity:0.35">%</span></div>
       <div class="psc-verdict">${esc(d.verdict)}</div>
       <div class="psc-summary">${esc(d.summary)}</div>
     </div>
@@ -817,7 +853,11 @@ function renderReceiptResults(d){
       </div>
     </div>`;
   document.getElementById('receipt-results').classList.add('show');
-  setTimeout(()=>window.scrollTo({top:document.getElementById('receipt-results').offsetTop-70,behavior:'smooth'}),100);
+  setTimeout(()=>{
+    window.scrollTo({top:document.getElementById('receipt-results').offsetTop-70,behavior:'smooth'});
+    const shopColor = d.pureScore>=80?'var(--green)':d.pureScore>=50?'var(--amber)':'var(--red)';
+    animateScore('animated-shop-score', d.pureScore, true, shopColor, 1400);
+  },150);
 }
 
 window.addEventListener('load',()=>{ setTimeout(startCamera,300); });
