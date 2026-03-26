@@ -322,10 +322,9 @@ input[type=text]::placeholder{color:var(--cream-mute);opacity:0.5}
   .nav-item.active{border-left:none;border-bottom-color:var(--cream)}
   .nav-pip{display:none}
   .pillars-mini,.founders{display:none}
-  .social-block{padding:0.75rem 1rem;border-top:1px solid var(--black-border)}
-  .social-links{flex-direction:row;flex-wrap:wrap;gap:6px}
-  .soc-handle{display:none}
+  .social-block{display:none}
   .key-btn{display:none}
+  .mobile-comm{display:block!important}
   .scanner-layout{grid-template-columns:1fr}
   .scan-left{padding:1.5rem 1.25rem;border-right:none;border-bottom:1px solid var(--cream-dark)}
   .scan-right{padding:1.5rem 1.25rem;min-height:250px}
@@ -754,5 +753,24 @@ function renderResults(d){
   document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
 }
 </script>
+
+<div class="mobile-comm" style="display:none;background:var(--black);padding:2rem 1.5rem;border-top:1px solid var(--black-border)">
+  <div style="font-size:8px;letter-spacing:0.32em;text-transform:uppercase;color:var(--black-border-light);margin-bottom:1rem">Community</div>
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <a href="https://instagram.com/pure.wholefoods" target="_blank" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:0.5px solid var(--black-border-light);text-decoration:none;transition:all 0.2s">
+      <span style="font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:var(--cream-mute);min-width:52px">Instagram</span>
+      <span style="font-size:11px;font-weight:300;color:var(--cream-dark)">@pure.wholefoods</span>
+    </a>
+    <a href="https://x.com/PURE_Scanner" target="_blank" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:0.5px solid var(--black-border-light);text-decoration:none">
+      <span style="font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:var(--cream-mute);min-width:52px">X</span>
+      <span style="font-size:11px;font-weight:300;color:var(--cream-dark)">@PURE_Scanner</span>
+    </a>
+    <a href="https://discord.gg/nJnhSxYv" target="_blank" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:0.5px solid var(--black-border-light);text-decoration:none">
+      <span style="font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:var(--cream-mute);min-width:52px">Discord</span>
+      <span style="font-size:11px;font-weight:300;color:var(--cream-dark)">discord.gg/nJnhSxYv</span>
+    </a>
+  </div>
+  <div style="margin-top:1.5rem;font-size:9px;font-weight:300;color:var(--black-border-light);letter-spacing:0.08em;text-align:center">PURE · Simple · Real · Transparent</div>
+</div>
 </body>
 </html>
