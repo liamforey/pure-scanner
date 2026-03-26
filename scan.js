@@ -26,7 +26,7 @@ export default async function handler(req, res) {
 The Five Pillars: 01 Pure Provenance (organic, pasture-raised, wild-caught) · 02 Whole Ingredient Integrity (real, recognisable, minimal) · 03 Zero Industrial Processing (no seed oils, no additives) · 04 Traditional Food Craft (fermented, slow-made) · 05 Complete Transparency (full disclosure).
 The Pure Rule: Real food should not need more than 5 ingredients.
 Respond ONLY with valid JSON, no markdown, no backticks.
-{"productName":"string","overallScore":number 1-10,"overallVerdict":"Clean"|"Acceptable"|"Concerning"|"Toxic","ingredientCount":number,"passesFiveRule":boolean,"pillarScores":{"pureProvenance":"pass"|"warn"|"fail","wholeIngredientIntegrity":"pass"|"warn"|"fail","zeroIndustrialProcessing":"pass"|"warn"|"fail","traditionalFoodCraft":"pass"|"warn"|"fail","completeTransparency":"pass"|"warn"|"fail"},"summary":"2-3 sentences honest editorial","ingredients":[{"name":"string","risk":"danger"|"warn"|"safe","tag":"string","detail":"1-2 sentences"}]}`;
+{"productName":"string","overallScore":number 1-10,"overallVerdict":"Clean"|"Acceptable"|"Concerning"|"Toxic","pillarScores":{"pureProvenance":"pass"|"warn"|"fail","wholeIngredientIntegrity":"pass"|"warn"|"fail","zeroIndustrialProcessing":"pass"|"warn"|"fail","traditionalFoodCraft":"pass"|"warn"|"fail","completeTransparency":"pass"|"warn"|"fail"},"summary":"2-3 sentences honest editorial","ingredients":[{"name":"string","risk":"danger"|"warn"|"safe","tag":"string","detail":"1-2 sentences"}]}`;
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
