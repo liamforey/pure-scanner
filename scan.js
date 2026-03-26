@@ -29,7 +29,7 @@ Respond ONLY with valid JSON, no markdown, no backticks.
       const response = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
-        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 2000, system: receiptSystem, messages: [{ role: 'user', content: messageContent }] })
+        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 1200, system: receiptSystem, messages: [{ role: 'user', content: messageContent }] })
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error?.message || 'API error');
@@ -52,12 +52,14 @@ Respond ONLY with valid JSON, no markdown, no backticks.
       messageContent = `Analyse the typical ingredients of: "${text}".`;
     } else if (mode === 'barcode') {
       if (!text) return res.status(400).json({ error: 'Missing barcode' });
-      messageContent = `Barcode: ${text}. Identify this food product and analyse its typical ingredients. Respond ONLY with the JSON format specified - no other text.`;
+      messageContent = `Barcode number: ${text}\n\nRespond ONLY with valid JSON. No explanation, no preamble, no markdown. Start your response with { and end with }`;
     } else {
       return res.status(400).json({ error: 'Invalid mode' });
     }
 
-    const system = `You are PURE — a friendly food safety checker that gives honest plain-English answers. No jargon. Write like you're talking to someone's mum or grandparent.
+    const system = `IMPORTANT: You must respond with ONLY valid JSON. No text before or after. Start with { end with }.
+
+You are PURE — a friendly food safety checker. Plain English, no jargon.
 Respond ONLY with valid JSON, no markdown, no backticks.
 {"productName":"string","overallScore":number 1-10,"overallVerdict":"Safe"|"Okay"|"Be Careful"|"Avoid","summary":"2-3 plain simple sentences. Honest but kind. No technical words.","ingredients":[{"name":"string","risk":"danger"|"warn"|"safe","tag":"Safe|Caution|Avoid|Artificial Colour|Added Sugar|Seed Oil|Preservative|Natural","detail":"One simple sentence in plain English."}]}
 Keep it simple. Return only valid JSON.`;
@@ -65,7 +67,7 @@ Keep it simple. Return only valid JSON.`;
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1500, system, messages: [{ role: 'user', content: messageContent }] })
+      body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 1000, system, messages: [{ role: 'user', content: messageContent }] })
     });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error?.message || 'API error');
