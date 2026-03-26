@@ -756,7 +756,7 @@ Respond ONLY with valid JSON, no markdown.
     });
     const data=await res.json();
     if(!res.ok) throw new Error(data.error?.message||'Something went wrong.');
-    const raw=data.content.map(b=>b.text||'').join('');
+    const raw=data.content?data.content.map(b=>b.text||'').join(''):JSON.stringify(data);
     const parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
     if(parsed.error) throw new Error(parsed.error);
     if(!parsed.products) throw new Error('Could not read results. Please try again.');
