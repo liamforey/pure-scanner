@@ -117,12 +117,12 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .ing-card.warn .ing-card-badge{background:var(--amber-bg);color:var(--amber)}
 .ing-card.safe .ing-card-badge{background:var(--green-bg);color:var(--green)}
 .ing-card-detail{font-size:13px;font-weight:300;color:var(--ink);line-height:1.65}
-.share-btn-row{display:flex;gap:10px;margin-top:1rem;flex-wrap:wrap}
-.share-btn{flex:1;padding:14px;border:none;border-radius:10px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s}
-.share-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.15)}
-.share-native{background:var(--black);color:var(--cream)}
-.share-ig{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:white}
-.share-x{background:#000;color:white;border:1px solid #333}
+
+
+
+
+
+
 .history-panel{margin-top:2rem}
 .history-title{font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:10px}
 .history-title::after{content:'';flex:1;height:1px;background:var(--cream-dark)}
@@ -762,7 +762,7 @@ function handleReceiptUpload(input){
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function scoreColor(s){return s>=7?'var(--green)':s>=4?'var(--amber)':'var(--red)';}
 function scoreClass(s){return s>=7?'safe':s>=4?'warn':'danger'}
-function scoreEmoji(s){return s>=7?'':s>=4?'':'❌'}
+function scoreEmoji(s){return s>=7?'✅':s>=4?'⚠️':'❌'}
 const scanSteps=['Reading ingredients...','Checking what each one is...','Comparing against our standards...','Working out your score...','Almost done...'];
 const receiptSteps=['Reading your receipt...','Looking up each product...','Checking against our standards...','Calculating your shop score...','Finding better options...'];
 function startSteps(elId,steps){
@@ -860,17 +860,12 @@ function renderResults(d){
       <div class="v-summary">${esc(d.summary)}</div>
     </div>
     ${dc||wc?`<div class="count-pills">
-      ${dc?`<div class="count-pill danger"> ${dc} ingredient${dc>1?'s':''} to avoid</div>`:''}
+      ${dc?`<div class="count-pill danger">⚠️ ${dc} ingredient${dc>1?'s':''} to avoid</div>`:''}
       ${wc?`<div class="count-pill warn">⚡ ${wc} to watch out for</div>`:''}
       ${sc?`<div class="count-pill safe">✓ ${sc} safe</div>`:''}
     </div>`:''}
     <div class="sec-head">What's in it</div>
-    <div class="ing-cards">${ings}</div>
-    <div class="share-btn-row">
-      <button class="share-btn share-native" onclick="shareResult('${pn}',${d.overallScore},'${esc(d.overallVerdict)}')">📤 Share</button>
-      <button class="share-btn share-x" onclick="shareToX('${pn}',${d.overallScore},'${esc(d.overallVerdict)}')">𝕏 Post on X</button>
-      <button class="share-btn share-ig" onclick="shareToIG('${pn}',${d.overallScore},'${esc(d.overallVerdict)}')">📸 Instagram</button>
-    </div>`;
+    <div class="ing-cards">${ings}</div>`;
   saveToHistory(d.productName||'Scanned Food',d.overallScore,d.overallVerdict,d);
   document.getElementById('results').classList.add('show');
   setTimeout(()=>{
@@ -928,7 +923,7 @@ function renderReceiptResults(d){
   const total=(d.products||[]).length;
   const products=(d.products||[]).map(p=>`
     <div class="product-card ${p.status}">
-      <div class="pc-icon">${p.status==='pass'?'':p.status==='warn'?'':'❌'}</div>
+      <div class="pc-icon">${p.status==='pass'?'✅':p.status==='warn'?'⚠️':'❌'}</div>
       <div class="pc-info"><div class="pc-name">${esc(p.name)}</div><div class="pc-reason">${esc(p.reason)}</div></div>
       <div class="pc-badge">${esc(p.badge)}</div>
     </div>`).join('');
@@ -945,11 +940,7 @@ function renderReceiptResults(d){
     </div>
     <div class="sec-head">${total} products · ${pass} healthy · ${total-pass} flagged</div>
     <div class="product-cards">${products}</div>
-    ${swaps}
-    <div class="share-btn-row" style="margin-top:1.5rem">
-      <button class="share-btn share-native" onclick="shareResult('My Shop',${d.pureScore},'${esc(d.verdict)}')">📤 Share Score</button>
-      <button class="share-btn share-x" onclick="shareToX('My Shop',${d.pureScore}+'%','${esc(d.verdict)}')">𝕏 Post on X</button>
-    </div>`;
+    ${swaps}`;
   document.getElementById('receipt-results').classList.add('show');
   setTimeout(()=>{
     window.scrollTo({top:document.getElementById('receipt-results').offsetTop-70,behavior:'smooth'});
@@ -1002,7 +993,7 @@ function renderHistory(){
   panel.style.display='block';
   list.innerHTML=history.map(h=>{
     const color=h.score>=7?'var(--green)':h.score>=4?'var(--amber)':'var(--red)';
-    const emoji=h.score>=7?'':h.score>=4?'':'❌';
+    const emoji=h.score>=7?'✅':h.score>=4?'⚠️':'❌';
     return `<div class="history-item" onclick="replayResult(${h.id})">
       <div class="history-score" style="color:${color}">${h.score}</div>
       <div class="history-info"><div class="history-name">${esc(h.name)}</div><div class="history-verdict">${emoji} ${esc(h.verdict)}</div></div>
