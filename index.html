@@ -277,7 +277,6 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
   <nav class="topbar-nav">
     <button class="topbar-btn active" onclick="showPage('scanner',this)">Scanner</button>
     <button class="topbar-btn" onclick="showPage('receipt',this)">My Shop</button>
-    <button class="topbar-btn" onclick="showPage('education',this)">Learn</button>
     <button class="topbar-btn" onclick="showPage('vision',this)">About</button>
   </nav>
 </div>
@@ -409,59 +408,18 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
   </div>
 </div>
 
-<!-- LEARN -->
-<div id="page-education" class="page">
-  <div class="edu-page">
-    <div class="edu-hero-txt">"In a world where ingredients have become increasingly complex and unrecognisable, Pure exists to bring clarity, transparency and a return to simplicity."</div>
-    <div class="edu-sec-title">What Pure stands for — The Five Pillars</div>
-    <div class="pillar-cards">
-      <div class="pillar-card"><div class="pillar-num">01</div><div><div class="pillar-title">Pure Provenance</div><div class="pillar-desc">Where food comes from matters. Organic, pasture-raised, and wild-caught sources only.</div></div></div>
-      <div class="pillar-card"><div class="pillar-num">02</div><div><div class="pillar-title">Whole Ingredient Integrity</div><div class="pillar-desc">Every ingredient should be real and recognisable. If you can't picture it growing, question it.</div></div></div>
-      <div class="pillar-card"><div class="pillar-num">03</div><div><div class="pillar-title">Zero Industrial Processing</div><div class="pillar-desc">No seed oils, no artificial additives, no ultra-processed ingredients. Full stop.</div></div></div>
-      <div class="pillar-card"><div class="pillar-num">04</div><div><div class="pillar-title">Traditional Food Craft</div><div class="pillar-desc">Methods that have nourished humans for thousands of years — fermented, slow-made, time-honoured.</div></div></div>
-      <div class="pillar-card"><div class="pillar-num">05</div><div><div class="pillar-title">Complete Transparency</div><div class="pillar-desc">Full disclosure. No misleading claims. No hidden ingredients. What you see is what you get.</div></div></div>
-    </div>
-    <div class="edu-sec-title">Ingredients to avoid</div>
-    <div class="edu-cards-grid">
-      <div class="edu-card"><div class="edu-risk risk-high">High Risk</div><div class="edu-card-name">High Fructose Corn Syrup</div><div class="edu-card-aka">Also: HFCS, Corn Syrup, Maize Syrup</div><div class="edu-card-desc">Processed sugar that goes straight to your liver. Your body can't tell when it's full — so you keep eating.</div><div class="edu-card-found">In: Soft drinks, cereals, bread, condiments</div></div>
-      <div class="edu-card"><div class="edu-risk risk-high">High Risk</div><div class="edu-card-name">Red 40, Yellow 5 &amp; 6</div><div class="edu-card-aka">Also: Allura Red, Tartrazine, Sunset Yellow</div><div class="edu-card-desc">Made from petroleum. Linked to hyperactivity in children. Banned in Europe but still used in Australia and the US.</div><div class="edu-card-found">In: Lollies, sports drinks, cereal</div></div>
-      <div class="edu-card"><div class="edu-risk risk-med">Moderate</div><div class="edu-card-name">Maltodextrin</div><div class="edu-card-aka">Also: Modified Starch, Corn Maltodextrin</div><div class="edu-card-desc">A processed starch that spikes blood sugar even faster than regular sugar. Damages gut bacteria.</div><div class="edu-card-found">In: Energy gels, protein powder, sauces</div></div>
-      <div class="edu-card"><div class="edu-risk risk-high">High Risk</div><div class="edu-card-name">BHA &amp; BHT</div><div class="edu-card-aka">Also: Butylated Hydroxyanisole, Hydroxytoluene</div><div class="edu-card-desc">Synthetic preservatives. Classified as a possible carcinogen. Disrupts hormones.</div><div class="edu-card-found">In: Chips, cereal, chewing gum</div></div>
-      <div class="edu-card"><div class="edu-risk risk-med">Moderate</div><div class="edu-card-name">Aspartame</div><div class="edu-card-aka">Also: E951, NutraSweet, Equal</div><div class="edu-card-desc">Classified as "possibly cancer-causing" by the WHO in 2023. Despite zero calories, it can make you hungrier.</div><div class="edu-card-found">In: Diet drinks, sugar-free gum, protein bars</div></div>
-      <div class="edu-card"><div class="edu-risk risk-med">Moderate</div><div class="edu-card-name">Sodium Benzoate</div><div class="edu-card-aka">Also: E211, Benzoic Acid</div><div class="edu-card-desc">Reacts with Vitamin C to create benzene — a known carcinogen. Often found in vitamin-fortified drinks at the same time.</div><div class="edu-card-found">In: Juices, dressings, energy drinks</div></div>
-    </div>
-    <div class="edu-sec-title">Seed oils — what to avoid and what to use instead</div>
-    <div class="oil-grid">
-      <div class="oil-card">
-        <div class="oil-label oil-bad-lbl">Avoid these</div>
-        <div class="oil-name">Canola Oil</div><div class="oil-why">Creates toxic compounds when heated. Usually genetically modified.</div>
-        <div class="oil-name">Soybean Oil</div><div class="oil-why">In almost every processed food. Causes inflammation and disrupts hormones.</div>
-        <div class="oil-name">Sunflower Oil</div><div class="oil-why">Breaks down under heat and creates harmful compounds.</div>
-        <div class="oil-name">Cottonseed Oil</div><div class="oil-why">A byproduct of the cotton industry — not a food crop.</div>
-      </div>
-      <div class="oil-card">
-        <div class="oil-label oil-good-lbl">Use these instead</div>
-        <div class="oil-name">Extra Virgin Olive Oil</div><div class="oil-why">Rich in healthy fats. Linked to heart health and longer life.</div>
-        <div class="oil-name">Butter &amp; Ghee</div><div class="oil-why">Stable at high heat. Contains natural vitamins. How humans have cooked for centuries.</div>
-        <div class="oil-name">Coconut Oil</div><div class="oil-why">Very stable. Converts quickly to energy. Natural antimicrobial properties.</div>
-        <div class="oil-name">Avocado Oil</div><div class="oil-why">Great for cooking at high heat. Rich in healthy fats.</div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ABOUT -->
 <div id="page-vision" class="page">
   <div class="about-page">
     <div class="about-headline">A devotion of knowledge, passion and personal experience — bringing food back to its simplest form.</div>
     <div class="about-body">Pure was created to simplify the way we see food and reconnect with what's real. Two founders. Two lanes. One mission.<br><br>Our goal is to be the easiest food intelligence tool in the world — so easy that anyone can use it, regardless of how much they know about food or technology. Real people deserve real answers about what they're eating.</div>
-    <div class="edu-sec-title">Our Vision — Pure Whole Foods Store</div>
+    <div class="edu-sec-title">The Five Pillars</div>
     <div class="vision-cards">
-      <div class="vision-card"><div class="vision-card-num">01</div><div class="vision-card-title">Zero Seed Oils</div><div class="vision-card-text">Canola, soybean, sunflower, corn, cottonseed — banned from every product on the shelf.</div></div>
-      <div class="vision-card"><div class="vision-card-num">02</div><div class="vision-card-title">Organic &amp; Pasture-Raised</div><div class="vision-card-text">From farms that prioritise soil health, animal welfare, and traditional methods.</div></div>
-      <div class="vision-card"><div class="vision-card-num">03</div><div class="vision-card-title">No Additives. Full Stop.</div><div class="vision-card-text">No artificial colours, flavours, preservatives, or emulsifiers. Preserved naturally.</div></div>
-      <div class="vision-card"><div class="vision-card-num">04</div><div class="vision-card-title">Radical Transparency</div><div class="vision-card-text">Every product shows its farm source and how it was made. No misleading claims.</div></div>
-      <div class="vision-card" style="grid-column:1/-1"><div class="vision-card-num">05</div><div class="vision-card-title">Education Built In</div><div class="vision-card-text">Education at every shelf — why we chose each product and what makes it genuinely different.</div></div>
+      <div class="vision-card"><div class="vision-card-num">01</div><div class="vision-card-title">Pure Provenance</div><div class="vision-card-text">Where food comes from matters. Organic, pasture-raised, and wild-caught sources only.</div></div>
+      <div class="vision-card"><div class="vision-card-num">02</div><div class="vision-card-title">Whole Ingredient Integrity</div><div class="vision-card-text">Every ingredient should be real and recognisable. If you can't picture it growing, question it.</div></div>
+      <div class="vision-card"><div class="vision-card-num">03</div><div class="vision-card-title">Zero Industrial Processing</div><div class="vision-card-text">No seed oils, no artificial additives, no ultra-processed ingredients. Full stop.</div></div>
+      <div class="vision-card"><div class="vision-card-num">04</div><div class="vision-card-title">Traditional Food Craft</div><div class="vision-card-text">Methods that have nourished humans for thousands of years — fermented, slow-made, time-honoured.</div></div>
+      <div class="vision-card" style="grid-column:1/-1"><div class="vision-card-num">05</div><div class="vision-card-title">Complete Transparency</div><div class="vision-card-text">Full disclosure. No misleading claims. No hidden ingredients. What you see is what you get.</div></div>
     </div>
     <div class="edu-sec-title">Founders</div>
     <div class="founders-grid">
