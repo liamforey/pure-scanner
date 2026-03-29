@@ -762,7 +762,7 @@ function handleReceiptUpload(input){
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function scoreColor(s){return s>=7?'var(--green)':s>=4?'var(--amber)':'var(--red)';}
 function scoreClass(s){return s>=7?'safe':s>=4?'warn':'danger'}
-function scoreEmoji(s){return s>=7?'✅':s>=4?'⚠️':'❌'}
+function scoreEmoji(s){return s>=7?'':s>=4?'':'❌'}
 const scanSteps=['Reading ingredients...','Checking what each one is...','Comparing against our standards...','Working out your score...','Almost done...'];
 const receiptSteps=['Reading your receipt...','Looking up each product...','Checking against our standards...','Calculating your shop score...','Finding better options...'];
 function startSteps(elId,steps){
@@ -860,7 +860,7 @@ function renderResults(d){
       <div class="v-summary">${esc(d.summary)}</div>
     </div>
     ${dc||wc?`<div class="count-pills">
-      ${dc?`<div class="count-pill danger">⚠️ ${dc} ingredient${dc>1?'s':''} to avoid</div>`:''}
+      ${dc?`<div class="count-pill danger"> ${dc} ingredient${dc>1?'s':''} to avoid</div>`:''}
       ${wc?`<div class="count-pill warn">⚡ ${wc} to watch out for</div>`:''}
       ${sc?`<div class="count-pill safe">✓ ${sc} safe</div>`:''}
     </div>`:''}
@@ -928,7 +928,7 @@ function renderReceiptResults(d){
   const total=(d.products||[]).length;
   const products=(d.products||[]).map(p=>`
     <div class="product-card ${p.status}">
-      <div class="pc-icon">${p.status==='pass'?'✅':p.status==='warn'?'⚠️':'❌'}</div>
+      <div class="pc-icon">${p.status==='pass'?'':p.status==='warn'?'':'❌'}</div>
       <div class="pc-info"><div class="pc-name">${esc(p.name)}</div><div class="pc-reason">${esc(p.reason)}</div></div>
       <div class="pc-badge">${esc(p.badge)}</div>
     </div>`).join('');
@@ -1002,7 +1002,7 @@ function renderHistory(){
   panel.style.display='block';
   list.innerHTML=history.map(h=>{
     const color=h.score>=7?'var(--green)':h.score>=4?'var(--amber)':'var(--red)';
-    const emoji=h.score>=7?'✅':h.score>=4?'⚠️':'❌';
+    const emoji=h.score>=7?'':h.score>=4?'':'❌';
     return `<div class="history-item" onclick="replayResult(${h.id})">
       <div class="history-score" style="color:${color}">${h.score}</div>
       <div class="history-info"><div class="history-name">${esc(h.name)}</div><div class="history-verdict">${emoji} ${esc(h.verdict)}</div></div>
