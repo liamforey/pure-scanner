@@ -288,150 +288,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
       <div class="scanner-title" id="scanner-title">SCAN BARCODE</div>
       <div class="scanner-subtitle" id="scanner-subtitle">Point your camera at any barcode to get started</div>
     </div>
-    <div class="scan-card">
-      <div class="method-pills">
-        <div class="method-pill active" onclick="setMode('barcode',this)"><span class="method-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="2" height="16"/><rect x="6" y="4" width="1" height="16"/><rect x="9" y="4" width="2" height="16"/><rect x="13" y="4" width="1" height="16"/><rect x="16" y="4" width="2" height="16"/><rect x="20" y="4" width="2" height="16"/></svg></span>Barcode</div>
-        <div class="method-pill" onclick="setMode('camera',this)"><span class="method-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>Photo</div>
-        <div class="method-pill" onclick="setMode('paste',this)"><span class="method-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg></span>Paste</div>
-        <div class="method-pill" onclick="setMode('search',this)"><span class="method-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>Search</div>
-      </div>
-      <div class="scan-input-area">
 
-        <!-- BARCODE MODE -->
-        <div id="mode-barcode">
-          <div class="barcode-container">
-            <div id="barcode-scanner"></div>
-            <div class="barcode-overlay">
-              <div class="barcode-box" id="barcode-box">
-                <div class="corner tl"></div><div class="corner tr"></div>
-                <div class="corner bl"></div><div class="corner br"></div>
-                <div class="barcode-laser"></div>
-              </div>
-            </div>
-            <div id="barcode-status">Point at barcode</div>
-          </div>
-          <div class="helper-txt">Point at the barcode on any food product — it will scan automatically</div>
-        </div>
-
-        <!-- CAMERA MODE -->
-        <div id="mode-camera" style="display:none">
-          <div class="camera-container" id="camera-wrap">
-            <video id="camera-feed" autoplay playsinline muted></video>
-            <div class="scan-overlay" id="scan-overlay">
-              <div class="scan-box" id="scan-box">
-                <div class="corner tl"></div><div class="corner tr"></div>
-                <div class="corner bl"></div><div class="corner br"></div>
-                <div class="scan-line-el"></div>
-                <div class="scan-hint" id="scan-hint">Point at ingredients list</div>
-                <div class="auto-scan-bar" id="auto-scan-bar"></div>
-              </div>
-            </div>
-            <img id="camera-preview" alt="captured"/>
-            <button class="retake-btn-cam" id="retake-btn" onclick="retakePhoto()">Retake</button>
-            <div class="auto-scan-badge" id="auto-badge">Auto-detecting text...</div>
-          </div>
-          <button class="capture-btn" id="capture-btn" onclick="capturePhoto()">CAPTURE LABEL</button>
-          <div class="or-line">or upload from your photos</div>
-          <div class="upload-btn-simple" onclick="document.getElementById('file-input').click()">Choose from Photo Library</div>
-          <input type="file" id="file-input" accept="image/*" onchange="handleUpload(this)"/>
-          <div class="helper-txt">Point your camera at the ingredients list on the back of the packet</div>
-        </div>
-
-        <!-- PASTE MODE -->
-        <div id="mode-paste" style="display:none">
-          <textarea class="big-textarea" id="paste-input" placeholder="Copy and paste the ingredients list here...&#10;&#10;e.g. Water, Maltodextrin, Fructose, Salt..."></textarea>
-          <div class="helper-txt">Find the ingredients list on the back of the packet and paste it here</div>
-        </div>
-
-        <!-- SEARCH MODE -->
-        <div id="mode-search" style="display:none">
-          <input type="text" class="big-input" id="search-input" placeholder="e.g. Weet-Bix, Heinz Tomato Sauce, Vegemite..."/>
-          <div class="helper-txt">Type the name of the food and we'll look up what's in it</div>
-        </div>
-
-      </div>
-    </div>
-    <div class="error-msg" id="error-msg"></div>
-    <button class="analyse-btn" id="analyse-btn" onclick="runScan()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <span id="analyse-btn-txt">CHECK THIS FOOD</span>
-    </button>
-    <div class="loading-screen" id="loading">
-      <div class="loading-spinner"></div>
-      <div class="loading-title">Checking your food...</div>
-      <div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
-      <div class="loading-step" id="loading-step"></div>
-    </div>
-    <div class="results-section" id="results"></div>
-    <div id="history-panel" style="display:none" class="history-panel">
-      <div class="history-title">Recent Scans <button class="history-clear" onclick="clearHistory()">Clear</button></div>
-      <div class="history-list" id="history-list"></div>
-    </div>
-  </div>
-</div>
-
-<!-- MY SHOP -->
-<div id="page-receipt" class="page">
-  <div class="receipt-page">
-    <div class="receipt-hero">
-      <div class="receipt-title">How healthy is my shop?</div>
-      <div class="receipt-sub">Upload your receipt or type what you bought — get a health score for your whole shop.</div>
-    </div>
-    <div class="receipt-card">
-      <div class="receipt-tabs">
-        <button class="receipt-tab active" onclick="setReceiptMode('photo',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Photo of receipt</button>
-        <button class="receipt-tab" onclick="setReceiptMode('type',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:inline;vertical-align:middle;margin-right:6px"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg>Type products</button>
-      </div>
-      <div class="receipt-input-area">
-        <div id="receipt-mode-photo">
-          <div class="upload-btn-simple" style="margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px" onclick="document.getElementById('receipt-file').click()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Upload receipt photo</div>
-          <img id="receipt-preview" alt="" style="display:none;max-width:100%;border-radius:10px;margin-bottom:10px"/>
-          <input type="file" id="receipt-file" accept="image/*" onchange="handleReceiptUpload(this)" style="display:none"/>
-          <div class="helper-txt">Make sure all product names are clearly visible in the photo</div>
-        </div>
-        <div id="receipt-mode-type" style="display:none">
-          <textarea class="big-textarea" id="receipt-text" placeholder="Type each product on a new line:&#10;&#10;Weet-Bix&#10;Anchor Butter&#10;Heinz Tomato Sauce&#10;Coca-Cola&#10;Sourdough Bread"></textarea>
-        </div>
-      </div>
-    </div>
-    <div class="error-msg" id="receipt-error-msg"></div>
-    <button class="receipt-analyse-btn" id="receipt-btn" onclick="runReceiptScan()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-      <span id="receipt-btn-txt">CHECK MY SHOP</span>
-    </button>
-    <div class="loading-screen" id="receipt-loading">
-      <div class="loading-spinner"></div>
-      <div class="loading-title">Checking your shop...</div>
-      <div class="loading-step" id="receipt-loading-step"></div>
-    </div>
-    <div class="results-section" id="receipt-results"></div>
-  </div>
-</div>
-
-<!-- ABOUT -->
-<div id="page-vision" class="page">
-  <div class="about-page">
-    <div class="about-headline">A devotion of knowledge, passion and personal experience — bringing food back to its simplest form.</div>
-    <div class="about-body">Pure was created to simplify the way we see food and reconnect with what's real. Two founders. Two lanes. One mission.<br><br>Our goal is to be the easiest food intelligence tool in the world — so easy that anyone can use it, regardless of how much they know about food or technology. Real people deserve real answers about what they're eating.</div>
-    <div class="edu-sec-title">The Five Pillars</div>
-    <div class="vision-cards">
-      <div class="vision-card"><div class="vision-card-num">01</div><div class="vision-card-title">Pure Provenance</div><div class="vision-card-text">Where food comes from matters. Organic, pasture-raised, and wild-caught sources only.</div></div>
-      <div class="vision-card"><div class="vision-card-num">02</div><div class="vision-card-title">Whole Ingredient Integrity</div><div class="vision-card-text">Every ingredient should be real and recognisable. If you can't picture it growing, question it.</div></div>
-      <div class="vision-card"><div class="vision-card-num">03</div><div class="vision-card-title">Zero Industrial Processing</div><div class="vision-card-text">No seed oils, no artificial additives, no ultra-processed ingredients. Full stop.</div></div>
-      <div class="vision-card"><div class="vision-card-num">04</div><div class="vision-card-title">Traditional Food Craft</div><div class="vision-card-text">Methods that have nourished humans for thousands of years — fermented, slow-made, time-honoured.</div></div>
-      <div class="vision-card" style="grid-column:1/-1"><div class="vision-card-num">05</div><div class="vision-card-title">Complete Transparency</div><div class="vision-card-text">Full disclosure. No misleading claims. No hidden ingredients. What you see is what you get.</div></div>
-    </div>
-      <div class="founder-card"><div class="founder-role">Bittensor AI · X · Discord · Melbourne</div><div class="founder-name">PURE Scanner</div><div class="founder-handle">@PURE_Scanner · discord.gg/nJnhSxYv</div><div class="founder-desc">Building the world's most accessible food intelligence tool on Bittensor — for normal people, not just crypto or health experts.</div></div>
-    </div><div class="rm-text">@PURE_Scanner on X — Bittensor AI scanner</div><div class="rm-note">Live</div></div><div class="rm-text">Discord — #toxin-talk, #scanner-demos, #tao-funding</div><div class="rm-note">Live</div></div><div class="rm-text">Pure AI Scanner v1 — barcode scanner, ingredient analysis, receipt scanner</div><div class="rm-note">In progress</div></div><div class="rm-text">Mobile app — native barcode scanning, in-store lookup</div><div class="rm-note">Seed funding</div></div><div class="rm-text">Bittensor Subnet — decentralised nutritional AI + $PURE token</div><div class="rm-note">Series A</div></div><div class="rm-text">Pure Whole Foods — organic grocery store, zero toxic ingredients</div><div class="rm-note">The Dream</div></div>
-    </div>
-    <div class="community-footer">
-      <div class="comm-title">Join the Community</div>
-      <div class="comm-links">
-        <a class="comm-link" href="https://instagram.com/pure.wholefoods" target="_blank"><span class="comm-platform">Instagram</span><span class="comm-handle">@pure.wholefoods</span><span class="comm-dot"></span></a>
-        <a class="comm-link" href="https://x.com/PURE_Scanner" target="_blank"><span class="comm-platform">X</span><span class="comm-handle">@PURE_Scanner</span><span class="comm-dot"></span></a>
-        <a class="comm-link" href="https://discord.gg/nJnhSxYv" target="_blank"><span class="comm-platform">Discord</span><span class="comm-handle">discord.gg/nJnhSxYv</span><span class="comm-dot"></span></a>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -897,8 +754,6 @@ function renderReceiptResults(d){
 
 // SHARE
 function shareResult(productName,score,verdict){
-  const text=`I just scanned ${productName} on PURE Scanner\n\n${score}/10 — ${verdict}\n\nCheck your food at pure-scanner-int2.vercel.app`;
-  if(navigator.share) navigator.share({title:'PURE Scanner Result',text,url:'https://pure-scanner-int2.vercel.app'}).catch(()=>{});
   else navigator.clipboard.writeText(text).then(()=>alert('Result copied! Paste it anywhere to share.'));
 }
 function shareToX(productName,score,verdict){
@@ -906,7 +761,6 @@ function shareToX(productName,score,verdict){
   window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent('https://pure-scanner-int2.vercel.app')}`, '_blank');
 }
 function shareToIG(productName,score,verdict){
-  const text=`Scanned ${productName} on PURE Scanner\n${score}/10 — ${verdict}\n\npure-scanner-int2.vercel.app`;
   navigator.clipboard.writeText(text).then(()=>{
     alert('Caption copied! Open Instagram and paste into your story or post.');
     window.open('https://www.instagram.com','_blank');
@@ -966,5 +820,32 @@ window.addEventListener('load',()=>{
   renderHistory();
 });
 </script>
+
+<!-- ABOUT -->
+<div id="page-vision" class="page">
+  <div class="about-page">
+    <div class="about-headline">A DEVOTION OF KNOWLEDGE, PASSION AND PERSONAL EXPERIENCE — BRINGING FOOD BACK TO ITS SIMPLEST FORM.</div>
+    <div class="about-body">Pure was created to simplify the way we see food and reconnect with what's real. Two founders. Two lanes. One mission.<br><br>Our goal is to be the easiest food intelligence tool in the world — so easy that anyone can use it, regardless of how much they know about food or technology.</div>
+
+    <div class="edu-sec-title">The Five Pillars</div>
+    <div class="vision-cards">
+      <div class="vision-card"><div class="vision-card-num">01</div><div class="vision-card-title">Pure Provenance</div><div class="vision-card-text">Where food comes from matters. Organic, pasture-raised, and wild-caught sources only.</div></div>
+      <div class="vision-card"><div class="vision-card-num">02</div><div class="vision-card-title">Whole Ingredient Integrity</div><div class="vision-card-text">Every ingredient should be real and recognisable. If you cannot picture it growing, question it.</div></div>
+      <div class="vision-card"><div class="vision-card-num">03</div><div class="vision-card-title">Zero Industrial Processing</div><div class="vision-card-text">No seed oils, no artificial additives, no ultra-processed ingredients. Full stop.</div></div>
+      <div class="vision-card"><div class="vision-card-num">04</div><div class="vision-card-title">Traditional Food Craft</div><div class="vision-card-text">Methods that have nourished humans for thousands of years — fermented, slow-made, time-honoured.</div></div>
+      <div class="vision-card" style="grid-column:1/-1"><div class="vision-card-num">05</div><div class="vision-card-title">Complete Transparency</div><div class="vision-card-text">Full disclosure. No misleading claims. No hidden ingredients. What you see is what you get.</div></div>
+    </div>
+
+    <div class="community-footer">
+      <div class="comm-title">Join the Community</div>
+      <div class="comm-links">
+        <a class="comm-link" href="https://instagram.com/pure.wholefoods" target="_blank"><span class="comm-platform">Instagram</span><span class="comm-handle">@pure.wholefoods</span><span class="comm-dot"></span></a>
+        <a class="comm-link" href="https://x.com/PURE_Scanner" target="_blank"><span class="comm-platform">X</span><span class="comm-handle">@PURE_Scanner</span><span class="comm-dot"></span></a>
+        <a class="comm-link" href="https://discord.gg/nJnhSxYv" target="_blank"><span class="comm-platform">Discord</span><span class="comm-handle">discord.gg/nJnhSxYv</span><span class="comm-dot"></span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
