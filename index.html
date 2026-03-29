@@ -347,7 +347,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
         <!-- SEARCH MODE -->
         <div id="mode-search" style="display:none">
           <input type="text" class="big-input" id="search-input" placeholder="e.g. Weet-Bix, Heinz Tomato Sauce, Vegemite..."/>
-          <div class="helper-txt">Type the name of the food and we'll look up what's in it</div>
+          <div class="helper-txt">Type the name of the food and we'll look up whats in it</div>
         </div>
 
       </div>
@@ -452,7 +452,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 <div id="page-vision" class="page">
   <div class="about-page">
     <div class="about-headline">A devotion of knowledge, passion and personal experience — bringing food back to its simplest form.</div>
-    <div class="about-body">Pure was created to simplify the way we see food and reconnect with what's real. Two founders. Two lanes. One mission.<br><br>Our goal is to be the easiest food intelligence tool in the world — so easy that anyone can use it, regardless of how much they know about food or technology. Real people deserve real answers about what they're eating.</div>
+    <div class="about-body">Pure was created to simplify the way we see food and reconnect with whats real. Two founders. Two lanes. One mission.<br><br>Our goal is to be the easiest food intelligence tool in the world — so easy that anyone can use it, regardless of how much they know about food or technology. Real people deserve real answers about what they're eating.</div>
     <div class="edu-sec-title">Our Vision — Pure Whole Foods Store</div>
     <div class="vision-cards">
       <div class="vision-card"><div class="vision-card-num">01</div><div class="vision-card-title">Zero Seed Oils</div><div class="vision-card-text">Canola, soybean, sunflower, corn, cottonseed — banned from every product on the shelf.</div></div>
@@ -509,7 +509,7 @@ const modeTitles={
   barcode:['SCAN BARCODE','Point your camera at any barcode to get started'],
   camera:['SCAN IMAGE','Point your camera at the ingredients list'],
   paste:['PASTE LABEL','Copy and paste the ingredients list from the packet'],
-  search:['SEARCH FOOD','Type any food name to check what's in it']
+  search:['SEARCH FOOD','Type any food name to check whats in it']
 };
 function setMode(mode,el){
   stopCamera(); stopBarcode();
@@ -859,7 +859,7 @@ function renderResults(d){
       ${wc?`<div class="count-pill warn">⚡ ${wc} to watch out for</div>`:''}
       ${sc?`<div class="count-pill safe">✓ ${sc} safe</div>`:''}
     </div>`:''}
-    <div class="sec-head">What's in it</div>
+    <div class="sec-head">Whats in it</div>
     <div class="ing-cards">${ings}</div>
     <div class="share-btn-row">
       <button class="share-btn share-native" onclick="shareResult('${pn}',${d.overallScore},'${esc(d.overallVerdict)}')">📤 Share</button>
