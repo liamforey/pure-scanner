@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <title>PURE — Food Intelligence Scanner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -17,6 +17,8 @@
 }
 html{font-size:16px;-webkit-font-smoothing:antialiased}
 body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh}
+
+/* TOP BAR */
 .topbar{background:var(--black);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .topbar-logo{font-family:'Outfit',sans-serif;font-size:20px;font-weight:300;letter-spacing:0.45em;color:var(--cream);padding-left:0.45em}
 .topbar-nav{display:flex;gap:4px}
@@ -25,10 +27,13 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .topbar-btn:hover:not(.active){color:rgba(243,237,227,0.75)}
 .page{display:none;min-height:calc(100vh - 56px)}
 .page.active{display:block}
+
+/* SCANNER PAGE */
 .scanner-page{max-width:640px;margin:0 auto;padding:2rem 1.25rem 4rem}
 .scanner-hero{text-align:center;margin-bottom:2rem}
 .scanner-title{font-family:'Outfit',sans-serif;font-size:26px;font-weight:300;letter-spacing:0.32em;color:var(--ink);line-height:1.2;margin-bottom:8px;text-transform:uppercase}
 .scanner-subtitle{font-size:11px;font-weight:300;color:var(--cream-mute);line-height:1.6;letter-spacing:0.12em}
+
 .scan-card{background:white;border:1px solid var(--cream-dark);border-radius:14px;overflow:hidden;margin-bottom:1.25rem;box-shadow:0 2px 24px rgba(0,0,0,0.07)}
 .method-pills{display:flex;gap:6px;padding:1rem}
 .method-pill{flex:1;padding:10px 4px;text-align:center;font-family:'Outfit',sans-serif;font-size:9px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;border:2px solid var(--cream-dark);border-radius:10px;cursor:pointer;background:var(--cream);color:var(--cream-mute);transition:all 0.2s}
@@ -36,12 +41,15 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .method-pill:hover:not(.active){border-color:var(--ink);color:var(--ink)}
 .method-icon{display:flex;align-items:center;justify-content:center;margin-bottom:4px;height:22px}
 .scan-input-area{padding:0 1.25rem 1.25rem}
+
 .big-textarea{width:100%;background:var(--cream);border:2px solid var(--cream-dark);border-radius:10px;color:var(--ink);font-family:'Outfit',sans-serif;font-size:14px;font-weight:300;padding:16px;resize:none;min-height:140px;outline:none;line-height:1.7;transition:border-color 0.2s}
 .big-textarea:focus{border-color:var(--ink)}
 .big-textarea::placeholder{color:var(--cream-mute);opacity:0.6;font-style:italic}
 .big-input{width:100%;background:var(--cream);border:2px solid var(--cream-dark);border-radius:10px;color:var(--ink);font-family:'Outfit',sans-serif;font-size:15px;font-weight:400;padding:16px 18px;outline:none;transition:border-color 0.2s}
 .big-input:focus{border-color:var(--ink)}
 .big-input::placeholder{color:var(--cream-mute);opacity:0.6;font-style:italic}
+
+/* CAMERA */
 .camera-container{position:relative;background:#111;border-radius:10px;overflow:hidden;margin-bottom:12px}
 #camera-feed{width:100%;display:block;max-height:260px;object-fit:cover}
 .scan-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
@@ -59,41 +67,63 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 #camera-preview{display:none;width:100%;max-height:260px;object-fit:cover;border-radius:10px;margin-bottom:12px}
 .retake-btn-cam{position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.6);color:white;border:1px solid rgba(255,255,255,0.3);padding:7px 14px;font-family:'Outfit',sans-serif;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:8px;display:none}
 #file-input{display:none}
-.capture-btn{width:100%;padding:15px;background:var(--ink);color:var(--cream);border:none;border-radius:10px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity 0.2s;margin-bottom:10px}
+.auto-scan-bar{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(80,210,120,0);transition:background 0.3s}
+.auto-scan-bar.detecting{background:rgba(80,210,120,0.6);animation:detecting-pulse 1s ease-in-out infinite}
+@keyframes detecting-pulse{0%,100%{opacity:0.5}50%{opacity:1}}
+.auto-scan-badge{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.6);color:rgba(255,255,255,0.8);font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:5px 10px;border-radius:6px;display:none}
+.auto-scan-badge.show{display:block}
+
+.capture-btn{width:100%;padding:15px;background:var(--ink);color:var(--cream);border:none;border-radius:10px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity 0.2s;margin-bottom:10px}
 .capture-btn:hover{opacity:0.82}
 .or-line{text-align:center;font-size:11px;color:var(--cream-mute);margin:8px 0;letter-spacing:0.08em}
-.upload-btn-simple{width:100%;padding:12px;background:var(--cream);color:var(--cream-mute);border:2px dashed var(--cream-dark);border-radius:10px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-align:center;transition:all 0.2s}
+.upload-btn-simple{width:100%;padding:12px;background:var(--cream);color:var(--cream-mute);border:2px dashed var(--cream-dark);border-radius:10px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-align:center;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
 .upload-btn-simple:hover{border-color:var(--ink);color:var(--ink)}
 .helper-txt{font-size:12px;font-weight:300;color:var(--cream-mute);margin-top:10px;line-height:1.6;text-align:center;font-style:italic}
-.analyse-btn{width:100%;padding:22px;background:var(--black);color:var(--cream);border:none;border-radius:14px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:16px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:10px}
+
+/* BARCODE */
+.barcode-container{position:relative;background:#111;border-radius:10px;overflow:hidden;margin-bottom:12px}
+#barcode-scanner{width:100%;height:260px;position:relative;overflow:hidden}
+#barcode-scanner video{width:100%;height:260px;object-fit:cover;display:block}
+#barcode-scanner canvas{position:absolute;top:0;left:0;width:100%;height:100%}
+.barcode-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.barcode-box{width:80%;height:30%;border:2px solid rgba(255,255,255,0.4);border-radius:8px;position:relative;transition:all 0.4s}
+.barcode-box.found{border-color:rgba(80,210,120,0.9);box-shadow:0 0 20px rgba(80,210,120,0.3)}
+.barcode-laser{position:absolute;top:50%;left:5%;right:5%;height:2px;background:rgba(255,80,80,0.75);transform:translateY(-50%)}
+#barcode-status{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.65);color:rgba(255,255,255,0.85);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;padding:6px 14px;border-radius:6px;white-space:nowrap}
+
+/* ANALYSE BUTTON */
+.analyse-btn{width:100%;padding:22px;background:var(--black);color:var(--cream);border:none;border-radius:14px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:10px}
 .analyse-btn:hover:not(:disabled){background:#2A2A28;transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,0,0,0.18)}
 .analyse-btn:disabled{opacity:0.3;cursor:not-allowed;transform:none;box-shadow:none}
 .error-msg{background:var(--red-bg);border:1px solid var(--red-bdr);border-radius:10px;padding:12px 16px;margin-top:12px;font-size:13px;font-weight:400;color:var(--red);display:none}
 .error-msg.show{display:block}
+
+/* LOADING */
 .loading-screen{display:none;text-align:center;padding:3rem 1.25rem}
 .loading-screen.show{display:block}
 .loading-spinner{width:48px;height:48px;border:3px solid var(--cream-dark);border-top-color:var(--black);border-radius:50%;animation:spin 0.9s linear infinite;margin:0 auto 1.5rem}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-title{font-family:'Outfit',sans-serif;font-size:14px;font-weight:300;letter-spacing:0.28em;color:var(--ink);margin-bottom:8px;text-transform:uppercase}
+.loading-title{font-family:'Outfit',sans-serif;font-size:13px;font-weight:300;letter-spacing:0.28em;color:var(--ink);margin-bottom:8px;text-transform:uppercase}
 .loading-step{font-size:13px;font-weight:300;color:var(--cream-mute);min-height:20px}
 .progress-wrap{width:100%;height:4px;background:var(--cream-dark);border-radius:2px;margin:1rem 0;overflow:hidden}
-.progress-bar{height:100%;width:0%;background:var(--black);border-radius:2px;transition:width 0.4s ease}
+.progress-bar{height:100%;width:0%;background:var(--black);border-radius:2px}
 .progress-bar.running{animation:progress-fill 7s ease-in-out forwards}
 @keyframes progress-fill{0%{width:0%}20%{width:25%}50%{width:60%}80%{width:82%}95%{width:90%}100%{width:92%}}
 .progress-bar.done{width:100%!important;animation:none;transition:width 0.15s ease}
+
+/* RESULTS */
 .results-section{display:none;margin-top:2rem}
 .results-section.show{display:block}
 .verdict-card{border-radius:14px;padding:2rem;margin-bottom:1.25rem;text-align:center;border:2px solid}
 .verdict-card.safe{background:var(--green-bg);border-color:var(--green-bdr)}
 .verdict-card.warn{background:var(--amber-bg);border-color:var(--amber-bdr)}
 .verdict-card.danger{background:var(--red-bg);border-color:var(--red-bdr)}
-
-.v-product{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream-mute);margin-bottom:6px}
+.v-product{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream-mute);margin-bottom:12px}
 .v-score{font-family:'Outfit',sans-serif;font-size:72px;font-weight:200;letter-spacing:0.12em;line-height:1;margin-bottom:4px;transition:color 0.5s}
 .verdict-card.safe .v-score{color:var(--green)}
 .verdict-card.warn .v-score{color:var(--amber)}
 .verdict-card.danger .v-score{color:var(--red)}
-.v-word{font-size:15px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:14px}
+.v-word{font-size:12px;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;margin-bottom:14px}
 .verdict-card.safe .v-word{color:var(--green)}
 .verdict-card.warn .v-word{color:var(--amber)}
 .verdict-card.danger .v-word{color:var(--red)}
@@ -103,7 +133,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .count-pill.danger{background:var(--red-bg);color:var(--red);border-color:var(--red-bdr)}
 .count-pill.warn{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-bdr)}
 .count-pill.safe{background:var(--green-bg);color:var(--green);border-color:var(--green-bdr)}
-.sec-head{font-size:12px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink);margin-bottom:14px;margin-top:1.5rem;display:flex;align-items:center;gap:10px}
+.sec-head{font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--ink);margin-bottom:14px;margin-top:1.5rem;display:flex;align-items:center;gap:10px}
 .sec-head::after{content:'';flex:1;height:1px;background:var(--cream-dark)}
 .ing-cards{display:flex;flex-direction:column;gap:10px}
 .ing-card{background:white;border-radius:12px;padding:16px;border-left:4px solid;box-shadow:0 1px 10px rgba(0,0,0,0.06)}
@@ -118,73 +148,48 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .ing-card.safe .ing-card-badge{background:var(--green-bg);color:var(--green)}
 .ing-card-detail{font-size:13px;font-weight:300;color:var(--ink);line-height:1.65}
 
-
-
-
-
-
+/* HISTORY */
 .history-panel{margin-top:2rem}
 .history-title{font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:10px}
 .history-title::after{content:'';flex:1;height:1px;background:var(--cream-dark)}
 .history-list{display:flex;flex-direction:column;gap:6px}
 .history-item{background:white;border-radius:10px;padding:12px 16px;border:1px solid var(--cream-dark);display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.2s;box-shadow:0 1px 6px rgba(0,0,0,0.04)}
 .history-item:hover{transform:translateX(3px);box-shadow:0 2px 12px rgba(0,0,0,0.08)}
-.history-score{font-family:'Outfit',sans-serif;font-size:22px;font-weight:200;letter-spacing:0.08em;min-width:36px;text-align:center}
-.history-info{flex:1}
-.history-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:1px}
-.history-verdict{font-size:11px;font-weight:300;color:var(--cream-mute)}
-.history-time{font-size:10px;font-weight:300;color:var(--cream-dark);margin-left:auto;white-space:nowrap}
 .history-clear{font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--cream-mute);background:none;border:none;cursor:pointer;padding:4px 8px;transition:color 0.2s}
 .history-clear:hover{color:var(--red)}
-.auto-scan-bar{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(80,210,120,0);transition:background 0.3s}
-.auto-scan-bar.detecting{background:rgba(80,210,120,0.6);animation:detecting-pulse 1s ease-in-out infinite}
-@keyframes detecting-pulse{0%,100%{opacity:0.5}50%{opacity:1}}
-.auto-scan-badge{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.6);color:rgba(255,255,255,0.8);font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:5px 10px;border-radius:6px;display:none}
-.auto-scan-badge.show{display:block}
-/* BARCODE */
-.barcode-container{position:relative;background:#111;border-radius:10px;overflow:hidden;margin-bottom:12px}
-#barcode-scanner{width:100%;height:260px;position:relative;overflow:hidden}
-#barcode-scanner video{width:100%;height:260px;object-fit:cover;display:block}
-#barcode-scanner canvas{position:absolute;top:0;left:0;width:100%;height:100%}
-.barcode-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.barcode-box{width:80%;height:30%;border:2px solid rgba(255,255,255,0.4);border-radius:8px;position:relative;transition:all 0.4s}
-.barcode-box.found{border-color:rgba(80,210,120,0.9);box-shadow:0 0 20px rgba(80,210,120,0.3)}
-.barcode-laser{position:absolute;top:50%;left:5%;right:5%;height:2px;background:rgba(255,80,80,0.75);transform:translateY(-50%)}
-#barcode-status{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.65);color:rgba(255,255,255,0.85);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;padding:6px 14px;border-radius:6px;white-space:nowrap}
-/* RECEIPT */
+
+/* RECEIPT PAGE */
 .receipt-page{max-width:640px;margin:0 auto;padding:2rem 1.25rem 4rem}
 .receipt-hero{text-align:center;margin-bottom:2rem}
 .receipt-title{font-family:'Outfit',sans-serif;font-size:22px;font-weight:300;letter-spacing:0.32em;color:var(--ink);margin-bottom:8px;text-transform:uppercase}
 .receipt-sub{font-size:11px;font-weight:300;color:var(--cream-mute);line-height:1.6;letter-spacing:0.12em}
 .receipt-card{background:white;border:1px solid var(--cream-dark);border-radius:14px;overflow:hidden;margin-bottom:1.25rem;box-shadow:0 2px 24px rgba(0,0,0,0.07)}
 .receipt-tabs{display:flex;border-bottom:1px solid var(--cream-mid)}
-.receipt-tab{flex:1;padding:14px;text-align:center;font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;border:none;background:none;cursor:pointer;color:var(--cream-mute);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.2s}
+.receipt-tab{flex:1;padding:14px;text-align:center;font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;border:none;background:none;cursor:pointer;color:var(--cream-mute);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px}
 .receipt-tab.active{color:var(--ink);border-bottom-color:var(--ink)}
 .receipt-input-area{padding:1.25rem}
-.receipt-analyse-btn{width:100%;padding:22px;background:var(--black);color:var(--cream);border:none;border-radius:14px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:16px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:10px}
+.receipt-analyse-btn{width:100%;padding:22px;background:var(--black);color:var(--cream);border:none;border-radius:14px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:10px}
 .receipt-analyse-btn:hover:not(:disabled){background:#2A2A28;transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,0,0,0.18)}
 .receipt-analyse-btn:disabled{opacity:0.3;cursor:not-allowed}
 .pure-shop-card{border-radius:14px;padding:2rem;margin-bottom:1.25rem;text-align:center;border:2px solid}
 .pure-shop-card.pure{background:var(--green-bg);border-color:var(--green-bdr)}
 .pure-shop-card.getting{background:var(--amber-bg);border-color:var(--amber-bdr)}
 .pure-shop-card.needs{background:var(--red-bg);border-color:var(--red-bdr)}
-
 .psc-score{font-family:'Outfit',sans-serif;font-size:80px;font-weight:200;letter-spacing:0.12em;line-height:1;transition:color 0.5s}
 .pure-shop-card.pure .psc-score{color:var(--green)}
 .pure-shop-card.getting .psc-score{color:var(--amber)}
 .pure-shop-card.needs .psc-score{color:var(--red)}
 .psc-label{font-size:11px;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream-mute);margin-bottom:6px}
-.psc-verdict{font-size:16px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:14px}
+.psc-verdict{font-size:13px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
 .pure-shop-card.pure .psc-verdict{color:var(--green)}
 .pure-shop-card.getting .psc-verdict{color:var(--amber)}
 .pure-shop-card.needs .psc-verdict{color:var(--red)}
-.psc-summary{font-family:'Outfit',sans-serif;font-size:13px;font-weight:300;color:var(--ink);line-height:1.75}
+.psc-summary{font-family:'Outfit',sans-serif;font-size:14px;font-weight:300;color:var(--ink);line-height:1.75}
 .product-cards{display:flex;flex-direction:column;gap:8px}
 .product-card{background:white;border-radius:12px;padding:14px 16px;border-left:4px solid;box-shadow:0 1px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px}
 .product-card.pass{border-left-color:var(--green)}
 .product-card.warn{border-left-color:var(--amber)}
 .product-card.fail{border-left-color:var(--red)}
-.pc-icon{font-size:20px;flex-shrink:0}
 .pc-info{flex:1}
 .pc-name{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:2px}
 .pc-reason{font-size:12px;font-weight:300;color:var(--cream-mute);line-height:1.5}
@@ -197,59 +202,18 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .swap-from{font-size:13px;font-weight:400;color:var(--red);text-decoration:line-through;flex:1;opacity:0.75}
 .swap-arrow-icon{font-size:16px;color:var(--cream-mute);flex-shrink:0}
 .swap-to{font-size:13px;font-weight:600;color:var(--green);flex:1}
-/* LEARN */
-.edu-page{max-width:640px;margin:0 auto;padding:2rem 1.25rem 4rem}
-.edu-hero-txt{font-family:'Outfit',sans-serif;font-size:13px;font-weight:300;color:var(--ink);line-height:1.8;margin-bottom:2rem;border-left:3px solid var(--cream-dark);padding-left:1.25rem;letter-spacing:0.06em}
-.edu-sec-title{font-size:12px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--ink);margin-bottom:1rem;margin-top:2.5rem;display:flex;align-items:center;gap:10px}
-.edu-sec-title::after{content:'';flex:1;height:1px;background:var(--cream-dark)}
-.pillar-cards{display:flex;flex-direction:column;gap:8px}
-.pillar-card{background:white;border-radius:12px;padding:1rem 1.25rem;border:1px solid var(--cream-dark);display:flex;align-items:flex-start;gap:14px;box-shadow:0 1px 8px rgba(0,0,0,0.04)}
-.pillar-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;font-style:italic;color:var(--cream-dark);flex-shrink:0;line-height:1;min-width:28px}
-.pillar-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px}
-.pillar-desc{font-size:12px;font-weight:300;color:var(--cream-mute);line-height:1.65}
-.edu-cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.edu-card{background:white;border-radius:12px;padding:1.25rem;border:1px solid var(--cream-dark);box-shadow:0 1px 8px rgba(0,0,0,0.04)}
-.edu-risk{font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:8px}
-.risk-high{background:var(--red-bg);color:var(--red)}
-.risk-med{background:var(--amber-bg);color:var(--amber)}
-.edu-card-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px}
-.edu-card-aka{font-size:10px;color:var(--cream-mute);margin-bottom:8px}
-.edu-card-desc{font-size:11.5px;font-weight:300;color:var(--ink);line-height:1.7;margin-bottom:8px}
-.edu-card-found{font-size:10px;font-weight:300;color:var(--cream-mute)}
-.oil-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.oil-card{background:white;border-radius:12px;padding:1.25rem;border:1px solid var(--cream-dark);box-shadow:0 1px 8px rgba(0,0,0,0.04)}
-.oil-label{font-size:9px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;padding:4px 10px;border-radius:20px;display:inline-block;margin-bottom:12px}
-.oil-bad-lbl{background:var(--red-bg);color:var(--red)}
-.oil-good-lbl{background:var(--green-bg);color:var(--green)}
-.oil-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px;margin-top:10px}
-.oil-name:first-of-type{margin-top:0}
-.oil-why{font-size:11px;font-weight:300;color:var(--cream-mute);line-height:1.6;margin-bottom:8px}
-/* ABOUT */
+
+/* ABOUT PAGE */
 .about-page{max-width:640px;margin:0 auto;padding:2rem 1.25rem 4rem}
-.about-headline{font-family:'Outfit',sans-serif;font-size:20px;font-weight:300;letter-spacing:0.22em;color:var(--ink);line-height:1.5;margin-bottom:1rem;text-transform:uppercase}
+.about-headline{font-family:'Outfit',sans-serif;font-size:18px;font-weight:300;letter-spacing:0.18em;color:var(--ink);line-height:1.6;margin-bottom:1.5rem;text-transform:uppercase}
 .about-body{font-size:14px;font-weight:300;color:var(--cream-mute);line-height:1.9;margin-bottom:2rem}
+.edu-sec-title{font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--ink);margin-bottom:1rem;margin-top:2rem;display:flex;align-items:center;gap:10px}
+.edu-sec-title::after{content:'';flex:1;height:1px;background:var(--cream-dark)}
 .vision-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:2rem}
 .vision-card{background:white;border-radius:12px;padding:1.25rem;border:1px solid var(--cream-dark);box-shadow:0 1px 8px rgba(0,0,0,0.04)}
 .vision-card-num{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;font-style:italic;color:var(--cream-dark);margin-bottom:8px}
-.vision-card-title{font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);margin-bottom:6px}
+.vision-card-title{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);margin-bottom:6px}
 .vision-card-text{font-size:12px;font-weight:300;color:var(--cream-mute);line-height:1.7}
-.founders-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:2rem}
-.founder-card{background:white;border-radius:12px;padding:1.25rem;border:1px solid var(--cream-dark);box-shadow:0 1px 8px rgba(0,0,0,0.04)}
-.founder-role{font-size:9px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--cream-mute);margin-bottom:5px}
-.founder-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--ink);margin-bottom:3px}
-.founder-handle{font-size:11px;font-weight:300;color:var(--cream-mute);margin-bottom:10px}
-.founder-desc{font-size:12px;font-weight:300;color:var(--cream-mute);line-height:1.75}
-.roadmap-list{display:flex;flex-direction:column;gap:6px;margin-bottom:2rem}
-.roadmap-item{background:white;border-radius:12px;padding:14px 16px;border:1px solid var(--cream-dark);display:flex;align-items:center;gap:10px;box-shadow:0 1px 8px rgba(0,0,0,0.04)}
-.roadmap-item.done{border-left:4px solid var(--green)}
-.roadmap-item.now{border-left:4px solid var(--amber)}
-.roadmap-item.future{opacity:0.5}
-.rm-badge{font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;padding:4px 10px;border-radius:20px;flex-shrink:0}
-.rm-done{background:var(--green-bg);color:var(--green)}
-.rm-now{background:var(--amber-bg);color:var(--amber)}
-.rm-future{background:var(--cream-mid);color:var(--cream-mute)}
-.rm-text{font-size:13px;font-weight:400;color:var(--ink)}
-.rm-note{font-size:11px;font-weight:300;color:var(--cream-mute);margin-left:auto;white-space:nowrap}
 .community-footer{background:var(--black);border-radius:14px;padding:1.5rem}
 .comm-title{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:12px}
 .comm-links{display:flex;flex-direction:column;gap:8px}
@@ -259,12 +223,13 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .comm-handle{font-size:13px;font-weight:300;color:var(--cream)}
 .comm-dot{width:6px;height:6px;border-radius:50%;background:#5AAB72;margin-left:auto;animation:glow 2.5s infinite}
 @keyframes glow{0%,100%{opacity:1}50%{opacity:0.2}}
+
 @media(max-width:600px){
   .topbar-btn{font-size:8px;padding:6px 8px;letter-spacing:0.08em}
-  .scanner-title,.receipt-title,.about-headline{font-size:18px;letter-spacing:0.22em}
+  .scanner-title,.receipt-title,.about-headline{font-size:16px;letter-spacing:0.18em}
   .method-pill{font-size:8px;padding:8px 3px}
-  .edu-cards-grid,.oil-grid,.vision-cards,.founders-grid{grid-template-columns:1fr}
-  .analyse-btn,.receipt-analyse-btn{font-size:14px;padding:18px}
+  .vision-cards{grid-template-columns:1fr}
+  .analyse-btn,.receipt-analyse-btn{font-size:12px;padding:18px}
   .v-score{font-size:56px}
   .psc-score{font-size:64px}
 }
@@ -288,18 +253,186 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
       <div class="scanner-title" id="scanner-title">SCAN BARCODE</div>
       <div class="scanner-subtitle" id="scanner-subtitle">Point your camera at any barcode to get started</div>
     </div>
+    <div class="scan-card">
+      <div class="method-pills">
+        <div class="method-pill active" onclick="setMode('barcode',this)">
+          <span class="method-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="2" height="16"/><rect x="6" y="4" width="1" height="16"/><rect x="9" y="4" width="2" height="16"/><rect x="13" y="4" width="1" height="16"/><rect x="16" y="4" width="2" height="16"/><rect x="20" y="4" width="2" height="16"/></svg></span>
+          Barcode
+        </div>
+        <div class="method-pill" onclick="setMode('camera',this)">
+          <span class="method-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>
+          Photo
+        </div>
+        <div class="method-pill" onclick="setMode('paste',this)">
+          <span class="method-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
+          Paste
+        </div>
+        <div class="method-pill" onclick="setMode('search',this)">
+          <span class="method-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+          Search
+        </div>
+      </div>
+      <div class="scan-input-area">
 
+        <!-- BARCODE -->
+        <div id="mode-barcode">
+          <div class="barcode-container">
+            <div id="barcode-scanner"></div>
+            <div class="barcode-overlay">
+              <div class="barcode-box" id="barcode-box">
+                <div class="corner tl"></div><div class="corner tr"></div>
+                <div class="corner bl"></div><div class="corner br"></div>
+                <div class="barcode-laser"></div>
+              </div>
+            </div>
+            <div id="barcode-status">Point at barcode</div>
+          </div>
+          <div class="helper-txt">Point at the barcode on any food product — it will scan automatically</div>
+        </div>
+
+        <!-- CAMERA -->
+        <div id="mode-camera" style="display:none">
+          <div class="camera-container" id="camera-wrap">
+            <video id="camera-feed" autoplay playsinline muted></video>
+            <div class="scan-overlay" id="scan-overlay">
+              <div class="scan-box" id="scan-box">
+                <div class="corner tl"></div><div class="corner tr"></div>
+                <div class="corner bl"></div><div class="corner br"></div>
+                <div class="scan-line-el"></div>
+                <div class="scan-hint" id="scan-hint">Point at ingredients list</div>
+                <div class="auto-scan-bar" id="auto-scan-bar"></div>
+              </div>
+            </div>
+            <img id="camera-preview" alt="captured"/>
+            <button class="retake-btn-cam" id="retake-btn" onclick="retakePhoto()">Retake</button>
+            <div class="auto-scan-badge" id="auto-badge">Auto-detecting text...</div>
+          </div>
+          <button class="capture-btn" id="capture-btn" onclick="capturePhoto()">CAPTURE LABEL</button>
+          <div class="or-line">or upload from your photos</div>
+          <div class="upload-btn-simple" onclick="document.getElementById('file-input').click()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Choose from Photo Library
+          </div>
+          <input type="file" id="file-input" accept="image/*" onchange="handleUpload(this)" style="display:none"/>
+          <div class="helper-txt">Point your camera at the ingredients list on the back of the packet</div>
+        </div>
+
+        <!-- PASTE -->
+        <div id="mode-paste" style="display:none">
+          <textarea class="big-textarea" id="paste-input" placeholder="Copy and paste the ingredients list here...&#10;&#10;e.g. Water, Maltodextrin, Fructose, Salt..."></textarea>
+          <div class="helper-txt">Find the ingredients list on the back of the packet and paste it here</div>
+        </div>
+
+        <!-- SEARCH -->
+        <div id="mode-search" style="display:none">
+          <input type="text" class="big-input" id="search-input" placeholder="e.g. Weet-Bix, Heinz Tomato Sauce, Vegemite..."/>
+          <div class="helper-txt">Type the name of the food and we will look up what is in it</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="error-msg" id="error-msg"></div>
+    <button class="analyse-btn" id="analyse-btn" onclick="runScan()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span id="analyse-btn-txt">CHECK THIS FOOD</span>
+    </button>
+
+    <div class="loading-screen" id="loading">
+      <div class="loading-spinner"></div>
+      <div class="loading-title">Checking your food...</div>
+      <div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+      <div class="loading-step" id="loading-step"></div>
+    </div>
+
+    <div class="results-section" id="results"></div>
+
+    <div id="history-panel" style="display:none" class="history-panel">
+      <div class="history-title">Recent Scans <button class="history-clear" onclick="clearHistory()">Clear</button></div>
+      <div class="history-list" id="history-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MY SHOP -->
+<div id="page-receipt" class="page">
+  <div class="receipt-page">
+    <div class="receipt-hero">
+      <div class="receipt-title">How healthy is my shop?</div>
+      <div class="receipt-sub">Upload your receipt or type what you bought — get a health score for your whole shop</div>
+    </div>
+    <div class="receipt-card">
+      <div class="receipt-tabs">
+        <button class="receipt-tab active" onclick="setReceiptMode('photo',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          Photo of receipt
+        </button>
+        <button class="receipt-tab" onclick="setReceiptMode('type',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg>
+          Type products
+        </button>
+      </div>
+      <div class="receipt-input-area">
+        <div id="receipt-mode-photo">
+          <div class="upload-btn-simple" style="margin-bottom:10px" onclick="document.getElementById('receipt-file').click()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Upload receipt photo
+          </div>
+          <img id="receipt-preview" alt="" style="display:none;max-width:100%;border-radius:10px;margin-bottom:10px"/>
+          <input type="file" id="receipt-file" accept="image/*" onchange="handleReceiptUpload(this)" style="display:none"/>
+          <div class="helper-txt">Make sure all product names are clearly visible in the photo</div>
+        </div>
+        <div id="receipt-mode-type" style="display:none">
+          <textarea class="big-textarea" id="receipt-text" placeholder="Type each product on a new line:&#10;&#10;Weet-Bix&#10;Anchor Butter&#10;Heinz Tomato Sauce&#10;Coca-Cola&#10;Sourdough Bread"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="error-msg" id="receipt-error-msg"></div>
+    <button class="receipt-analyse-btn" id="receipt-btn" onclick="runReceiptScan()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <span id="receipt-btn-txt">CHECK MY SHOP</span>
+    </button>
+    <div class="loading-screen" id="receipt-loading">
+      <div class="loading-spinner"></div>
+      <div class="loading-title">Checking your shop...</div>
+      <div class="loading-step" id="receipt-loading-step"></div>
+    </div>
+    <div class="results-section" id="receipt-results"></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div id="page-vision" class="page">
+  <div class="about-page">
+    <div class="about-headline">A devotion of knowledge, passion and personal experience — bringing food back to its simplest form.</div>
+    <div class="about-body">Pure was created to simplify the way we see food and reconnect with what is real. Two founders. Two lanes. One mission.<br><br>Our goal is to be the easiest food intelligence tool in the world — so easy that anyone can use it, regardless of how much they know about food or technology.</div>
+
+    <div class="edu-sec-title">The Five Pillars</div>
+    <div class="vision-cards">
+      <div class="vision-card"><div class="vision-card-num">01</div><div class="vision-card-title">Pure Provenance</div><div class="vision-card-text">Where food comes from matters. Organic, pasture-raised, and wild-caught sources only.</div></div>
+      <div class="vision-card"><div class="vision-card-num">02</div><div class="vision-card-title">Whole Ingredient Integrity</div><div class="vision-card-text">Every ingredient should be real and recognisable. If you cannot picture it growing, question it.</div></div>
+      <div class="vision-card"><div class="vision-card-num">03</div><div class="vision-card-title">Zero Industrial Processing</div><div class="vision-card-text">No seed oils, no artificial additives, no ultra-processed ingredients. Full stop.</div></div>
+      <div class="vision-card"><div class="vision-card-num">04</div><div class="vision-card-title">Traditional Food Craft</div><div class="vision-card-text">Methods that have nourished humans for thousands of years — fermented, slow-made, time-honoured.</div></div>
+      <div class="vision-card" style="grid-column:1/-1"><div class="vision-card-num">05</div><div class="vision-card-title">Complete Transparency</div><div class="vision-card-text">Full disclosure. No misleading claims. No hidden ingredients. What you see is what you get.</div></div>
+    </div>
+
+    <div class="community-footer">
+      <div class="comm-title">Join the Community</div>
+      <div class="comm-links">
+        <a class="comm-link" href="https://instagram.com/pure.wholefoods" target="_blank"><span class="comm-platform">Instagram</span><span class="comm-handle">@pure.wholefoods</span><span class="comm-dot"></span></a>
+        <a class="comm-link" href="https://x.com/PURE_Scanner" target="_blank"><span class="comm-platform">X</span><span class="comm-handle">@PURE_Scanner</span><span class="comm-dot"></span></a>
+        <a class="comm-link" href="https://discord.gg/nJnhSxYv" target="_blank"><span class="comm-platform">Discord</span><span class="comm-handle">discord.gg/nJnhSxYv</span><span class="comm-dot"></span></a>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-// STATE
 let currentMode='barcode', uploadedB64=null, uploadedMime='image/jpeg';
 let receiptMode='photo', receiptB64=null;
-let cameraStream=null;
-let stepTimer=null;
+let cameraStream=null, stepTimer=null;
 
-// NAVIGATION
+// NAV
 function showPage(id,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.topbar-btn').forEach(b=>b.classList.remove('active'));
@@ -309,13 +442,14 @@ function showPage(id,el){
   window.scrollTo(0,0);
 }
 
-// MODE SWITCHING
+// MODE TITLES
 const modeTitles={
   barcode:['SCAN BARCODE','Point your camera at any barcode to get started'],
   camera:['SCAN IMAGE','Point your camera at the ingredients list'],
   paste:['PASTE LABEL','Copy and paste the ingredients list from the packet'],
   search:['SEARCH FOOD','Type any food name to check what is in it']
 };
+
 function setMode(mode,el){
   stopCamera(); stopBarcode();
   currentMode=mode;
@@ -325,7 +459,7 @@ function setMode(mode,el){
   document.getElementById('mode-camera').style.display=mode==='camera'?'block':'none';
   document.getElementById('mode-paste').style.display=mode==='paste'?'block':'none';
   document.getElementById('mode-search').style.display=mode==='search'?'block':'none';
-  const t=document.getElementById('scanner-title'), s=document.getElementById('scanner-subtitle');
+  const t=document.getElementById('scanner-title'),s=document.getElementById('scanner-subtitle');
   if(t) t.textContent=modeTitles[mode][0];
   if(s) s.textContent=modeTitles[mode][1];
   if(mode==='barcode') setTimeout(startBarcode,100);
@@ -359,12 +493,12 @@ async function startCamera(){
     document.getElementById('scan-overlay').style.display='none';
   }
 }
+
 function capturePhoto(){
   stopAutoDetect(); haptic(40);
   const video=document.getElementById('camera-feed');
   const canvas=document.createElement('canvas');
-  const maxW=1200;
-  const scale=Math.min(1,maxW/video.videoWidth);
+  const maxW=1200, scale=Math.min(1,maxW/video.videoWidth);
   canvas.width=Math.round(video.videoWidth*scale);
   canvas.height=Math.round(video.videoHeight*scale);
   canvas.getContext('2d').drawImage(video,0,0,canvas.width,canvas.height);
@@ -385,6 +519,7 @@ function capturePhoto(){
   document.getElementById('scan-overlay').style.display='none';
   stopCamera();
 }
+
 function retakePhoto(){
   uploadedB64=null; stopAutoDetect();
   document.getElementById('camera-preview').style.display='none';
@@ -394,10 +529,12 @@ function retakePhoto(){
   if(h){h.textContent='Point at ingredients list';h.classList.remove('ready');}
   startCamera();
 }
+
 function stopCamera(){
   stopAutoDetect();
   if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null;}
 }
+
 function handleUpload(input){
   const file=input.files[0];if(!file)return;
   uploadedMime=file.type||'image/jpeg';
@@ -419,21 +556,17 @@ function handleUpload(input){
 let autoDetectTimer=null, autoDetectCount=0;
 function startAutoDetect(video){
   if(autoDetectTimer) clearInterval(autoDetectTimer);
-  const badge=document.getElementById('auto-badge'), bar=document.getElementById('auto-scan-bar');
+  const badge=document.getElementById('auto-badge'),bar=document.getElementById('auto-scan-bar');
   autoDetectCount=0;
   autoDetectTimer=setInterval(()=>{
     if(!cameraStream||video.readyState<2) return;
     const canvas=document.createElement('canvas');
-    canvas.width=80; canvas.height=60;
-    const ctx=canvas.getContext('2d');
-    ctx.drawImage(video,0,0,80,60);
+    canvas.width=80;canvas.height=60;
+    canvas.getContext('2d').drawImage(video,0,0,80,60);
     try{
-      const data=ctx.getImageData(0,0,80,60).data;
+      const data=canvas.getContext('2d').getImageData(0,0,80,60).data;
       let dark=0,light=0;
-      for(let i=0;i<data.length;i+=16){
-        const b=(data[i]+data[i+1]+data[i+2])/3;
-        if(b<80) dark++; else if(b>180) light++;
-      }
+      for(let i=0;i<data.length;i+=16){const b=(data[i]+data[i+1]+data[i+2])/3;if(b<80)dark++;else if(b>180)light++;}
       const contrast=(dark+light)/(data.length/16);
       if(contrast>0.5){
         autoDetectCount++;
@@ -454,7 +587,7 @@ function startAutoDetect(video){
 }
 function stopAutoDetect(){
   if(autoDetectTimer){clearInterval(autoDetectTimer);autoDetectTimer=null;}
-  const badge=document.getElementById('auto-badge'), bar=document.getElementById('auto-scan-bar');
+  const badge=document.getElementById('auto-badge'),bar=document.getElementById('auto-scan-bar');
   if(badge) badge.classList.remove('show');
   if(bar) bar.classList.remove('detecting');
 }
@@ -482,22 +615,15 @@ function startBarcode(){
     el.querySelectorAll('canvas').forEach(c=>c.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%');
     setTimeout(()=>{const s=document.getElementById('barcode-status');if(s&&barcodeRunning) s.textContent='Scanning — point at barcode';},1000);
   });
-  let consecutiveCode=null, consecutiveCount=0;
+  let consecutiveCode=null,consecutiveCount=0;
   Quagga.offDetected();
   Quagga.onDetected(function(result){
     const code=result.codeResult.code;
     if(!code||code===lastBarcode) return;
-    if(code===consecutiveCode){
-      consecutiveCount++;
-    } else {
-      consecutiveCode=code;
-      consecutiveCount=1;
-    }
-    // Require same code 3 times in a row to confirm
+    if(code===consecutiveCode){consecutiveCount++;}
+    else{consecutiveCode=code;consecutiveCount=1;}
     if(consecutiveCount>=3){
-      consecutiveCount=0;
-      lastBarcode=code;
-      onBarcodeDetected(code);
+      consecutiveCount=0;lastBarcode=code;onBarcodeDetected(code);
     }
   });
 }
@@ -505,12 +631,11 @@ function stopBarcode(){
   if(!barcodeRunning) return;
   try{Quagga.offDetected();Quagga.stop();}catch(e){}
   barcodeRunning=false; lastBarcode=null;
-  if(barcodeDebounce) clearTimeout(barcodeDebounce);
 }
 async function onBarcodeDetected(barcode){
   haptic([40,30,40]); stopBarcode();
-  const box=document.getElementById('barcode-box'), status=document.getElementById('barcode-status');
-  if(box){box.classList.add('found');}
+  const box=document.getElementById('barcode-box'),status=document.getElementById('barcode-status');
+  if(box) box.classList.add('found');
   if(status) status.textContent='Found: '+barcode+' — looking up...';
   document.getElementById('error-msg').classList.remove('show');
   document.getElementById('results').classList.remove('show');
@@ -565,9 +690,8 @@ function handleReceiptUpload(input){
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function scoreColor(s){return s>=7?'var(--green)':s>=4?'var(--amber)':'var(--red)';}
 function scoreClass(s){return s>=7?'safe':s>=4?'warn':'danger'}
-function scoreEmoji(s){return s>=7?'':s>=4?'️':''}
-const scanSteps=['Reading ingredients...','Checking what each one is...','Comparing against our standards...','Working out your score...','Almost done...'];
-const receiptSteps=['Reading your receipt...','Looking up each product...','Checking against our standards...','Calculating your shop score...','Finding better options...'];
+const scanSteps=['Reading ingredients...','Checking what each one is...','Comparing against The Five Pillars...','Working out your score...','Almost done...'];
+const receiptSteps=['Reading your receipt...','Looking up each product...','Checking against The Five Pillars...','Calculating your shop score...','Finding better options...'];
 function startSteps(elId,steps){
   let i=0; document.getElementById(elId).textContent=steps[0];
   return setInterval(()=>{i=(i+1)%steps.length; document.getElementById(elId).textContent=steps[i];},2000);
@@ -594,22 +718,10 @@ function animateScore(elementId,targetScore,isPercent,color,duration){
 // MAIN SCAN
 async function runScan(){
   document.getElementById('error-msg').classList.remove('show');
-  if(currentMode==='barcode'){
-    document.getElementById('error-msg').textContent='Point your camera at a barcode — it will scan automatically.';
-    document.getElementById('error-msg').classList.add('show'); return;
-  }
-  if(currentMode==='camera'&&!uploadedB64){
-    document.getElementById('error-msg').textContent='Please take a photo of the food label first.';
-    document.getElementById('error-msg').classList.add('show'); return;
-  }
-  if(currentMode==='paste'&&!document.getElementById('paste-input').value.trim()){
-    document.getElementById('error-msg').textContent='Please paste the ingredients list first.';
-    document.getElementById('error-msg').classList.add('show'); return;
-  }
-  if(currentMode==='search'&&!document.getElementById('search-input').value.trim()){
-    document.getElementById('error-msg').textContent='Please type the food name first.';
-    document.getElementById('error-msg').classList.add('show'); return;
-  }
+  if(currentMode==='barcode'){document.getElementById('error-msg').textContent='Point your camera at a barcode — it will scan automatically.';document.getElementById('error-msg').classList.add('show');return;}
+  if(currentMode==='camera'&&!uploadedB64){document.getElementById('error-msg').textContent='Please take a photo of the food label first.';document.getElementById('error-msg').classList.add('show');return;}
+  if(currentMode==='paste'&&!document.getElementById('paste-input').value.trim()){document.getElementById('error-msg').textContent='Please paste the ingredients list first.';document.getElementById('error-msg').classList.add('show');return;}
+  if(currentMode==='search'&&!document.getElementById('search-input').value.trim()){document.getElementById('error-msg').textContent='Please type the food name first.';document.getElementById('error-msg').classList.add('show');return;}
   document.getElementById('results').classList.remove('show');
   document.getElementById('loading').classList.add('show');
   document.getElementById('analyse-btn').disabled=true;
@@ -639,7 +751,6 @@ async function runScan(){
   }
 }
 
-// RENDER RESULTS
 function renderResults(d){
   if(d.overallScore>=7) haptic([50,30,50]);
   else if(d.overallScore>=4) haptic([80,40,80]);
@@ -653,20 +764,19 @@ function renderResults(d){
       <div class="ing-card-top"><div class="ing-card-name">${esc(i.name)}</div><div class="ing-card-badge">${esc(i.tag)}</div></div>
       <div class="ing-card-detail">${esc(i.detail)}</div>
     </div>`).join('');
-  const pn=esc(d.productName||'Food');
   document.getElementById('results').innerHTML=`
     <div class="verdict-card ${cls}">
-      <div class="v-product">${pn}</div>
+      <div class="v-product">${esc(d.productName||'Your Food')}</div>
       <div class="v-score" id="animated-score">0<span style="font-size:28px;opacity:0.35">/10</span></div>
       <div class="v-word">${esc(d.overallVerdict)}</div>
       <div class="v-summary">${esc(d.summary)}</div>
     </div>
     ${dc||wc?`<div class="count-pills">
-      ${dc?`<div class="count-pill danger">️ ${dc} ingredient${dc>1?'s':''} to avoid</div>`:''}
-      ${wc?`<div class="count-pill warn"> ${wc} to watch out for</div>`:''}
-      ${sc?`<div class="count-pill safe"> ${sc} safe</div>`:''}
+      ${dc?`<div class="count-pill danger">${dc} ingredient${dc>1?'s':''} to avoid</div>`:''}
+      ${wc?`<div class="count-pill warn">${wc} to watch out for</div>`:''}
+      ${sc?`<div class="count-pill safe">${sc} safe</div>`:''}
     </div>`:''}
-    <div class="sec-head">What's in it</div>
+    <div class="sec-head">What is in it</div>
     <div class="ing-cards">${ings}</div>`;
   saveToHistory(d.productName||'Scanned Food',d.overallScore,d.overallVerdict,d);
   document.getElementById('results').classList.add('show');
@@ -681,14 +791,8 @@ function renderResults(d){
 // RECEIPT SCAN
 async function runReceiptScan(){
   document.getElementById('receipt-error-msg').classList.remove('show');
-  if(receiptMode==='photo'&&!receiptB64){
-    document.getElementById('receipt-error-msg').textContent='Please upload a photo of your receipt first.';
-    document.getElementById('receipt-error-msg').classList.add('show'); return;
-  }
-  if(receiptMode==='type'&&!document.getElementById('receipt-text').value.trim()){
-    document.getElementById('receipt-error-msg').textContent='Please type the products you bought.';
-    document.getElementById('receipt-error-msg').classList.add('show'); return;
-  }
+  if(receiptMode==='photo'&&!receiptB64){document.getElementById('receipt-error-msg').textContent='Please upload a photo of your receipt first.';document.getElementById('receipt-error-msg').classList.add('show');return;}
+  if(receiptMode==='type'&&!document.getElementById('receipt-text').value.trim()){document.getElementById('receipt-error-msg').textContent='Please type the products you bought.';document.getElementById('receipt-error-msg').classList.add('show');return;}
   document.getElementById('receipt-results').classList.remove('show');
   document.getElementById('receipt-loading').classList.add('show');
   document.getElementById('receipt-btn').disabled=true;
@@ -720,12 +824,10 @@ function renderReceiptResults(d){
   else if(d.pureScore>=50) haptic([80,40,80]);
   else haptic([100,50,100,50,200]);
   const cls=d.pureScore>=80?'pure':d.pureScore>=50?'getting':'needs';
-  const emoji=d.pureScore>=80?'':d.pureScore>=50?'':'';
   const pass=(d.products||[]).filter(p=>p.status==='pass').length;
   const total=(d.products||[]).length;
   const products=(d.products||[]).map(p=>`
     <div class="product-card ${p.status}">
-      <div class="pc-icon">${p.status==='pass'?'':p.status==='warn'?'️':''}</div>
       <div class="pc-info"><div class="pc-name">${esc(p.name)}</div><div class="pc-reason">${esc(p.reason)}</div></div>
       <div class="pc-badge">${esc(p.badge)}</div>
     </div>`).join('');
@@ -752,27 +854,12 @@ function renderReceiptResults(d){
   },150);
 }
 
-// SHARE
-function shareResult(productName,score,verdict){
-  else navigator.clipboard.writeText(text).then(()=>alert('Result copied! Paste it anywhere to share.'));
-}
-function shareToX(productName,score,verdict){
-  const text=encodeURIComponent(`Scanned ${productName} on @PURE_Scanner\n\n${score}/10 — ${verdict}\n\nCheck your food `);
-  window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent('https://pure-scanner-int2.vercel.app')}`, '_blank');
-}
-function shareToIG(productName,score,verdict){
-  navigator.clipboard.writeText(text).then(()=>{
-    alert('Caption copied! Open Instagram and paste into your story or post.');
-    window.open('https://www.instagram.com','_blank');
-  }).catch(()=>window.open('https://www.instagram.com','_blank'));
-}
-
 // HISTORY
 const MAX_HISTORY=10;
 function saveToHistory(productName,score,verdict,data){
   try{
     const history=getHistory();
-    history.unshift({id:Date.now(),name:productName,score,verdict,
+    history.unshift({id:Date.now(),name:productName,score,
       time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),
       date:new Date().toLocaleDateString([],{day:'numeric',month:'short'}),
       data:JSON.stringify(data)});
@@ -785,16 +872,18 @@ function getHistory(){try{return JSON.parse(localStorage.getItem('pure_scan_hist
 function clearHistory(){localStorage.removeItem('pure_scan_history');renderHistory();}
 function renderHistory(){
   const history=getHistory();
-  const panel=document.getElementById('history-panel'), list=document.getElementById('history-list');
+  const panel=document.getElementById('history-panel'),list=document.getElementById('history-list');
   if(!panel||!list) return;
   if(history.length===0){panel.style.display='none';return;}
   panel.style.display='block';
   list.innerHTML=history.map(h=>{
     const color=h.score>=7?'var(--green)':h.score>=4?'var(--amber)':'var(--red)';
     return `<div class="history-item" onclick="replayResult(${h.id})">
-      <div class="history-score" style="color:${color}">${h.score}</div>
-      <div class="history-info"><div class="history-name">${esc(h.name)}</div></div>
-      <div class="history-time">${h.date} ${h.time}</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:200;color:${color};min-width:36px;text-align:center;letter-spacing:0.08em">${h.score}<span style="font-size:10px;opacity:0.35">/10</span></div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;color:var(--ink)">${esc(h.name)}</div>
+        <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--cream-mute);margin-top:2px">${h.date} · ${h.time}</div>
+      </div>
     </div>`;
   }).join('');
 }
@@ -810,42 +899,10 @@ function replayResult(id){
 
 // INIT
 window.addEventListener('load',()=>{
-  // Force clear old history entries that have emoji/verdict format
-  try {
-    const h = JSON.parse(localStorage.getItem('pure_scan_history')||'[]');
-    // Clear all - force fresh start with clean format
-    localStorage.removeItem('pure_scan_history');
-  } catch(e){}
+  localStorage.removeItem('pure_scan_history');
   setTimeout(startBarcode,300);
   renderHistory();
 });
 </script>
-
-<!-- ABOUT -->
-<div id="page-vision" class="page">
-  <div class="about-page">
-    <div class="about-headline">A DEVOTION OF KNOWLEDGE, PASSION AND PERSONAL EXPERIENCE — BRINGING FOOD BACK TO ITS SIMPLEST FORM.</div>
-    <div class="about-body">Pure was created to simplify the way we see food and reconnect with what's real. Two founders. Two lanes. One mission.<br><br>Our goal is to be the easiest food intelligence tool in the world — so easy that anyone can use it, regardless of how much they know about food or technology.</div>
-
-    <div class="edu-sec-title">The Five Pillars</div>
-    <div class="vision-cards">
-      <div class="vision-card"><div class="vision-card-num">01</div><div class="vision-card-title">Pure Provenance</div><div class="vision-card-text">Where food comes from matters. Organic, pasture-raised, and wild-caught sources only.</div></div>
-      <div class="vision-card"><div class="vision-card-num">02</div><div class="vision-card-title">Whole Ingredient Integrity</div><div class="vision-card-text">Every ingredient should be real and recognisable. If you cannot picture it growing, question it.</div></div>
-      <div class="vision-card"><div class="vision-card-num">03</div><div class="vision-card-title">Zero Industrial Processing</div><div class="vision-card-text">No seed oils, no artificial additives, no ultra-processed ingredients. Full stop.</div></div>
-      <div class="vision-card"><div class="vision-card-num">04</div><div class="vision-card-title">Traditional Food Craft</div><div class="vision-card-text">Methods that have nourished humans for thousands of years — fermented, slow-made, time-honoured.</div></div>
-      <div class="vision-card" style="grid-column:1/-1"><div class="vision-card-num">05</div><div class="vision-card-title">Complete Transparency</div><div class="vision-card-text">Full disclosure. No misleading claims. No hidden ingredients. What you see is what you get.</div></div>
-    </div>
-
-    <div class="community-footer">
-      <div class="comm-title">Join the Community</div>
-      <div class="comm-links">
-        <a class="comm-link" href="https://instagram.com/pure.wholefoods" target="_blank"><span class="comm-platform">Instagram</span><span class="comm-handle">@pure.wholefoods</span><span class="comm-dot"></span></a>
-        <a class="comm-link" href="https://x.com/PURE_Scanner" target="_blank"><span class="comm-platform">X</span><span class="comm-handle">@PURE_Scanner</span><span class="comm-dot"></span></a>
-        <a class="comm-link" href="https://discord.gg/nJnhSxYv" target="_blank"><span class="comm-platform">Discord</span><span class="comm-handle">discord.gg/nJnhSxYv</span><span class="comm-dot"></span></a>
-      </div>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
