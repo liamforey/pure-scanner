@@ -155,7 +155,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .receipt-page{max-width:640px;margin:0 auto;padding:2rem 1.25rem 4rem}
 .receipt-hero{text-align:center;margin-bottom:2rem}
 .receipt-title{font-family:'Outfit',sans-serif;font-size:22px;font-weight:300;letter-spacing:0.32em;color:var(--ink);margin-bottom:8px;text-transform:uppercase}
-.receipt-sub{font-size:14px;font-weight:300;color:var(--cream-mute);line-height:1.6}
+.receipt-sub{font-size:11px;font-weight:300;color:var(--cream-mute);line-height:1.6;letter-spacing:0.12em}
 .receipt-card{background:white;border:1px solid var(--cream-dark);border-radius:14px;overflow:hidden;margin-bottom:1.25rem;box-shadow:0 2px 24px rgba(0,0,0,0.07)}
 .receipt-tabs{display:flex;border-bottom:1px solid var(--cream-mid)}
 .receipt-tab{flex:1;padding:14px;text-align:center;font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;border:none;background:none;cursor:pointer;color:var(--cream-mute);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.2s}
@@ -380,14 +380,14 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
     </div>
     <div class="receipt-card">
       <div class="receipt-tabs">
-        <button class="receipt-tab active" onclick="setReceiptMode('photo',this)">📸 &nbsp;Photo of receipt</button>
-        <button class="receipt-tab" onclick="setReceiptMode('type',this)">✏️ &nbsp;Type products</button>
+        <button class="receipt-tab active" onclick="setReceiptMode('photo',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Photo of receipt</button>
+        <button class="receipt-tab" onclick="setReceiptMode('type',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:inline;vertical-align:middle;margin-right:6px"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg>Type products</button>
       </div>
       <div class="receipt-input-area">
         <div id="receipt-mode-photo">
-          <div class="upload-btn-simple" style="margin-bottom:10px" onclick="document.getElementById('receipt-file').click()">Tap to upload your receipt photo</div>
+          <div class="upload-btn-simple" style="margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px" onclick="document.getElementById('receipt-file').click()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Upload receipt photo</div>
           <img id="receipt-preview" alt="" style="display:none;max-width:100%;border-radius:10px;margin-bottom:10px"/>
-          <input type="file" id="receipt-file" accept="image/*" onchange="handleReceiptUpload(this)"/>
+          <input type="file" id="receipt-file" accept="image/*" onchange="handleReceiptUpload(this)" style="display:none"/>
           <div class="helper-txt">Make sure all product names are clearly visible in the photo</div>
         </div>
         <div id="receipt-mode-type" style="display:none">
