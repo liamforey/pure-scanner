@@ -87,7 +87,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .verdict-card.safe{background:var(--green-bg);border-color:var(--green-bdr)}
 .verdict-card.warn{background:var(--amber-bg);border-color:var(--amber-bdr)}
 .verdict-card.danger{background:var(--red-bg);border-color:var(--red-bdr)}
-.v-emoji{font-size:52px;display:block;margin-bottom:12px}
+
 .v-product{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream-mute);margin-bottom:6px}
 .v-score{font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:400;line-height:1;margin-bottom:4px;transition:color 0.5s}
 .verdict-card.safe .v-score{color:var(--green)}
@@ -168,7 +168,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .pure-shop-card.pure{background:var(--green-bg);border-color:var(--green-bdr)}
 .pure-shop-card.getting{background:var(--amber-bg);border-color:var(--amber-bdr)}
 .pure-shop-card.needs{background:var(--red-bg);border-color:var(--red-bdr)}
-.psc-emoji{font-size:52px;display:block;margin-bottom:12px}
+
 .psc-score{font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:400;line-height:1;transition:color 0.5s}
 .pure-shop-card.pure .psc-score{color:var(--green)}
 .pure-shop-card.getting .psc-score{color:var(--amber)}
@@ -853,7 +853,6 @@ function renderResults(d){
   const pn=esc(d.productName||'Food');
   document.getElementById('results').innerHTML=`
     <div class="verdict-card ${cls}">
-      <span class="v-emoji">${scoreEmoji(d.overallScore)}</span>
       <div class="v-product">${pn}</div>
       <div class="v-score" id="animated-score">0<span style="font-size:28px;opacity:0.35">/10</span></div>
       <div class="v-word">${esc(d.overallVerdict)}</div>
@@ -932,7 +931,6 @@ function renderReceiptResults(d){
     <div class="swap-cards">${d.swaps.map(s=>`<div class="swap-card"><div class="swap-from">${esc(s.from)}</div><div class="swap-arrow-icon">→</div><div class="swap-to">${esc(s.to)}</div></div>`).join('')}</div>`:'';
   document.getElementById('receipt-results').innerHTML=`
     <div class="pure-shop-card ${cls}">
-      <span class="psc-emoji">${emoji}</span>
       <div class="psc-label">Your Pure Shop Score</div>
       <div class="psc-score" id="animated-shop-score">0<span style="font-size:28px;opacity:0.35">%</span></div>
       <div class="psc-verdict">${esc(d.verdict)}</div>
