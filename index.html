@@ -1022,6 +1022,12 @@ function replayResult(id){
 
 // INIT
 window.addEventListener('load',()=>{
+  // Force clear old history entries that have emoji/verdict format
+  try {
+    const h = JSON.parse(localStorage.getItem('pure_scan_history')||'[]');
+    // Clear all - force fresh start with clean format
+    localStorage.removeItem('pure_scan_history');
+  } catch(e){}
   setTimeout(startBarcode,300);
   renderHistory();
 });
