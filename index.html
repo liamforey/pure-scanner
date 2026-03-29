@@ -132,7 +132,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .history-score{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;min-width:36px;text-align:center}
 .history-info{flex:1}
 .history-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:1px}
-.history-verdict{font-size:11px;font-weight:300;color:var(--cream-mute)}
+.{font-size:11px;font-weight:300;color:var(--cream-mute)}
 .history-time{font-size:10px;font-weight:300;color:var(--cream-dark);margin-left:auto;white-space:nowrap}
 .history-clear{font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--cream-mute);background:none;border:none;cursor:pointer;padding:4px 8px;transition:color 0.2s}
 .history-clear:hover{color:var(--red)}
@@ -996,7 +996,7 @@ function renderHistory(){
     const emoji=h.score>=7?'':h.score>=4?'':'❌';
     return `<div class="history-item" onclick="replayResult(${h.id})">
       <div class="history-score" style="color:${color}">${h.score}</div>
-      <div class="history-info"><div class="history-name">${esc(h.name)}</div><div class="history-verdict">${emoji} ${esc(h.verdict)}</div></div>
+      <div class="history-info"><div class="history-name">${esc(h.name)}</div><div class="">${emoji} ${esc(h.verdict)}</div></div>
       <div class="history-time">${h.date} ${h.time}</div>
     </div>`;
   }).join('');
