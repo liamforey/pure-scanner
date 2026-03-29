@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<title>PURE — Is My Food Safe?</title>
+<title>PURE — Food Intelligence Scanner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
@@ -89,7 +89,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .verdict-card.danger{background:var(--red-bg);border-color:var(--red-bdr)}
 
 .v-product{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream-mute);margin-bottom:6px}
-.v-score{font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:400;line-height:1;margin-bottom:4px;transition:color 0.5s}
+.v-score{font-family:'Outfit',sans-serif;font-size:72px;font-weight:200;letter-spacing:0.12em;line-height:1;margin-bottom:4px;transition:color 0.5s}
 .verdict-card.safe .v-score{color:var(--green)}
 .verdict-card.warn .v-score{color:var(--amber)}
 .verdict-card.danger .v-score{color:var(--red)}
@@ -129,7 +129,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .history-list{display:flex;flex-direction:column;gap:6px}
 .history-item{background:white;border-radius:10px;padding:12px 16px;border:1px solid var(--cream-dark);display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.2s;box-shadow:0 1px 6px rgba(0,0,0,0.04)}
 .history-item:hover{transform:translateX(3px);box-shadow:0 2px 12px rgba(0,0,0,0.08)}
-.history-score{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;min-width:36px;text-align:center}
+.history-score{font-family:'Outfit',sans-serif;font-size:22px;font-weight:200;letter-spacing:0.08em;min-width:36px;text-align:center}
 .history-info{flex:1}
 .history-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:1px}
 .history-verdict{font-size:11px;font-weight:300;color:var(--cream-mute)}
@@ -169,7 +169,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .pure-shop-card.getting{background:var(--amber-bg);border-color:var(--amber-bdr)}
 .pure-shop-card.needs{background:var(--red-bg);border-color:var(--red-bdr)}
 
-.psc-score{font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:400;line-height:1;transition:color 0.5s}
+.psc-score{font-family:'Outfit',sans-serif;font-size:80px;font-weight:200;letter-spacing:0.12em;line-height:1;transition:color 0.5s}
 .pure-shop-card.pure .psc-score{color:var(--green)}
 .pure-shop-card.getting .psc-score{color:var(--amber)}
 .pure-shop-card.needs .psc-score{color:var(--red)}
@@ -331,7 +331,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
             <button class="retake-btn-cam" id="retake-btn" onclick="retakePhoto()">Retake</button>
             <div class="auto-scan-badge" id="auto-badge">Auto-detecting text...</div>
           </div>
-          <button class="capture-btn" id="capture-btn" onclick="capturePhoto()">📷 &nbsp;Capture Label</button>
+          <button class="capture-btn" id="capture-btn" onclick="capturePhoto()">CAPTURE LABEL</button>
           <div class="or-line">or upload from your photos</div>
           <div class="upload-btn-simple" onclick="document.getElementById('file-input').click()">Choose from Photo Library</div>
           <input type="file" id="file-input" accept="image/*" onchange="handleUpload(this)"/>
@@ -762,7 +762,7 @@ function handleReceiptUpload(input){
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function scoreColor(s){return s>=7?'var(--green)':s>=4?'var(--amber)':'var(--red)';}
 function scoreClass(s){return s>=7?'safe':s>=4?'warn':'danger'}
-function scoreEmoji(s){return s>=7?'✅':s>=4?'⚠️':'❌'}
+function scoreEmoji(s){return s>=7?'':s>=4?'️':''}
 const scanSteps=['Reading ingredients...','Checking what each one is...','Comparing against our standards...','Working out your score...','Almost done...'];
 const receiptSteps=['Reading your receipt...','Looking up each product...','Checking against our standards...','Calculating your shop score...','Finding better options...'];
 function startSteps(elId,steps){
@@ -859,9 +859,9 @@ function renderResults(d){
       <div class="v-summary">${esc(d.summary)}</div>
     </div>
     ${dc||wc?`<div class="count-pills">
-      ${dc?`<div class="count-pill danger">⚠️ ${dc} ingredient${dc>1?'s':''} to avoid</div>`:''}
-      ${wc?`<div class="count-pill warn">⚡ ${wc} to watch out for</div>`:''}
-      ${sc?`<div class="count-pill safe">✓ ${sc} safe</div>`:''}
+      ${dc?`<div class="count-pill danger">️ ${dc} ingredient${dc>1?'s':''} to avoid</div>`:''}
+      ${wc?`<div class="count-pill warn"> ${wc} to watch out for</div>`:''}
+      ${sc?`<div class="count-pill safe"> ${sc} safe</div>`:''}
     </div>`:''}
     <div class="sec-head">What's in it</div>
     <div class="ing-cards">${ings}</div>`;
@@ -917,12 +917,12 @@ function renderReceiptResults(d){
   else if(d.pureScore>=50) haptic([80,40,80]);
   else haptic([100,50,100,50,200]);
   const cls=d.pureScore>=80?'pure':d.pureScore>=50?'getting':'needs';
-  const emoji=d.pureScore>=80?'🌿':d.pureScore>=50?'👍':'🛒';
+  const emoji=d.pureScore>=80?'':d.pureScore>=50?'':'';
   const pass=(d.products||[]).filter(p=>p.status==='pass').length;
   const total=(d.products||[]).length;
   const products=(d.products||[]).map(p=>`
     <div class="product-card ${p.status}">
-      <div class="pc-icon">${p.status==='pass'?'✅':p.status==='warn'?'⚠️':'❌'}</div>
+      <div class="pc-icon">${p.status==='pass'?'':p.status==='warn'?'️':''}</div>
       <div class="pc-info"><div class="pc-name">${esc(p.name)}</div><div class="pc-reason">${esc(p.reason)}</div></div>
       <div class="pc-badge">${esc(p.badge)}</div>
     </div>`).join('');
@@ -956,7 +956,7 @@ function shareResult(productName,score,verdict){
   else navigator.clipboard.writeText(text).then(()=>alert('Result copied! Paste it anywhere to share.'));
 }
 function shareToX(productName,score,verdict){
-  const text=encodeURIComponent(`Scanned ${productName} on @PURE_Scanner\n\n${score}/10 — ${verdict}\n\nCheck your food 👇`);
+  const text=encodeURIComponent(`Scanned ${productName} on @PURE_Scanner\n\n${score}/10 — ${verdict}\n\nCheck your food `);
   window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent('https://pure-scanner-int2.vercel.app')}`, '_blank');
 }
 function shareToIG(productName,score,verdict){
