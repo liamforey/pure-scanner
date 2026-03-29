@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<title>PURE — Is My Food ?</title>
+<title>PURE — Is My Food Safe?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
@@ -84,17 +84,17 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .results-section{display:none;margin-top:2rem}
 .results-section.show{display:block}
 .verdict-card{border-radius:14px;padding:2rem;margin-bottom:1.25rem;text-align:center;border:2px solid}
-.verdict-card.{background:var(--green-bg);border-color:var(--green-bdr)}
+.verdict-card.safe{background:var(--green-bg);border-color:var(--green-bdr)}
 .verdict-card.warn{background:var(--amber-bg);border-color:var(--amber-bdr)}
 .verdict-card.danger{background:var(--red-bg);border-color:var(--red-bdr)}
 .v-emoji{font-size:52px;display:block;margin-bottom:12px}
 .v-product{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream-mute);margin-bottom:6px}
-.v-score{font-family:'Outfit',sans-serif;font-size:64px;font-weight:200;letter-spacing:0.08em;font-weight:400;line-height:1;margin-bottom:4px;transition:color 0.5s}
-.verdict-card. .v-score{color:var(--green)}
+.v-score{font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:400;line-height:1;margin-bottom:4px;transition:color 0.5s}
+.verdict-card.safe .v-score{color:var(--green)}
 .verdict-card.warn .v-score{color:var(--amber)}
 .verdict-card.danger .v-score{color:var(--red)}
 .v-word{font-size:15px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:14px}
-.verdict-card. .v-word{color:var(--green)}
+.verdict-card.safe .v-word{color:var(--green)}
 .verdict-card.warn .v-word{color:var(--amber)}
 .verdict-card.danger .v-word{color:var(--red)}
 .v-summary{font-family:'Outfit',sans-serif;font-size:14px;font-weight:300;line-height:1.75;color:var(--ink)}
@@ -102,20 +102,20 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .count-pill{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid}
 .count-pill.danger{background:var(--red-bg);color:var(--red);border-color:var(--red-bdr)}
 .count-pill.warn{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-bdr)}
-.count-pill.{background:var(--green-bg);color:var(--green);border-color:var(--green-bdr)}
+.count-pill.safe{background:var(--green-bg);color:var(--green);border-color:var(--green-bdr)}
 .sec-head{font-size:12px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink);margin-bottom:14px;margin-top:1.5rem;display:flex;align-items:center;gap:10px}
 .sec-head::after{content:'';flex:1;height:1px;background:var(--cream-dark)}
 .ing-cards{display:flex;flex-direction:column;gap:10px}
 .ing-card{background:white;border-radius:12px;padding:16px;border-left:4px solid;box-shadow:0 1px 10px rgba(0,0,0,0.06)}
 .ing-card.danger{border-left-color:var(--red)}
 .ing-card.warn{border-left-color:var(--amber)}
-.ing-card.{border-left-color:var(--green)}
+.ing-card.safe{border-left-color:var(--green)}
 .ing-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px}
 .ing-card-name{font-size:15px;font-weight:600;color:var(--ink)}
 .ing-card-badge{font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;padding:4px 10px;border-radius:20px;flex-shrink:0}
 .ing-card.danger .ing-card-badge{background:var(--red-bg);color:var(--red)}
 .ing-card.warn .ing-card-badge{background:var(--amber-bg);color:var(--amber)}
-.ing-card. .ing-card-badge{background:var(--green-bg);color:var(--green)}
+.ing-card.safe .ing-card-badge{background:var(--green-bg);color:var(--green)}
 .ing-card-detail{font-size:13px;font-weight:300;color:var(--ink);line-height:1.65}
 
 
@@ -132,7 +132,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .history-score{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;min-width:36px;text-align:center}
 .history-info{flex:1}
 .history-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:1px}
-.{font-size:11px;font-weight:300;color:var(--cream-mute)}
+.history-verdict{font-size:11px;font-weight:300;color:var(--cream-mute)}
 .history-time{font-size:10px;font-weight:300;color:var(--cream-dark);margin-left:auto;white-space:nowrap}
 .history-clear{font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--cream-mute);background:none;border:none;cursor:pointer;padding:4px 8px;transition:color 0.2s}
 .history-clear:hover{color:var(--red)}
@@ -761,8 +761,8 @@ function handleReceiptUpload(input){
 // HELPERS
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function scoreColor(s){return s>=7?'var(--green)':s>=4?'var(--amber)':'var(--red)';}
-function scoreClass(s){return s>=7?'':s>=4?'warn':'danger'}
-function scoreEmoji(s){return s>=7?'':s>=4?'':'❌'}
+function scoreClass(s){return s>=7?'safe':s>=4?'warn':'danger'}
+function scoreEmoji(s){return s>=7?'✅':s>=4?'⚠️':'❌'}
 const scanSteps=['Reading ingredients...','Checking what each one is...','Comparing against our standards...','Working out your score...','Almost done...'];
 const receiptSteps=['Reading your receipt...','Looking up each product...','Checking against our standards...','Calculating your shop score...','Finding better options...'];
 function startSteps(elId,steps){
@@ -844,7 +844,7 @@ function renderResults(d){
   const cls=scoreClass(d.overallScore);
   const dc=(d.ingredients||[]).filter(i=>i.risk==='danger').length;
   const wc=(d.ingredients||[]).filter(i=>i.risk==='warn').length;
-  const sc=(d.ingredients||[]).filter(i=>i.risk==='').length;
+  const sc=(d.ingredients||[]).filter(i=>i.risk==='safe').length;
   const ings=(d.ingredients||[]).map(i=>`
     <div class="ing-card ${i.risk}">
       <div class="ing-card-top"><div class="ing-card-name">${esc(i.name)}</div><div class="ing-card-badge">${esc(i.tag)}</div></div>
@@ -860,9 +860,9 @@ function renderResults(d){
       <div class="v-summary">${esc(d.summary)}</div>
     </div>
     ${dc||wc?`<div class="count-pills">
-      ${dc?`<div class="count-pill danger"> ${dc} ingredient${dc>1?'s':''} to avoid</div>`:''}
+      ${dc?`<div class="count-pill danger">⚠️ ${dc} ingredient${dc>1?'s':''} to avoid</div>`:''}
       ${wc?`<div class="count-pill warn">⚡ ${wc} to watch out for</div>`:''}
-      ${sc?`<div class="count-pill ">✓ ${sc} </div>`:''}
+      ${sc?`<div class="count-pill safe">✓ ${sc} safe</div>`:''}
     </div>`:''}
     <div class="sec-head">What's in it</div>
     <div class="ing-cards">${ings}</div>`;
@@ -923,7 +923,7 @@ function renderReceiptResults(d){
   const total=(d.products||[]).length;
   const products=(d.products||[]).map(p=>`
     <div class="product-card ${p.status}">
-      <div class="pc-icon">${p.status==='pass'?'':p.status==='warn'?'':'❌'}</div>
+      <div class="pc-icon">${p.status==='pass'?'✅':p.status==='warn'?'⚠️':'❌'}</div>
       <div class="pc-info"><div class="pc-name">${esc(p.name)}</div><div class="pc-reason">${esc(p.reason)}</div></div>
       <div class="pc-badge">${esc(p.badge)}</div>
     </div>`).join('');
@@ -993,10 +993,9 @@ function renderHistory(){
   panel.style.display='block';
   list.innerHTML=history.map(h=>{
     const color=h.score>=7?'var(--green)':h.score>=4?'var(--amber)':'var(--red)';
-    const emoji=h.score>=7?'':h.score>=4?'':'❌';
     return `<div class="history-item" onclick="replayResult(${h.id})">
       <div class="history-score" style="color:${color}">${h.score}</div>
-      <div class="history-info"><div class="history-name">${esc(h.name)}</div><div class="">${emoji} ${esc(h.verdict)}</div></div>
+      <div class="history-info"><div class="history-name">${esc(h.name)}</div></div>
       <div class="history-time">${h.date} ${h.time}</div>
     </div>`;
   }).join('');
