@@ -68,6 +68,17 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 }
 .home-pillar-name{font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink)}
 
+
+.home-pillar{cursor:pointer;transition:background 0.2s}
+.home-pillar:hover{background:var(--cream-mid)}
+.home-pillar-body{flex:1}
+.home-pillar-sub{font-size:11px;font-weight:400;color:var(--ink);letter-spacing:0.06em;margin-top:2px;display:none}
+.home-pillar-desc{font-size:12px;font-weight:300;color:var(--cream-mute);line-height:1.7;margin-top:8px;display:none}
+.home-pillar.open .home-pillar-sub{display:block}
+.home-pillar.open .home-pillar-desc{display:block}
+.home-pillar.open{background:var(--cream-mid)}
+.home-pillar.open .home-pillar-name{color:var(--ink)}
+
 /* TOP BAR */
 .topbar{background:var(--black);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .topbar-logo{font-family:'Outfit',sans-serif;font-size:20px;font-weight:300;letter-spacing:0.45em;color:var(--cream);padding-left:0.45em}
@@ -310,11 +321,46 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
       <div class="home-bottom-inner">
         <div class="home-pillars-label">The Five Pillars</div>
         <div class="home-pillars">
-          <div class="home-pillar"><div class="home-pillar-num">01</div><div class="home-pillar-name">Pure Provenance</div></div>
-          <div class="home-pillar"><div class="home-pillar-num">02</div><div class="home-pillar-name">Whole Ingredient Integrity</div></div>
-          <div class="home-pillar"><div class="home-pillar-num">03</div><div class="home-pillar-name">Zero Industrial Processing</div></div>
-          <div class="home-pillar"><div class="home-pillar-num">04</div><div class="home-pillar-name">Traditional Food Craft</div></div>
-          <div class="home-pillar"><div class="home-pillar-num">05</div><div class="home-pillar-name">Complete Transparency</div></div>
+          <div class="home-pillar" onclick="togglePillar(this)">
+            <div class="home-pillar-num">01</div>
+            <div class="home-pillar-body">
+              <div class="home-pillar-name">Pure Provenance</div>
+              <div class="home-pillar-sub">Origin matters.</div>
+              <div class="home-pillar-desc">Food is sourced from its natural environment, grown without chemical intervention, raised on pasture, or wild-caught. The closer it is to its natural state, the higher the standard.</div>
+            </div>
+          </div>
+          <div class="home-pillar" onclick="togglePillar(this)">
+            <div class="home-pillar-num">02</div>
+            <div class="home-pillar-body">
+              <div class="home-pillar-name">Whole Ingredient Integrity</div>
+              <div class="home-pillar-sub">Every ingredient must serve a purpose.</div>
+              <div class="home-pillar-desc">No fillers, no flavour enhancers, no unnecessary additions. If it doesn't belong in a real kitchen, it doesn't belong here.</div>
+            </div>
+          </div>
+          <div class="home-pillar" onclick="togglePillar(this)">
+            <div class="home-pillar-num">03</div>
+            <div class="home-pillar-body">
+              <div class="home-pillar-name">Zero Industrial Processing</div>
+              <div class="home-pillar-sub">Industrial processing is not aligned.</div>
+              <div class="home-pillar-desc">No ultra-processed ingredients. No refined seed oils. No synthetic additives. Nothing that alters food beyond its original form.</div>
+            </div>
+          </div>
+          <div class="home-pillar" onclick="togglePillar(this)">
+            <div class="home-pillar-num">04</div>
+            <div class="home-pillar-body">
+              <div class="home-pillar-name">Traditional Food Craft</div>
+              <div class="home-pillar-sub">Time is an ingredient.</div>
+              <div class="home-pillar-desc">Slow processes, fermentation, curing, and traditional preparation methods are always essential. Enhancing both nutrition and flavour, without shortcuts.</div>
+            </div>
+          </div>
+          <div class="home-pillar" onclick="togglePillar(this)">
+            <div class="home-pillar-num">05</div>
+            <div class="home-pillar-body">
+              <div class="home-pillar-name">Complete Product Transparency</div>
+              <div class="home-pillar-sub">Clarity is non-negotiable.</div>
+              <div class="home-pillar-desc">Full ingredient disclosure, honest sourcing, and no misleading claims. If it requires interpretation, it isn't aligned.</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -466,12 +512,12 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
     <div class="about-body">Pure was created to simplify the way we see food and reconnect with what is real. Two founders. Two lanes. One mission.<br><br>Our goal is to be the easiest food intelligence tool in the world — so easy that anyone can use it, regardless of how much they know about food or technology.</div>
 
     <div class="edu-sec-title">The Five Pillars</div>
-    <div class="vision-cards">
-      <div class="vision-card"><div class="vision-card-num">01</div><div class="vision-card-title">Pure Provenance</div><div class="vision-card-text">Where food comes from matters. Organic, pasture-raised, and wild-caught sources only.</div></div>
-      <div class="vision-card"><div class="vision-card-num">02</div><div class="vision-card-title">Whole Ingredient Integrity</div><div class="vision-card-text">Every ingredient should be real and recognisable. If you cannot picture it growing, question it.</div></div>
-      <div class="vision-card"><div class="vision-card-num">03</div><div class="vision-card-title">Zero Industrial Processing</div><div class="vision-card-text">No seed oils, no artificial additives, no ultra-processed ingredients. Full stop.</div></div>
-      <div class="vision-card"><div class="vision-card-num">04</div><div class="vision-card-title">Traditional Food Craft</div><div class="vision-card-text">Methods that have nourished humans for thousands of years — fermented, slow-made, time-honoured.</div></div>
-      <div class="vision-card" style="grid-column:1/-1"><div class="vision-card-num">05</div><div class="vision-card-title">Complete Transparency</div><div class="vision-card-text">Full disclosure. No misleading claims. No hidden ingredients. What you see is what you get.</div></div>
+    <div class="vision-cards" style="grid-template-columns:1fr">
+      <div class="vision-card"><div class="vision-card-num">01</div><div class="vision-card-title">Pure Provenance</div><div style="font-size:11px;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:0.06em">Origin matters.</div><div class="vision-card-text">Food is sourced from its natural environment, grown without chemical intervention, raised on pasture, or wild-caught. The closer it is to its natural state, the higher the standard.</div></div>
+      <div class="vision-card"><div class="vision-card-num">02</div><div class="vision-card-title">Whole Ingredient Integrity</div><div style="font-size:11px;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:0.06em">Every ingredient must serve a purpose.</div><div class="vision-card-text">No fillers, no flavour enhancers, no unnecessary additions. If it doesn't belong in a real kitchen, it doesn't belong here.</div></div>
+      <div class="vision-card"><div class="vision-card-num">03</div><div class="vision-card-title">Zero Industrial Processing</div><div style="font-size:11px;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:0.06em">Industrial processing is not aligned.</div><div class="vision-card-text">No ultra-processed ingredients. No refined seed oils. No synthetic additives. Nothing that alters food beyond its original form.</div></div>
+      <div class="vision-card"><div class="vision-card-num">04</div><div class="vision-card-title">Traditional Food Craft</div><div style="font-size:11px;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:0.06em">Time is an ingredient.</div><div class="vision-card-text">Slow processes, fermentation, curing, and traditional preparation methods are always essential. Enhancing both nutrition and flavour, without shortcuts.</div></div>
+      <div class="vision-card"><div class="vision-card-num">05</div><div class="vision-card-title">Complete Product Transparency</div><div style="font-size:11px;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:0.06em">Clarity is non-negotiable.</div><div class="vision-card-text">Full ingredient disclosure, honest sourcing, and no misleading claims. If it requires interpretation, it isn't aligned.</div></div>
     </div>
 
     <div class="community-footer">
@@ -489,6 +535,13 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 let currentMode='barcode', uploadedB64=null, uploadedMime='image/jpeg';
 let receiptMode='photo', receiptB64=null;
 let cameraStream=null, stepTimer=null;
+
+// PILLAR TOGGLE
+function togglePillar(el){
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.home-pillar').forEach(p=>p.classList.remove('open'));
+  if(!isOpen) el.classList.add('open');
+}
 
 // NAV
 function goToScanner(){
