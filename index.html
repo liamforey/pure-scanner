@@ -39,7 +39,7 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .home-tagline{
   font-family:'Outfit',sans-serif;font-size:11px;font-weight:300;
   letter-spacing:0.45em;text-transform:uppercase;
-  color:var(--cream);margin-bottom:3rem;
+  color:rgba(243,237,227,0.45);margin-bottom:3rem;
 }
 .home-scan-btn{
   font-family:'Outfit',sans-serif;font-size:11px;font-weight:400;
@@ -269,7 +269,8 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
 .about-page{max-width:640px;margin:0 auto;padding:2rem 1.25rem 0}
 .about-headline{font-family:'Outfit',sans-serif;font-size:18px;font-weight:300;letter-spacing:0.18em;color:var(--ink);line-height:1.6;margin-bottom:1.5rem;text-transform:uppercase}
 .about-body{font-size:14px;font-weight:300;color:var(--cream-mute);line-height:1.9;margin-bottom:2rem}
-.about-black-section{background:var(--black);margin:0 -1.25rem;padding:2rem 1.25rem 4rem}
+.about-black-section{background:var(--black);width:100%;min-height:0}
+.about-black-inner{max-width:640px;margin:0 auto;padding:2rem 1.25rem 4rem}
 .edu-sec-title{font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--cream);margin-bottom:1.5rem;margin-top:0;display:flex;align-items:center;gap:10px}
 .edu-sec-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.15)}
 .vision-cards{display:grid;grid-template-columns:1fr;gap:0;margin-bottom:0}
@@ -518,26 +519,26 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
   <div class="about-page">
     <div class="about-headline">A devotion of knowledge, passion and personal experience — bringing food back to its simplest form.</div>
     <div class="about-body">Pure was created to simplify the way we see food and reconnect with what is real. Two founders. Two lanes. One mission.<br><br>Our goal is to be the easiest food intelligence tool in the world — so easy that anyone can use it, regardless of how much they know about food or technology.</div>
-
-    <div class="about-black-section">
-    <div class="edu-sec-title">The Five Pillars</div>
-    <div class="vision-cards" style="grid-template-columns:1fr">
-      <div class="vision-card"><div class="vision-card-num">01</div><div class="vision-card-title">Pure Provenance</div><div style="font-size:10px;font-weight:300;color:var(--cream);letter-spacing:0.16em;margin-bottom:8px">organic · pasture-raised · wild-caught</div><div style="font-size:11px;font-weight:500;color:var(--cream);margin-bottom:6px;letter-spacing:0.06em">Origin matters.</div><div class="vision-card-text">Food is sourced from its natural environment, grown without chemical intervention, raised on pasture, or wild-caught. The closer it is to its natural state, the higher the standard.</div></div>
-      <div class="vision-card"><div class="vision-card-num">02</div><div class="vision-card-title">Whole Ingredient Integrity</div><div style="font-size:10px;font-weight:300;color:var(--cream);letter-spacing:0.16em;margin-bottom:8px">real · recognisable · minimal</div><div style="font-size:11px;font-weight:500;color:var(--cream);margin-bottom:6px;letter-spacing:0.06em">Every ingredient must serve a purpose.</div><div class="vision-card-text">No fillers, no flavour enhancers, no unnecessary additions. If it doesn't belong in a real kitchen, it doesn't belong here.</div></div>
-      <div class="vision-card"><div class="vision-card-num">03</div><div class="vision-card-title">Zero Industrial Processing</div><div style="font-size:10px;font-weight:300;color:var(--cream);letter-spacing:0.16em;margin-bottom:8px">no ultra-processed · no seed oils · no additives</div><div style="font-size:11px;font-weight:500;color:var(--cream);margin-bottom:6px;letter-spacing:0.06em">Industrial processing is not aligned.</div><div class="vision-card-text">No ultra-processed ingredients. No refined seed oils. No synthetic additives. Nothing that alters food beyond its original form.</div></div>
-      <div class="vision-card"><div class="vision-card-num">04</div><div class="vision-card-title">Traditional Food Craft</div><div style="font-size:10px;font-weight:300;color:var(--cream);letter-spacing:0.16em;margin-bottom:8px">fermented · slow-made · time-honoured</div><div style="font-size:11px;font-weight:500;color:var(--cream);margin-bottom:6px;letter-spacing:0.06em">Time is an ingredient.</div><div class="vision-card-text">Slow processes, fermentation, curing, and traditional preparation methods are always essential. Enhancing both nutrition and flavour, without shortcuts.</div></div>
-      <div class="vision-card"><div class="vision-card-num">05</div><div class="vision-card-title">Complete Product Transparency</div><div style="font-size:10px;font-weight:300;color:var(--cream);letter-spacing:0.16em;margin-bottom:8px">full disclosure · no misleading claims</div><div style="font-size:11px;font-weight:500;color:var(--cream);margin-bottom:6px;letter-spacing:0.06em">Clarity is non-negotiable.</div><div class="vision-card-text">Full ingredient disclosure, honest sourcing, and no misleading claims. If it requires interpretation, it isn't aligned.</div></div>
-    </div>
-
-    <div class="community-footer">
-      <div class="comm-title">Join the Community</div>
-      <div class="comm-links">
-        <a class="comm-link" href="https://instagram.com/pure.wholefoods" target="_blank"><span class="comm-platform">Instagram</span><span class="comm-handle">@pure.wholefoods</span><span class="comm-dot"></span></a>
-        <a class="comm-link" href="https://x.com/PURE_Scanner" target="_blank"><span class="comm-platform">X</span><span class="comm-handle">@PURE_Scanner</span><span class="comm-dot"></span></a>
-        <a class="comm-link" href="https://discord.gg/nJnhSxYv" target="_blank"><span class="comm-platform">Discord</span><span class="comm-handle">discord.gg/nJnhSxYv</span><span class="comm-dot"></span></a>
+  </div>
+  <div class="about-black-section">
+    <div class="about-black-inner">
+      <div class="edu-sec-title">The Five Pillars</div>
+      <div class="vision-cards">
+        <div class="vision-card"><div class="vision-card-num">01</div><div class="vision-card-title">Pure Provenance</div><div style="font-size:10px;font-weight:300;color:var(--cream);letter-spacing:0.16em;margin-bottom:8px">organic · pasture-raised · wild-caught</div><div style="font-size:11px;font-weight:500;color:var(--cream);margin-bottom:6px;letter-spacing:0.06em">Origin matters.</div><div class="vision-card-text">Food is sourced from its natural environment, grown without chemical intervention, raised on pasture, or wild-caught. The closer it is to its natural state, the higher the standard.</div></div>
+        <div class="vision-card"><div class="vision-card-num">02</div><div class="vision-card-title">Whole Ingredient Integrity</div><div style="font-size:10px;font-weight:300;color:var(--cream);letter-spacing:0.16em;margin-bottom:8px">real · recognisable · minimal</div><div style="font-size:11px;font-weight:500;color:var(--cream);margin-bottom:6px;letter-spacing:0.06em">Every ingredient must serve a purpose.</div><div class="vision-card-text">No fillers, no flavour enhancers, no unnecessary additions. If it doesn't belong in a real kitchen, it doesn't belong here.</div></div>
+        <div class="vision-card"><div class="vision-card-num">03</div><div class="vision-card-title">Zero Industrial Processing</div><div style="font-size:10px;font-weight:300;color:var(--cream);letter-spacing:0.16em;margin-bottom:8px">no ultra-processed · no seed oils · no additives</div><div style="font-size:11px;font-weight:500;color:var(--cream);margin-bottom:6px;letter-spacing:0.06em">Industrial processing is not aligned.</div><div class="vision-card-text">No ultra-processed ingredients. No refined seed oils. No synthetic additives. Nothing that alters food beyond its original form.</div></div>
+        <div class="vision-card"><div class="vision-card-num">04</div><div class="vision-card-title">Traditional Food Craft</div><div style="font-size:10px;font-weight:300;color:var(--cream);letter-spacing:0.16em;margin-bottom:8px">fermented · slow-made · time-honoured</div><div style="font-size:11px;font-weight:500;color:var(--cream);margin-bottom:6px;letter-spacing:0.06em">Time is an ingredient.</div><div class="vision-card-text">Slow processes, fermentation, curing, and traditional preparation methods are always essential. Enhancing both nutrition and flavour, without shortcuts.</div></div>
+        <div class="vision-card"><div class="vision-card-num">05</div><div class="vision-card-title">Complete Product Transparency</div><div style="font-size:10px;font-weight:300;color:var(--cream);letter-spacing:0.16em;margin-bottom:8px">full disclosure · no misleading claims</div><div style="font-size:11px;font-weight:500;color:var(--cream);margin-bottom:6px;letter-spacing:0.06em">Clarity is non-negotiable.</div><div class="vision-card-text">Full ingredient disclosure, honest sourcing, and no misleading claims. If it requires interpretation, it isn't aligned.</div></div>
+      </div>
+      <div class="community-footer">
+        <div class="comm-title">Join the Community</div>
+        <div class="comm-links">
+          <a class="comm-link" href="https://instagram.com/pure.wholefoods" target="_blank"><span class="comm-platform">Instagram</span><span class="comm-handle">@pure.wholefoods</span><span class="comm-dot"></span></a>
+          <a class="comm-link" href="https://x.com/PURE_Scanner" target="_blank"><span class="comm-platform">X</span><span class="comm-handle">@PURE_Scanner</span><span class="comm-dot"></span></a>
+          <a class="comm-link" href="https://discord.gg/nJnhSxYv" target="_blank"><span class="comm-platform">Discord</span><span class="comm-handle">discord.gg/nJnhSxYv</span><span class="comm-dot"></span></a>
+        </div>
       </div>
     </div>
-    </div><!-- end about-black-section -->
   </div>
 </div>
 
