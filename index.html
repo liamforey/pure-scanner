@@ -241,7 +241,6 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
   <div class="topbar-logo">PURE</div>
   <nav class="topbar-nav">
     <button class="topbar-btn active" onclick="showPage('scanner',this)">Scanner</button>
-    <button class="topbar-btn" onclick="showPage('receipt',this)">My Shop</button>
     <button class="topbar-btn" onclick="showPage('vision',this)">About</button>
   </nav>
 </div>
@@ -270,6 +269,10 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
         <div class="method-pill" onclick="setMode('search',this)">
           <span class="method-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
           Search
+        </div>
+        <div class="method-pill" onclick="setMode('shop',this)">
+          <span class="method-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
+          My Shop
         </div>
       </div>
       <div class="scan-input-area">
@@ -329,6 +332,32 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
           <div class="helper-txt">Type the name of the food and we will look up what is in it</div>
         </div>
 
+        <!-- MY SHOP -->
+        <div id="mode-shop" style="display:none">
+          <div class="receipt-tabs" style="margin-bottom:1rem;border-bottom:1px solid var(--cream-mid);display:flex">
+            <button class="receipt-tab active" id="shop-tab-photo" onclick="setShopTab('photo',this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              Photo of receipt
+            </button>
+            <button class="receipt-tab" id="shop-tab-type" onclick="setShopTab('type',this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg>
+              Type products
+            </button>
+          </div>
+          <div id="shop-mode-photo">
+            <div class="upload-btn-simple" style="margin-bottom:10px" onclick="document.getElementById('shop-file').click()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload receipt photo
+            </div>
+            <img id="shop-preview" alt="" style="display:none;max-width:100%;border-radius:10px;margin-bottom:10px"/>
+            <input type="file" id="shop-file" accept="image/*" onchange="handleShopUpload(this)" style="display:none"/>
+            <div class="helper-txt">Make sure all product names are clearly visible in the photo</div>
+          </div>
+          <div id="shop-mode-type" style="display:none">
+            <textarea class="big-textarea" id="shop-text" placeholder="Type each product on a new line:&#10;&#10;Weet-Bix&#10;Anchor Butter&#10;Heinz Tomato Sauce&#10;Coca-Cola&#10;Sourdough Bread"></textarea>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -351,53 +380,6 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);mi
       <div class="history-title">Recent Scans <button class="history-clear" onclick="clearHistory()">Clear</button></div>
       <div class="history-list" id="history-list"></div>
     </div>
-  </div>
-</div>
-
-<!-- MY SHOP -->
-<div id="page-receipt" class="page">
-  <div class="receipt-page">
-    <div class="receipt-hero">
-      <div class="receipt-title">How healthy is my shop?</div>
-      <div class="receipt-sub">Upload your receipt or type what you bought — get a health score for your whole shop</div>
-    </div>
-    <div class="receipt-card">
-      <div class="receipt-tabs">
-        <button class="receipt-tab active" onclick="setReceiptMode('photo',this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          Photo of receipt
-        </button>
-        <button class="receipt-tab" onclick="setReceiptMode('type',this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg>
-          Type products
-        </button>
-      </div>
-      <div class="receipt-input-area">
-        <div id="receipt-mode-photo">
-          <div class="upload-btn-simple" style="margin-bottom:10px" onclick="document.getElementById('receipt-file').click()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Upload receipt photo
-          </div>
-          <img id="receipt-preview" alt="" style="display:none;max-width:100%;border-radius:10px;margin-bottom:10px"/>
-          <input type="file" id="receipt-file" accept="image/*" onchange="handleReceiptUpload(this)" style="display:none"/>
-          <div class="helper-txt">Make sure all product names are clearly visible in the photo</div>
-        </div>
-        <div id="receipt-mode-type" style="display:none">
-          <textarea class="big-textarea" id="receipt-text" placeholder="Type each product on a new line:&#10;&#10;Weet-Bix&#10;Anchor Butter&#10;Heinz Tomato Sauce&#10;Coca-Cola&#10;Sourdough Bread"></textarea>
-        </div>
-      </div>
-    </div>
-    <div class="error-msg" id="receipt-error-msg"></div>
-    <button class="receipt-analyse-btn" id="receipt-btn" onclick="runReceiptScan()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-      <span id="receipt-btn-txt">CHECK MY SHOP</span>
-    </button>
-    <div class="loading-screen" id="receipt-loading">
-      <div class="loading-spinner"></div>
-      <div class="loading-title">Checking your shop...</div>
-      <div class="loading-step" id="receipt-loading-step"></div>
-    </div>
-    <div class="results-section" id="receipt-results"></div>
   </div>
 </div>
 
@@ -447,7 +429,8 @@ const modeTitles={
   barcode:['SCAN BARCODE','Point your camera at any barcode to get started'],
   camera:['SCAN IMAGE','Point your camera at the ingredients list'],
   paste:['PASTE LABEL','Copy and paste the ingredients list from the packet'],
-  search:['SEARCH FOOD','Type any food name to check what is in it']
+  search:['SEARCH FOOD','Type any food name to check what is in it'],
+  shop:['MY SHOP','Upload your receipt or type what you bought to get a health score']
 };
 
 function setMode(mode,el){
@@ -459,6 +442,7 @@ function setMode(mode,el){
   document.getElementById('mode-camera').style.display=mode==='camera'?'block':'none';
   document.getElementById('mode-paste').style.display=mode==='paste'?'block':'none';
   document.getElementById('mode-search').style.display=mode==='search'?'block':'none';
+  document.getElementById('mode-shop').style.display=mode==='shop'?'block':'none';
   const t=document.getElementById('scanner-title'),s=document.getElementById('scanner-subtitle');
   if(t) t.textContent=modeTitles[mode][0];
   if(s) s.textContent=modeTitles[mode][1];
@@ -718,6 +702,7 @@ function animateScore(elementId,targetScore,isPercent,color,duration){
 // MAIN SCAN
 async function runScan(){
   document.getElementById('error-msg').classList.remove('show');
+  if(currentMode==='shop'){runShopScan();return;}
   if(currentMode==='barcode'){document.getElementById('error-msg').textContent='Point your camera at a barcode — it will scan automatically.';document.getElementById('error-msg').classList.add('show');return;}
   if(currentMode==='camera'&&!uploadedB64){document.getElementById('error-msg').textContent='Please take a photo of the food label first.';document.getElementById('error-msg').classList.add('show');return;}
   if(currentMode==='paste'&&!document.getElementById('paste-input').value.trim()){document.getElementById('error-msg').textContent='Please paste the ingredients list first.';document.getElementById('error-msg').classList.add('show');return;}
@@ -895,6 +880,93 @@ function replayResult(id){
     document.getElementById('results').classList.remove('show');
     setTimeout(()=>{renderResults(data);window.scrollTo({top:document.getElementById('results').offsetTop-70,behavior:'smooth'});},100);
   } catch(e){}
+}
+
+
+// SHOP TAB
+let shopTabMode='photo', shopB64=null;
+function setShopTab(mode,el){
+  shopTabMode=mode;
+  document.querySelectorAll('#mode-shop .receipt-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('shop-mode-photo').style.display=mode==='photo'?'block':'none';
+  document.getElementById('shop-mode-type').style.display=mode==='type'?'block':'none';
+}
+function handleShopUpload(input){
+  const file=input.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    shopB64=e.target.result.split(',')[1];
+    const img=document.getElementById('shop-preview');
+    img.src=e.target.result; img.style.display='block';
+  };
+  r.readAsDataURL(file);
+}
+async function runShopScan(){
+  document.getElementById('error-msg').classList.remove('show');
+  if(shopTabMode==='photo'&&!shopB64){document.getElementById('error-msg').textContent='Please upload a photo of your receipt first.';document.getElementById('error-msg').classList.add('show');return;}
+  if(shopTabMode==='type'&&!document.getElementById('shop-text').value.trim()){document.getElementById('error-msg').textContent='Please type the products you bought.';document.getElementById('error-msg').classList.add('show');return;}
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('loading').classList.add('show');
+  document.getElementById('analyse-btn').disabled=true;
+  document.getElementById('analyse-btn-txt').textContent='CHECKING...';
+  stepTimer=startSteps('loading-step',receiptSteps);
+  const pb=document.getElementById('progress-bar');if(pb) pb.className='progress-bar running';
+  window.scrollTo({top:document.getElementById('loading').offsetTop-70,behavior:'smooth'});
+  try{
+    const res=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({mode:shopTabMode==='photo'?'receipt_photo':'receipt_text',
+        imageBase64:shopB64,
+        text:shopTabMode==='type'?document.getElementById('shop-text').value.trim():null})});
+    const parsed=await res.json();
+    if(!res.ok) throw new Error(parsed.error||'Request failed');
+    if(parsed.error) throw new Error(parsed.error);
+    if(!parsed.products) throw new Error('Could not read results. Please try again.');
+    renderShopResults(parsed);
+  } catch(err){
+    document.getElementById('error-msg').textContent=err.message;
+    document.getElementById('error-msg').classList.add('show');
+  } finally {
+    clearInterval(stepTimer);
+    const pbD=document.getElementById('progress-bar');if(pbD) pbD.className='progress-bar done';
+    setTimeout(()=>{document.getElementById('loading').classList.remove('show');if(pbD) pbD.className='progress-bar';},200);
+    document.getElementById('analyse-btn').disabled=false;
+    document.getElementById('analyse-btn-txt').textContent='CHECK THIS FOOD';
+  }
+}
+function renderShopResults(d){
+  if(d.pureScore>=80) haptic([50,30,50]);
+  else if(d.pureScore>=50) haptic([80,40,80]);
+  else haptic([100,50,100,50,200]);
+  const cls=d.pureScore>=80?'pure':d.pureScore>=50?'getting':'needs';
+  const pass=(d.products||[]).filter(p=>p.status==='pass').length;
+  const total=(d.products||[]).length;
+  const products=(d.products||[]).map(p=>`
+    <div class="product-card ${p.status}">
+      <div class="pc-info"><div class="pc-name">${esc(p.name)}</div><div class="pc-reason">${esc(p.reason)}</div></div>
+      <div class="pc-badge">${esc(p.badge)}</div>
+    </div>`).join('');
+  const swaps=d.swaps&&d.swaps.length?`
+    <div class="sec-head" style="margin-top:1.5rem">Better swaps for next time</div>
+    <div class="swap-cards">${d.swaps.map(s=>`<div class="swap-card"><div class="swap-from">${esc(s.from)}</div><div class="swap-arrow-icon">→</div><div class="swap-to">${esc(s.to)}</div></div>`).join('')}</div>`:'';
+  document.getElementById('results').innerHTML=`
+    <div class="pure-shop-card ${cls}">
+      <div class="psc-label">Pure Shop Score</div>
+      <div class="psc-score" id="animated-shop-score">0<span style="font-size:28px;opacity:0.35">%</span></div>
+      <div class="psc-verdict">${esc(d.verdict)}</div>
+      <div class="psc-summary">${esc(d.summary)}</div>
+    </div>
+    <div class="sec-head">${total} products · ${pass} healthy · ${total-pass} flagged</div>
+    <div class="product-cards">${products}</div>
+    ${swaps}`;
+  document.getElementById('results').classList.add('show');
+  setTimeout(()=>{
+    window.scrollTo({top:document.getElementById('results').offsetTop-70,behavior:'smooth'});
+    const shopColor=d.pureScore>=80?'var(--green)':d.pureScore>=50?'var(--amber)':'var(--red)';
+    const sel=document.getElementById('animated-shop-score');
+    if(sel) sel.innerHTML='0<span style="font-size:28px;opacity:0.35">%</span>';
+    animateScore('animated-shop-score',d.pureScore,true,shopColor,1400);
+  },150);
 }
 
 // INIT
